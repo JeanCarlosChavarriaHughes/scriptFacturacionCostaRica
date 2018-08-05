@@ -40,7 +40,7 @@
 
 						<div class="panel panel-info">
 							<div class="panel-heading">
-								<h3 class="panel-title"><i class='glyphicon glyphicon-cog'></i> Configuración</h3>
+								<h3 class="panel-title"><i class='glyphicon glyphicon-cog'></i> Configuración del emisor</h3>
 							</div>
 							<div class="panel-body">
 								<div class="row">
@@ -64,21 +64,59 @@
 										<table class="table table-condensed">
 											<tbody>
 												<tr>
-													<td class='col-md-3'>Cédula Jurídica de la empresa:</td>
-													<td><input type="text" class="form-control input-sm" name="cedula" value="<?php echo $row['cedula']?>" required></td>
+													<td class='col-md-3'>Número de Cédula:</td>
+													<td><input placeholder="La cedula debe tener 12 digitos. Completar con 0 al inicio. (3 ceros para fisica, 3 para juridica)" type="text" class="form-control input-sm" name="cedula" value="<?php echo $row['cedula']?>" required></td>
+												</tr>
+												<tr>
+													<td>Tipo de cédula:</td>
+													<td>
+														<select class='form-control input-sm' name="tipo_cedula" required>
+															<?php
+															$sql="select name, value from  tipo_identificacion group by value order by value ";
+															$query=mysqli_query($con,$sql);
+															while($rw=mysqli_fetch_array($query)){
+																$value=$rw['value'];
+																$tipo=$rw['name'];
+																if ($row['tipo_cedula']==$value){
+																	$selected="selected";
+																} else {
+																	$selected="";
+																}
+																?>
+																<option value="<?php echo $value;?>" <?php echo $selected;?>><?php echo ($tipo);?></option>
+																<?php
+															}
+															?>
+														</select>
+													</td>
 												</tr>
 												<tr>
 													<td class='col-md-3'>Nombre de la empresa:</td>
-													<td><input type="text" class="form-control input-sm" name="nombre_empresa" value="<?php echo $row['nombre_empresa']?>" required></td>
+													<td><input placeholder="Nombre de la Empresa" type="text" class="form-control input-sm" name="nombre_empresa" value="<?php echo $row['nombre_empresa']?>" required></td>
 												</tr>
-
 												<tr>
 													<td>Teléfono:</td>
-													<td><input type="text" class="form-control input-sm" name="telefono" value="<?php echo $row['telefono']?>" required></td>
+													<td><input placeholder="Ejemplo: 22334455" type="text" class="form-control input-sm" name="telefono" value="<?php echo $row['telefono']?>" required></td>
+												</tr>
+           										<tr>
+													<td>Cod País Teléfono:</td>
+													<td><input placeholder="Ejemplo: 506" type="text" class="form-control input-sm" name="cod_pais_telefono" value="<?php echo $row['cod_pais_telefono']?>" required></td>
+												</tr>
+           										<tr>
+													<td>Fax:</td>
+													<td><input placeholder="Ejemplo: 44556677" type="text" class="form-control input-sm" name="fax" value="<?php echo $row['fax']?>" required></td>
+												</tr>
+           										<tr>
+													<td>Cod País Fax:</td>
+													<td><input placeholder="Ejemplo: 506" type="text" class="form-control input-sm" name="cod_pais_fax" value="<?php echo $row['cod_pais_fax']?>" required></td>
 												</tr>
 												<tr>
 													<td>Correo electrónico:</td>
-													<td><input type="email" class="form-control input-sm" name="email" value="<?php echo $row['email']?>" ></td>
+													<td><input placeholder="Ejemplo: ejemplo@mail.com" type="email" class="form-control input-sm" name="email" value="<?php echo $row['email']?>" ></td>
+												</tr>
+              									<tr>
+													<td>Nombre del emisor:</td>
+													<td><input placeholder="Nombre completo del Emisor" type="text" class="form-control input-sm" name="nombre_emisor" value="<?php echo $row['nombre_emisor']?>" required></td>
 												</tr>
 												<tr>
 													<td>IVA (%):</td>
@@ -88,7 +126,7 @@
 													<td>Simbolo de moneda:</td>
 													<td>
 														<select class='form-control input-sm' name="moneda" required>
-															<?php 
+															<?php
 															$sql="select name, symbol from  currencies group by symbol order by name ";
 															$query=mysqli_query($con,$sql);
 															while($rw=mysqli_fetch_array($query)){
@@ -108,20 +146,36 @@
 													</td>
 												</tr>
 												<tr>
-													<td>Dirección:</td>
-													<td><input type="text" class="form-control input-sm" name="direccion" value="<?php echo $row["direccion"];?>" required></td>
+													<td>Otras Señas:</td>
+													<td><input placeholder="Ejemplo: Apartamento #35-B, porton azul con jardin" type="text" class="form-control input-sm" name="senas" value="<?php echo $row["senas"];?>" required></td>
+												</tr>
+                                               	<tr>
+													<td>Barrio:</td>
+													<td><input placeholder="Ejemplo: Barrio Calle Puente Tierra" type="text" class="form-control input-sm" name="barrio" value="<?php echo $row["barrio"];?>" required></td>
+												</tr>
+                                              	<tr>
+													<td>Distrito:</td>
+													<td><input placeholder="Ejemplo: Pozos" type="text" class="form-control input-sm" name="direccion" value="<?php echo $row["direccion"];?>" required></td>
 												</tr>
 												<tr>
 													<td>Ciudad:</td>
-													<td><input type="text" class="form-control input-sm" name="ciudad" value="<?php echo $row["ciudad"];?>" required></td>
+													<td><input placeholder="Ejemplo: Santa Ana" type="text" class="form-control input-sm" name="ciudad" value="<?php echo $row["ciudad"];?>" required></td>
 												</tr>
 												<tr>
 													<td>Región/Provincia:</td>
-													<td><input type="text" class="form-control input-sm" name="estado" value="<?php echo $row["estado"];?>"></td>
+													<td><input placeholder="Ejemplo: San Jose" type="text" class="form-control input-sm" name="estado" value="<?php echo $row["estado"];?>"></td>
 												</tr>
 												<tr>
 													<td>Código postal:</td>
-													<td><input type="text" class="form-control input-sm" name="codigo_postal" value="<?php echo $row["codigo_postal"];?>"></td>
+													<td><input placeholder="Ejemplo: 45001" type="text" class="form-control input-sm" name="codigo_postal" value="<?php echo $row["codigo_postal"];?>"></td>
+												</tr>
+												<tr>
+													<td>Código del Local-emisor:</td>
+													<td><input placeholder="Ejemplo: 002. El 001 es para la sede central. 3 Digitos" type="text" class="form-control input-sm" name="codigo_local_emisor" value="<?php echo $row["codigo_local_emisor"];?>"></td>
+												</tr>
+												<tr>
+													<td>Código Punto de Venta-emisor:</td>
+													<td><input placeholder="Ejemplo: 00004. El 00001 es el servidor central. 5 Digitos." type="text" class="form-control input-sm" name="codigo_terminal_emisor" value="<?php echo $row["codigo_terminal_emisor"];?>"></td>
 												</tr>
 												<tr>
 													<td>Mensaje en factura:</td>

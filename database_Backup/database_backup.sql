@@ -142,6 +142,8 @@ CREATE TABLE `perfil` (
   `mensaje_factura` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+ALTER TABLE `perfil` ADD `local` SMALLINT(3) NOT NULL AFTER `moneda`, ADD `terminal` MEDIUMINT(5) NOT NULL AFTER `local`, ADD `tipo-cedula` TINYINT(2) NOT NULL AFTER `terminal`, ADD `emisor-nombre` TEXT NOT NULL AFTER `tipo-cedula`, ADD `emisor-barrio` TEXT NOT NULL AFTER `emisor-nombre`, ADD `emisor-senas` TEXT NOT NULL AFTER `emisor-barrio`, ADD `emisor-codpais` SMALLINT(3) NOT NULL AFTER `emisor-senas`, ADD `emisor-fax` INT NOT NULL AFTER `emisor-codpais`, ADD `emisor-codpais-fax` INT(3) NOT NULL AFTER `emisor-fax`;
+
 --
 -- Volcado de datos para la tabla `perfil`
 --
@@ -217,6 +219,23 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`user_id`, `firstname`, `lastname`, `user_name`, `user_password_hash`, `user_email`, `date_added`) VALUES
 (1, 'Dagoberto', 'Demo', 'demo', '$2y$10$j3wTY5ls1sQ07o5UHVSSi.dIYTJDmujahNvZoQ0OtMQx2UKOmBRAy', 'demo@demo.com', '2016-05-21 15:06:00');
+
+-- -----------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `tipo_identificacion`
+--
+
+CREATE TABLE `tipo_identificacion` ( `name` VARCHAR(8) NOT NULL , `value` TINYINT(2) NOT NULL ) ENGINE = InnoDB;
+
+--
+-- Volcado de datos para la tabla `tipo_identificacion`
+--
+
+INSERT INTO `tipo_identificacion` (`name`, `value`) VALUES ('fisica', '01');
+INSERT INTO `tipo_identificacion` (`name`, `value`) VALUES ('juridica', '02');
+INSERT INTO `tipo_identificacion` (`name`, `value`) VALUES ('DIMEX', '03');
+INSERT INTO `tipo_identificacion` (`name`, `value`) VALUES ('NITE', '04');
 
 --
 -- Índices para tablas volcadas
