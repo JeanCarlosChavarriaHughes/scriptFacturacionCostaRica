@@ -128,19 +128,73 @@ INSERT INTO `facturas` (`id_factura`, `numero_factura`, `fecha_factura`, `id_cli
 
 CREATE TABLE `perfil` (
   `id_perfil` int(11) NOT NULL,
+  `tipo_cedula` varchar(2) NOT NULL,
   `cedula` varchar(250) NOT NULL,
-  `nombre_empresa` varchar(150) NOT NULL,
+  `nombre_empresa` varchar(80) NOT NULL,
+  `nombre_empresa_comercial` varchar(80),
   `direccion` varchar(255) NOT NULL,
   `ciudad` varchar(100) NOT NULL,
   `codigo_postal` varchar(100) NOT NULL,
   `estado` varchar(100) NOT NULL,
   `telefono` varchar(20) NOT NULL,
-  `email` varchar(64) NOT NULL,
+  `telefono_cod` varchar(3),
+  `telefono_fax` varchar(20),
+  `telefono_fax_cod` varchar(3),
+  `email` varchar(60) NOT NULL,
+  `file_p12` varchar(16),
+  `key_username` varchar(52),
+  `key_password` varchar(20),
+  `pin_p12` varchar(4),
   `impuesto` int(2) DEFAULT NULL,
   `moneda` varchar(6) NOT NULL,
   `logo_url` varchar(255) NOT NULL,
   `mensaje_factura` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+--    Equivalentes en EMISOR de SOPA
+--    id_perfil                 idemisor SERIAL,
+--    nombre_empresa            e_nombre character varying(80) NOT NULL, 
+--*   tipo_cedula               emisor_tipo_identificacion character varying(2) NOT NULL, 
+--    cedula                    emisor_numero character varying(12) NOT NULL, 
+--*   nombre_empresa_comercial  e_nombrecomercial character varying(80), 
+--    estado                    e_provincia integer NOT NULL,
+--    ciudad                    e_canton integer NOT NULL,
+--    codigo_postal             e_distrito integer NOT NULL,
+--    direccion                 e_otras_senas text,
+--*   telefono_cod              emisor_telefono_codigopais numeric(3,0),
+--    telefono                  emisor_telefono_numtelefono numeric(20,0),
+--*   telefono_fax_cod          emisor_fax_codigopais numeric(3,0),
+--*   telefono_fax              emisor_fax_numtelefono numeric(20,0),
+--    email                     e_correoelectronico character varying(60),
+--*   file_p12                  file_p12 VARCHAR(16),
+--*   key_username              key_username VARCHAR(52),
+--*   key_password              key_password VARCHAR(20),
+--*   pin_p12                   pin_p12 VARCHAR(4),
+--    primary key(idemisor)
+--
+
+CREATE TABLE emisor (
+    idemisor SERIAL, DONE
+    e_nombre character varying(80) NOT NULL, DONE
+    emisor_tipo_identificacion character varying(2) NOT NULL, DONE
+    emisor_numero character varying(12) NOT NULL, DONE
+    e_nombrecomercial character varying(80), DONE
+    e_provincia integer NOT NULL,
+    e_canton integer NOT NULL,
+    e_distrito integer NOT NULL,
+    e_otras_senas text,
+    emisor_telefono_codigopais numeric(3,0),
+    emisor_telefono_numtelefono numeric(20,0),
+    emisor_fax_codigopais numeric(3,0),
+    emisor_fax_numtelefono numeric(20,0),
+    e_correoelectronico character varying(60),
+    file_p12 VARCHAR(16),
+    key_username VARCHAR(52),
+    key_password VARCHAR(20),
+    pin_p12 VARCHAR(4),
+    primary key(idemisor)
+);
 
 --
 -- Volcado de datos para la tabla `perfil`
