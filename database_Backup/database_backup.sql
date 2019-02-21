@@ -155,53 +155,31 @@ CREATE TABLE `perfil` (
 --    Equivalentes en EMISOR de SOPA
 --    id_perfil                 idemisor SERIAL,
 --    nombre_empresa            e_nombre character varying(80) NOT NULL, 
---*   tipo_cedula               emisor_tipo_identificacion character varying(2) NOT NULL, 
+-- *   tipo_cedula               emisor_tipo_identificacion character varying(2) NOT NULL, 
 --    cedula                    emisor_numero character varying(12) NOT NULL, 
---*   nombre_empresa_comercial  e_nombrecomercial character varying(80), 
+-- *   nombre_empresa_comercial  e_nombrecomercial character varying(80), 
 --    estado                    e_provincia integer NOT NULL,
 --    ciudad                    e_canton integer NOT NULL,
 --    codigo_postal             e_distrito integer NOT NULL,
 --    direccion                 e_otras_senas text,
---*   telefono_cod              emisor_telefono_codigopais numeric(3,0),
+-- *   telefono_cod              emisor_telefono_codigopais numeric(3,0),
 --    telefono                  emisor_telefono_numtelefono numeric(20,0),
---*   telefono_fax_cod          emisor_fax_codigopais numeric(3,0),
---*   telefono_fax              emisor_fax_numtelefono numeric(20,0),
+-- *   telefono_fax_cod          emisor_fax_codigopais numeric(3,0),
+-- *   telefono_fax              emisor_fax_numtelefono numeric(20,0),
 --    email                     e_correoelectronico character varying(60),
---*   file_p12                  file_p12 VARCHAR(16),
---*   key_username              key_username VARCHAR(52),
---*   key_password              key_password VARCHAR(20),
---*   pin_p12                   pin_p12 VARCHAR(4),
+-- *   file_p12                  file_p12 VARCHAR(16),
+-- *   key_username              key_username VARCHAR(52),
+-- *   key_password              key_password VARCHAR(20),
+-- *   pin_p12                   pin_p12 VARCHAR(4),
 --    primary key(idemisor)
 --
-
-CREATE TABLE emisor (
-    idemisor SERIAL, DONE
-    e_nombre character varying(80) NOT NULL, DONE
-    emisor_tipo_identificacion character varying(2) NOT NULL, DONE
-    emisor_numero character varying(12) NOT NULL, DONE
-    e_nombrecomercial character varying(80), DONE
-    e_provincia integer NOT NULL,
-    e_canton integer NOT NULL,
-    e_distrito integer NOT NULL,
-    e_otras_senas text,
-    emisor_telefono_codigopais numeric(3,0),
-    emisor_telefono_numtelefono numeric(20,0),
-    emisor_fax_codigopais numeric(3,0),
-    emisor_fax_numtelefono numeric(20,0),
-    e_correoelectronico character varying(60),
-    file_p12 VARCHAR(16),
-    key_username VARCHAR(52),
-    key_password VARCHAR(20),
-    pin_p12 VARCHAR(4),
-    primary key(idemisor)
-);
 
 --
 -- Volcado de datos para la tabla `perfil`
 --
 
-INSERT INTO `perfil` (`id_perfil`, `cedula`, `nombre_empresa`, `direccion`, `ciudad`, `codigo_postal`, `estado`, `telefono`, `email`, `impuesto`, `moneda`, `logo_url`, `mensaje_factura`) VALUES
-(1, '3-101-123456', 'Su nombre', 'San Pedro', 'San RamÃ³n', '20201', 'Alajuela', '+(506) 5555-555', 'info@demoprueba.pro', 13, '$', 'img/1503637578_html-2188441_640.png', 'Esta factura constituye Titulo Ejecutivo y se rige por el artÃ­culo 460 del cÃ³digo de Comercio. La cancelaciÃ³n de esta factura se harÃ¡ en U.S. $, o en colones al tipo de cambio vigente en la fecha de facturaciÃ³n de la misma.														');
+INSERT INTO `perfil` (`id_perfil`, `tipo_cedula`, `cedula`, `nombre_empresa`, `nombre_empresa_comercial`, `direccion`, `ciudad`, `codigo_postal`, `estado`, `telefono_cod`, `telefono`, `telefono_fax_cod`, `telefono_fax`, `email`, `impuesto`, `moneda`, `logo_url`, `mensaje_factura`) VALUES
+(1, '02', '3-101-123456', 'Su nombre', 'Su nombre Comercial', 'San Pedro', 'San RamÃ³n', '20201', 'Alajuela', '506', '89888447', '506', '27102083', 'info@demoprueba.pro', 13, '$', 'img/1503637578_html-2188441_640.png', 'Esta factura constituye Titulo Ejecutivo y se rige por el artÃ­culo 460 del cÃ³digo de Comercio. La cancelaciÃ³n de esta factura se harÃ¡ en U.S. $, o en colones al tipo de cambio vigente en la fecha de facturaciÃ³n de la misma.														');
 
 -- --------------------------------------------------------
 
