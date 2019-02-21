@@ -32,13 +32,13 @@
     },
     "autoload": {
         "classmap": [
-            "class.phpmailer.php",
-            "class.phpmaileroauth.php",
-            "class.phpmaileroauthgoogle.php",
-            "class.smtp.php",
-            "class.pop3.php",
-            "extras/EasyPeasyICS.php",
-            "extras/ntlm_sasl_client.php"
+            "libraries/phpmailer/class.phpmailer.php",
+            "libraries/phpmailer/class.phpmaileroauth.php",
+            "libraries/phpmailer/class.phpmaileroauthgoogle.php",
+            "libraries/phpmailer/lass.smtp.php",
+            "libraries/phpmailer/lass.pop3.php",
+            "libraries/phpmailer/xtras/EasyPeasyICS.php",
+            "libraries/phpmailer/xtras/ntlm_sasl_client.php"
         ]
     },
     "license": "LGPL-2.1"
