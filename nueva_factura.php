@@ -4,17 +4,19 @@
 	Web: obedalvarado.pw
 	Mail: info@obedalvarado.pw
 	---------------------------*/
-	session_start();
-	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-		header("location: login.php");
-		exit;
-	}
+	require_once ("is_logged.php");
+	// session_start();
+	// if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
+	// 	header("location: login.php");
+	// 	exit;
+	// }
+
 	$active_facturas="active";
 	$active_productos="";
 	$active_clientes="";
-	$active_usuarios="";	
+	$active_usuarios="";
 	$title="Nueva Factura | Sistema de Facturacion";
-	
+
 	/* Connect To Database*/
 	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
@@ -27,14 +29,14 @@
 	<body>
 		<?php
 		include("navbar.php");
-		?>  
+		?>
 		<div class="container">
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h4><i class='glyphicon glyphicon-edit'></i> Nueva Factura</h4>
 				</div>
 				<div class="panel-body">
-					<?php 
+					<?php
 					include("modal/buscar_productos.php");
 					include("modal/registro_clientes.php");
 					include("modal/registro_productos.php");
@@ -44,7 +46,7 @@
 							<label for="nombre_cliente" class="col-md-1 control-label">Cliente</label>
 							<div class="col-md-3">
 								<input type="text" class="form-control input-sm" id="nombre_cliente" placeholder="Selecciona un cliente" required>
-								<input id="id_cliente" type='hidden'>	
+								<input id="id_cliente" type='hidden'>
 							</div>
 							<label for="tel1" class="col-md-1 control-label">Teléfono</label>
 							<div class="col-md-2">
@@ -97,7 +99,7 @@
 									</select>
 							</div>
 							<div class="col-md-2">
-								<select class='form-control input-sm' id="moneda">				
+								<select class='form-control input-sm' id="moneda">
 									<option value="1">Dólar</option>
 									<option value="2">Colón</option>
 									</select>
@@ -119,20 +121,20 @@
 								<button type="submit" class="btn btn-primary">
 									<span class="glyphicon glyphicon-print"></span> Guardar e Imprimir
 								</button>
-							</div>	
+							</div>
 						</div>
-					</form>	
+					</form>
 
-					<div id="resultados" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->			
+					<div id="resultados" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->
 				</div>
-			</div>		
+			</div>
 			<div class="row-fluid">
 				<div class="col-md-12">
 
 
 
 
-				</div>	
+				</div>
 			</div>
 		</div>
 		<hr>
@@ -179,7 +181,7 @@
 					$("#mail" ).val("");
 					$("#moneda" ).val("");
 				}
-			});	
+			});
 		</script>
 
 	</body>

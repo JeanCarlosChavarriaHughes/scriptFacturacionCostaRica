@@ -64,37 +64,18 @@
 										<table class="table table-condensed">
 											<tbody>
 												<tr>
-													<td class='col-md-3'>Numero de Identificación:</td>
+													<td class='col-md-3'>Cédula Jurídica de la empresa:</td>
 													<td><input type="text" class="form-control input-sm" name="cedula" value="<?php echo $row['cedula']?>" required></td>
-												</tr>
-												<tr>
-													<td class='col-md-3'>Tipo de Identificación:</td>
-													<td><input type="text" class="form-control input-sm" name="tipo_cedula" value="<?php echo $row['cedula']?>" required></td>
 												</tr>
 												<tr>
 													<td class='col-md-3'>Nombre de la empresa:</td>
 													<td><input type="text" class="form-control input-sm" name="nombre_empresa" value="<?php echo $row['nombre_empresa']?>" required></td>
 												</tr>
-												<tr>
-													<td class='col-md-3'>Nombre Comercial:</td>
-													<td><input type="text" class="form-control input-sm" name="nombre_empresa_comercial" value="<?php echo $row['nombre_empresa_comercial']?>"></td>
-												</tr>
+
 												<tr>
 													<td>Teléfono:</td>
 													<td><input type="text" class="form-control input-sm" name="telefono" value="<?php echo $row['telefono']?>" required></td>
 												</tr>
-												<tr>
-													<td>Código de País:</td>
-													<td><input type="text" class="form-control input-sm" name="telefono_cod" value="<?php echo $row['telefono']?>"></td>
-												</tr>	
-												<tr>
-													<td>Teléfono Fax:</td>
-													<td><input type="text" class="form-control input-sm" name="telefono" value="<?php echo $row['telefono']?>" required></td>
-												</tr>
-												<tr>
-													<td>Código de Teléfono Fax:</td>
-													<td><input type="text" class="form-control input-sm" name="telefono_cod" value="<?php echo $row['telefono']?>"></td>
-												</tr>												
 												<tr>
 													<td>Correo electrónico:</td>
 													<td><input type="email" class="form-control input-sm" name="email" value="<?php echo $row['email']?>" ></td>

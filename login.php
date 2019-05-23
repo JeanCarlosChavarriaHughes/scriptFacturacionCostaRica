@@ -22,8 +22,7 @@ $login = new Login();
 if ($login->isUserLoggedIn() == true) {
     // the user is logged in. you can do whatever you want here.
     // for demonstration purposes, we simply show the "you are logged in" view.
-   header("location: facturas.php");
-
+   	header("location: facturas.php");
 } else {
     // the user is not logged in. you can do whatever you want here.
     // for demonstration purposes, we simply show the "you are not logged in" view.
@@ -51,9 +50,9 @@ if ($login->isUserLoggedIn() == true) {
 					if ($login->errors) {
 						?>
 						<div class="alert alert-danger alert-dismissible" role="alert">
-						    <strong>Error!</strong> 
-						
-						<?php 
+						    <strong>Error!</strong>
+
+						<?php
 						foreach ($login->errors as $error) {
 							echo $error;
 						}
@@ -70,8 +69,8 @@ if ($login->isUserLoggedIn() == true) {
 							echo $message;
 						}
 						?>
-						</div> 
-						<?php 
+						</div>
+						<?php
 					}
 				}
 				?>
@@ -80,7 +79,7 @@ if ($login->isUserLoggedIn() == true) {
                 <input class="form-control" placeholder="Contraseña" name="user_password" type="password" value="" autocomplete="off" required>
                 <button type="submit" class="btn btn-lg btn-success btn-block btn-signin" name="login" id="submit">Iniciar Sesión</button>
             </form><!-- /form -->
-            
+
         </div><!-- /card-container -->
     </div><!-- /container -->
   </body>
