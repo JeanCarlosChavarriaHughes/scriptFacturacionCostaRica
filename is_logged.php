@@ -1,7 +1,6 @@
 <?php
     session_start();
 	require_once('vendor/autoload.php');
-    use Dotenv\Dotenv;
 	use GuzzleHttp\Client;
     use Ajax\Helpers as Helpers;
 	use Illuminate\Database\Capsule\Manager as Capsule;
@@ -11,14 +10,6 @@
         header("location: ../login.php");
 		exit;
     }
-    // ======================================================
-    // Instancia para uso de variables .ENV
-    // ======================================================
-    if(getenv('APPLICATION_ENV') === 'local-develop') {
-      $dotenv = Dotenv::create(__DIR__);
-      $dotenv->load();
-    }
-    // ======================================================
 
     // ======================================================
     // Instancia conexión con BD
@@ -32,7 +23,7 @@
         'password'  => getenv('DB_PASSWORD'),
         'charset'   => getenv('DB_CHARSET'),
         'collation' => getenv('DB_COLLATION'),
-        'prefix'    => getenv('DB_PREFIX'),
+        // 'prefix'    => getenv('DB_PREFIX'),
     ]);
 
     // Make this Capsule instance available globally via static methods... (optional)
@@ -41,3 +32,17 @@
     $capsule->bootEloquent();
     // ======================================================
     Helpers::validateTokenApi();
+
+    // ======================================================
+    // PARA PRUEBAS SPRINT #2
+    // ======================================================
+    //
+    // $last_consecutive   = Capsule::table('detalle_factura')->max('numero_factura');
+    // echo $consecutive_number = Helpers::getConsecutiveNumber($last_consecutive, "06", (int) getenv('BASE_LOCAL'), (int) getenv('BASE_TERMINAL'));
+    // $consecutive_for_Nkey = str_pad( (string) $last_consecutive, 10, '0', STR_PAD_LEFT);
+    // $numeric_key = Helpers::getNumericKey("fisico", 702320717, 507, (int) $consecutive_for_Nkey, "FE");
+    // echo $numeric_key->clave;
+    // echo Helpers::checkStatusForNumericKey("50706061900070232071700100001040000000003384619703");
+    //
+    // ======================================================
+

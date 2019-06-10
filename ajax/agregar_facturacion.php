@@ -21,7 +21,7 @@ $insert_tmp=mysqli_query($con, "INSERT INTO tmp (id_producto,cantidad_tmp,precio
 }
 if (isset($_GET['id']))//codigo elimina un elemento del array
 {
-$id_tmp=intval($_GET['id']);	
+$id_tmp=intval($_GET['id']);
 $moneda_id = $_GET['moneda'];
 $delete=mysqli_query($con, "DELETE FROM tmp WHERE id_tmp='".$id_tmp."'");
 }
@@ -56,7 +56,7 @@ if($moneda_id == 1){
 	$precio_total_f=number_format($precio_total,2);//Precio total formateado
 	$precio_total_r=str_replace(",","",$precio_total_f);//Reemplazo las comas
 	$sumador_total+=$precio_total_r;//Sumador
-	
+
 		?>
 		<tr>
 			<td class='text-center'><?php echo $codigo_producto;?></td>
@@ -65,7 +65,7 @@ if($moneda_id == 1){
 			<td class='text-right'><?php echo $precio_venta_f;?></td>
 			<td class='text-right'><?php echo $precio_total_f;?></td>
 			<td class='text-center'><a href="#" onclick="eliminar('<?php echo $id_tmp ?>')"><i class="glyphicon glyphicon-trash"></i></a></td>
-		</tr>		
+		</tr>
 		<?php
 	}
 	$impuesto=get_row('perfil','impuesto', 'id_perfil', 1);
@@ -147,7 +147,7 @@ if($moneda_id == 1){
 	$precio_total_f=number_format($precio_total,2);//Precio total formateado
 	$precio_total_r=str_replace(",","",$precio_total_f);//Reemplazo las comas
 	$sumador_total+=$precio_total_r;//Sumador
-	
+
 		?>
 		<tr>
 			<td class='text-center'><?php echo $codigo_producto;?></td>
@@ -156,7 +156,7 @@ if($moneda_id == 1){
 			<td class='text-right'><?php echo $precio_venta_f;?></td>
 			<td class='text-right'><?php echo $precio_total_f;?></td>
 			<td class='text-center'><a href="#" onclick="eliminar('<?php echo $id_tmp ?>')"><i class="glyphicon glyphicon-trash"></i></a></td>
-		</tr>		
+		</tr>
 		<?php
 	}
 	$impuesto=get_row('perfil','impuesto', 'id_perfil', 1);
@@ -194,6 +194,6 @@ if($moneda_id == 1){
 
 </table>
 
-<?php 
+<?php
 }
 ?>
