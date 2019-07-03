@@ -1,4 +1,5 @@
 .env
+env
 .gitsecret/keys/random_seed
 /vendor/
 /documentation/

@@ -1,12 +1,21 @@
 <?php
 /*Datos de conexion a la base de datos*/
 
-// heroku factura-imagine jawsDB
-// mysql://c5slmb6oyhuo6rxy:fep7oias93ln51fc@jlg7sfncbhyvga14.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/mxz841yn7rjpnlmu
-define('DB_HOST', 'jlg7sfncbhyvga14.cbetxkdyhwsb.us-east-1.rds.amazonaws.com');//DB_HOST:  generalmente suele ser "127.0.0.1"
-define('DB_USER', 'c5slmb6oyhuo6rxy');//Usuario de tu base de datos
-define('DB_PASS', 'fep7oias93ln51fc');//Contraseña del usuario de la base de datos
-define('DB_NAME', 'mxz841yn7rjpnlmu');//Nombre de la base de datos
+// Reading from enviroment
+$my_DB_HOST = getenv('DB_HOST');
+$my_DB_USER = getenv('DB_USERNAME');
+$my_DB_PASS = getenv('DB_PASSWORD');
+$my_DB_NAME = getenv('DB_NAME');
+
+// Global Constant Definition
+define('DB_HOST', $my_DB_HOST); //DB_HOST:  generalmente suele ser "127.0.0.1"
+define('DB_USER', $my_DB_USER); //Usuario de tu base de datos
+define('DB_PASS', $my_DB_PASS); //Contraseña del usuario de la base de datos
+define('DB_NAME', $my_DB_NAME); //Nombre de la base de datos
+
+// heroku factura-imagine jawsDB-Maria master
+
+// heroku factura-simple-develop jawsDB-SQL develop
 
 // db4free credentials no longer working.
 /*define('DB_HOST', 'db4free.net');//DB_HOST:  generalmente suele ser "127.0.0.1"
