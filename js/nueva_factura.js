@@ -34,14 +34,30 @@ function load(page){
 			}
 		})
 	}
-	
+
 }
 
 function agregar (id)
 {
-	var precio_venta=document.getElementById('precio_venta_'+id).value;
-	var cantidad=document.getElementById('cantidad_'+id).value;
-	var moneda_id = document.getElementById('moneda').value;	
+	var precio_venta 	= document.getElementById('precio_venta_'+id).value;
+	var cantidad 		= document.getElementById('cantidad_'+id).value;
+	var moneda_id 		= document.getElementById('moneda').value;
+	var descuento_desc  = document.getElementById('descuento_desc_'+id).value;
+	var descuento_monto = document.getElementById('descuento_monto_'+id).value;
+
+			if (descuento_monto != "" && descuento_desc == "")
+			{
+				alert('Agregue una descripción a este descuento.');
+				document.getElementById('cantidad_'+id).focus();
+				return false;
+			}
+
+			var total_venta = precio_venta * cantidad;
+			if(descuento_monto > total_venta){
+				alert('El descuento no puede ser mayor al total de la venta.');
+				return false;
+			}
+
 			//Inicia validacion
 			if (isNaN(cantidad))
 			{
@@ -59,7 +75,7 @@ function agregar (id)
 			$.ajax({
 				type: "POST",
 				url: "./ajax/agregar_facturacion.php",
-				data: "id="+id+"&precio_venta="+precio_venta+"&cantidad="+cantidad+"&moneda="+moneda_id,
+				data: "id="+id+"&precio_venta="+precio_venta+"&cantidad="+cantidad+"&moneda="+moneda_id+"&descuento_desc="+descuento_desc+"&descuento_monto="+descuento_monto,
 				beforeSend: function(objeto){
 					$("#resultados").html("Mensaje: Cargando...");
 				},
@@ -70,7 +86,7 @@ function agregar (id)
 					}else{
 						detectImpuestoColon();
 					}
-					
+
 				}
 			});
 
@@ -96,7 +112,7 @@ function agregar (id)
 			}
 
 		}
-		
+
 		function eliminar (id)
 		{
 			var moneda_id = document.getElementById('moneda').value;
@@ -136,7 +152,6 @@ function agregar (id)
 					}
 				});
 			}
-
 		}
 
 		function detectImpuesto(){
@@ -187,6 +202,7 @@ function agregar (id)
 
 			}
 		}
+
 		impuesto.onchange = function (e) {
 			var moneda_id = document.getElementById('moneda').value;
 			if(moneda_id == 1){
@@ -196,7 +212,7 @@ function agregar (id)
 			}
 
 		}
-		
+
 		$("#datos_factura").submit(function(){
 			var id_cliente = $("#id_cliente").val();
 			var id_vendedor = $("#id_vendedor").val();
@@ -210,7 +226,7 @@ function agregar (id)
 			}
 			VentanaCentrada('./pdf/documentos/factura_pdf.php?id_cliente='+id_cliente+'&id_vendedor='+id_vendedor+'&condiciones='+condiciones+'&impuesto='+impuesto+'&moneda='+moneda,'Factura','','1024','768','true');
 		});
-		
+
 		$( "#guardar_cliente" ).submit(function( event ) {
 			$('#guardar_datos').attr("disabled", true);
 
@@ -230,7 +246,7 @@ function agregar (id)
 			});
 			event.preventDefault();
 		})
-		
+
 		$( "#guardar_producto" ).submit(function( event ) {
 			$('#guardar_datos').attr("disabled", true);
 

@@ -1,35 +1,25 @@
--- phpMyAdmin SQL Dump
--- version 4.7.3
--- https://www.phpmyadmin.net/
---
--- Servidor: localhost:3306
--- Tiempo de generación: 24-10-2017 a las 20:02:02
--- Versión del servidor: 5.6.37
--- Versión de PHP: 5.6.30
+/*
+SQLyog Ultimate v11.11 (64 bit)
+MySQL - 5.5.5-10.1.34-MariaDB : Database - mxz841yn7rjpnlmu
+*********************************************************************
+*/
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
+/*!40101 SET NAMES utf8 */;
 
+/*!40101 SET SQL_MODE=''*/;
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`mxz841yn7rjpnlmu` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
 
---
--- Base de datos: `katanna_demoLite`
---
+USE `mxz841yn7rjpnlmu`;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `clientes`
---
+/*Table structure for table `clientes` */
 
 CREATE TABLE `clientes` (
-  `id_cliente` int(11) NOT NULL,
+  `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
   `cedula` varchar(250) NOT NULL,
   `nombre_cliente` varchar(255) NOT NULL,
   `telefono_cliente` char(30) NOT NULL,
@@ -37,69 +27,44 @@ CREATE TABLE `clientes` (
   `direccion_cliente` varchar(255) NOT NULL,
   `status_cliente` tinyint(4) NOT NULL,
   `date_added` datetime NOT NULL,
-  `id_moneda` int(2) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `id_moneda` int(2) NOT NULL,
+  PRIMARY KEY (`id_cliente`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `clientes`
---
-
-INSERT INTO `clientes` (`id_cliente`, `cedula`, `nombre_cliente`, `telefono_cliente`, `email_cliente`, `direccion_cliente`, `status_cliente`, `date_added`, `id_moneda`) VALUES
-(1, '12341234', 'Demo de Cliente', '5555-5555', 'info@democliente.com', '100 Sur de Super Mario, Costa Rica.', 1, '2017-06-02 22:04:17', 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `currencies`
---
+/*Table structure for table `currencies` */
 
 CREATE TABLE `currencies` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `symbol` varchar(255) NOT NULL,
   `precision` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `thousand_separator` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `decimal_separator` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `currencies`
---
-
-INSERT INTO `currencies` (`id`, `name`, `symbol`, `precision`, `thousand_separator`, `decimal_separator`, `code`) VALUES
-(1, 'US Dollar', '$', '2', ',', '.', 'USD'),
-(2, 'Colon', '&#162;', '2', ',', '.', 'CRC');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `detalle_factura`
---
+/*Table structure for table `detalle_factura` */
 
 CREATE TABLE `detalle_factura` (
-  `id_detalle` int(11) NOT NULL,
+  `id_detalle` int(11) NOT NULL AUTO_INCREMENT,
   `numero_factura` int(11) NOT NULL,
   `id_producto` int(11) NOT NULL,
   `cantidad` int(11) NOT NULL,
-  `precio_venta` double NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `precio_venta` double NOT NULL,
+  `monto_descuento` double DEFAULT NULL,
+  `desc_descuento` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_detalle`),
+  KEY `detalle_factura_ibfk_1` (`numero_factura`),
+  KEY `id_producto` (`id_producto`),
+  CONSTRAINT `detalle_factura_ibfk_1` FOREIGN KEY (`numero_factura`) REFERENCES `facturas` (`numero_factura`) ON DELETE CASCADE,
+  CONSTRAINT `detalle_factura_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `products` (`id_producto`)
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `detalle_factura`
---
-
-INSERT INTO `detalle_factura` (`id_detalle`, `numero_factura`, `id_producto`, `cantidad`, `precio_venta`) VALUES
-(1, 1, 1, 1, 100);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `facturas`
---
+/*Table structure for table `facturas` */
 
 CREATE TABLE `facturas` (
-  `id_factura` int(11) NOT NULL,
+  `id_factura` int(11) NOT NULL AUTO_INCREMENT,
   `numero_factura` int(11) NOT NULL,
   `fecha_factura` varchar(20) NOT NULL,
   `id_cliente` int(11) NOT NULL,
@@ -110,249 +75,102 @@ CREATE TABLE `facturas` (
   `total_colones` varchar(30) NOT NULL,
   `tipo_cambio` varchar(20) NOT NULL,
   `impuestos` int(2) NOT NULL,
-  `moneda` int(11) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `moneda` int(11) NOT NULL,
+  PRIMARY KEY (`id_factura`),
+  UNIQUE KEY `numero_factura` (`numero_factura`),
+  KEY `id_cliente` (`id_cliente`),
+  KEY `id_vendedor` (`id_vendedor`),
+  CONSTRAINT `facturas_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
+  CONSTRAINT `facturas_ibfk_2` FOREIGN KEY (`id_vendedor`) REFERENCES `users` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `facturas`
---
-
-INSERT INTO `facturas` (`id_factura`, `numero_factura`, `fecha_factura`, `id_cliente`, `id_vendedor`, `condiciones`, `total_venta`, `estado_factura`, `total_colones`, `tipo_cambio`, `impuestos`, `moneda`) VALUES
-(1, 1, '02-06-2017', 1, 1, '1', '100', 1, '57567.00', '575.67', 0, 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `perfil`
---
+/*Table structure for table `perfil` */
 
 CREATE TABLE `perfil` (
-  `id_perfil` int(11) NOT NULL,
+  `id_perfil` int(11) NOT NULL AUTO_INCREMENT,
   `tipo_cedula` varchar(2) NOT NULL,
   `cedula` varchar(250) NOT NULL,
   `nombre_empresa` varchar(80) NOT NULL,
-  `nombre_empresa_comercial` varchar(80),
+  `nombre_empresa_comercial` varchar(80) DEFAULT NULL,
   `direccion` varchar(255) NOT NULL,
   `ciudad` varchar(100) NOT NULL,
   `codigo_postal` varchar(100) NOT NULL,
   `estado` varchar(100) NOT NULL,
   `telefono` varchar(20) NOT NULL,
-  `telefono_cod` varchar(3),
-  `telefono_fax` varchar(20),
-  `telefono_fax_cod` varchar(3),
+  `telefono_cod` varchar(3) DEFAULT NULL,
+  `telefono_fax` varchar(20) DEFAULT NULL,
+  `telefono_fax_cod` varchar(3) DEFAULT NULL,
   `email` varchar(60) NOT NULL,
-  `file_p12` varchar(16),
-  `key_username` varchar(52),
-  `key_password` varchar(20),
-  `pin_p12` varchar(4),
+  `file_p12` varchar(128) DEFAULT NULL,
+  `key_username` varchar(52) DEFAULT NULL,
+  `key_password` varchar(20) DEFAULT NULL,
+  `pin_p12` varchar(4) DEFAULT NULL,
   `impuesto` int(2) DEFAULT NULL,
   `moneda` varchar(6) NOT NULL,
   `logo_url` varchar(255) NOT NULL,
-  `mensaje_factura` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `mensaje_factura` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `idFile` int(11) DEFAULT NULL,
+  `downloadCode` varchar(40) DEFAULT NULL,
+  `usernameAPI` varchar(40) DEFAULT NULL,
+  `passwordAPI` varchar(40) DEFAULT NULL,
+  `iduserapi` int(11) DEFAULT NULL,
+  `acercade` varchar(40) DEFAULT NULL,
+  `ubicacion` varchar(40) DEFAULT NULL,
+  PRIMARY KEY (`id_perfil`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
-
---    Equivalentes en EMISOR de SOPA
---    id_perfil                 idemisor SERIAL,
---    nombre_empresa            e_nombre character varying(80) NOT NULL, 
--- *   tipo_cedula               emisor_tipo_identificacion character varying(2) NOT NULL, 
---    cedula                    emisor_numero character varying(12) NOT NULL, 
--- *   nombre_empresa_comercial  e_nombrecomercial character varying(80), 
---    estado                    e_provincia integer NOT NULL,
---    ciudad                    e_canton integer NOT NULL,
---    codigo_postal             e_distrito integer NOT NULL,
---    direccion                 e_otras_senas text,
--- *   telefono_cod              emisor_telefono_codigopais numeric(3,0),
---    telefono                  emisor_telefono_numtelefono numeric(20,0),
--- *   telefono_fax_cod          emisor_fax_codigopais numeric(3,0),
--- *   telefono_fax              emisor_fax_numtelefono numeric(20,0),
---    email                     e_correoelectronico character varying(60),
--- *   file_p12                  file_p12 VARCHAR(16),
--- *   key_username              key_username VARCHAR(52),
--- *   key_password              key_password VARCHAR(20),
--- *   pin_p12                   pin_p12 VARCHAR(4),
---    primary key(idemisor)
---
-
---
--- Volcado de datos para la tabla `perfil`
---
-
-INSERT INTO `perfil` (`id_perfil`, `tipo_cedula`, `cedula`, `nombre_empresa`, `nombre_empresa_comercial`, `direccion`, `ciudad`, `codigo_postal`, `estado`, `telefono_cod`, `telefono`, `telefono_fax_cod`, `telefono_fax`, `email`, `impuesto`, `moneda`, `logo_url`, `mensaje_factura`) VALUES
-(1, '02', '3-101-123456', 'Su nombre', 'Su nombre Comercial', 'San Pedro', 'San RamÃ³n', '20201', 'Alajuela', '506', '89888447', '506', '27102083', 'info@demoprueba.pro', 13, '$', 'img/1503637578_html-2188441_640.png', 'Esta factura constituye Titulo Ejecutivo y se rige por el artÃ­culo 460 del cÃ³digo de Comercio. La cancelaciÃ³n de esta factura se harÃ¡ en U.S. $, o en colones al tipo de cambio vigente en la fecha de facturaciÃ³n de la misma.														');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `products`
---
+/*Table structure for table `products` */
 
 CREATE TABLE `products` (
-  `id_producto` int(11) NOT NULL,
+  `id_producto` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_producto` char(20) NOT NULL,
   `nombre_producto` char(255) NOT NULL,
   `status_producto` tinyint(4) NOT NULL,
   `date_added` datetime NOT NULL,
   `precio_producto` double(11,2) NOT NULL,
-  `precio_colon` decimal(10,2) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `precio_colon` decimal(10,2) NOT NULL,
+  `unidad_medida` char(20) DEFAULT NULL,
+  `impuesto_codigo` varchar(2) DEFAULT NULL,
+  `impuesto_es_iva` int(1) DEFAULT NULL,
+  `impuesto_iva_codigo` varchar(2) DEFAULT NULL,
+  `impuesto_iva_tarifa` varchar(2) DEFAULT NULL,
+  `imp_subimp_tarifa` varchar(2) DEFAULT NULL,
+  `imp_subimp_codigo` varchar(2) DEFAULT NULL,
+  PRIMARY KEY (`id_producto`),
+  UNIQUE KEY `codigo_producto` (`codigo_producto`)
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
---
--- Volcado de datos para la tabla `products`
---
-
-INSERT INTO `products` (`id_producto`, `codigo_producto`, `nombre_producto`, `status_producto`, `date_added`, `precio_producto`, `precio_colon`) VALUES
-(1, 'q1', 'Demo de Producto', 1, '2017-06-02 22:03:30', 100.00, '51000.00'),
-(2, '1', 'PRUEBA', 1, '2017-06-21 02:32:59', 1.00, '1002.00');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tmp`
---
+/*Table structure for table `tmp` */
 
 CREATE TABLE `tmp` (
-  `id_tmp` int(11) NOT NULL,
+  `id_tmp` int(11) NOT NULL AUTO_INCREMENT,
   `id_producto` int(11) NOT NULL,
   `cantidad_tmp` int(11) NOT NULL,
   `precio_tmp` double(8,2) DEFAULT NULL,
+  `monto_descuento` double(8,2) DEFAULT NULL,
+  `desc_descuento` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `session_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `moneda_tmp` int(2) NOT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+  `moneda_tmp` int(2) NOT NULL,
+  PRIMARY KEY (`id_tmp`)
+) ENGINE=MyISAM AUTO_INCREMENT=203 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
---
--- Volcado de datos para la tabla `tmp`
---
-
-INSERT INTO `tmp` (`id_tmp`, `id_producto`, `cantidad_tmp`, `precio_tmp`, `session_id`, `moneda_tmp`) VALUES
-(4, 1, 1, 100.00, 'bb541df90b46e7a35a6f7df231081d95', 1);
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `users`
---
+/*Table structure for table `users` */
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL COMMENT 'auto incrementing user_id of each user, unique index',
+  `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',
   `firstname` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `lastname` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   `user_name` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s name, unique',
   `user_password_hash` varchar(255) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s password in salted and hashed format',
   `user_email` varchar(64) COLLATE utf8_unicode_ci NOT NULL COMMENT 'user''s email, unique',
-  `date_added` datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `user_name` (`user_name`),
+  UNIQUE KEY `user_email` (`user_email`),
+  CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `perfil` (`id_perfil`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='user data';
 
---
--- Volcado de datos para la tabla `users`
---
-
-INSERT INTO `users` (`user_id`, `firstname`, `lastname`, `user_name`, `user_password_hash`, `user_email`, `date_added`) VALUES
-(1, 'Dagoberto', 'Demo', 'demo', '$2y$10$j3wTY5ls1sQ07o5UHVSSi.dIYTJDmujahNvZoQ0OtMQx2UKOmBRAy', 'demo@demo.com', '2016-05-21 15:06:00');
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `clientes`
---
-ALTER TABLE `clientes`
-  ADD PRIMARY KEY (`id_cliente`),
-  ADD UNIQUE KEY `codigo_producto` (`nombre_cliente`);
-
---
--- Indices de la tabla `currencies`
---
-ALTER TABLE `currencies`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indices de la tabla `detalle_factura`
---
-ALTER TABLE `detalle_factura`
-  ADD PRIMARY KEY (`id_detalle`),
-  ADD KEY `numero_cotizacion` (`numero_factura`,`id_producto`);
-
---
--- Indices de la tabla `facturas`
---
-ALTER TABLE `facturas`
-  ADD PRIMARY KEY (`id_factura`),
-  ADD UNIQUE KEY `numero_cotizacion` (`numero_factura`);
-
---
--- Indices de la tabla `perfil`
---
-ALTER TABLE `perfil`
-  ADD PRIMARY KEY (`id_perfil`);
-
---
--- Indices de la tabla `products`
---
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`id_producto`),
-  ADD UNIQUE KEY `codigo_producto` (`codigo_producto`);
-
---
--- Indices de la tabla `tmp`
---
-ALTER TABLE `tmp`
-  ADD PRIMARY KEY (`id_tmp`);
-
---
--- Indices de la tabla `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `user_name` (`user_name`),
-  ADD UNIQUE KEY `user_email` (`user_email`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `clientes`
---
-ALTER TABLE `clientes`
-  MODIFY `id_cliente` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `currencies`
---
-ALTER TABLE `currencies`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `detalle_factura`
---
-ALTER TABLE `detalle_factura`
-  MODIFY `id_detalle` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `facturas`
---
-ALTER TABLE `facturas`
-  MODIFY `id_factura` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT de la tabla `perfil`
---
-ALTER TABLE `perfil`
-  MODIFY `id_perfil` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT de la tabla `products`
---
-ALTER TABLE `products`
-  MODIFY `id_producto` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT de la tabla `tmp`
---
-ALTER TABLE `tmp`
-  MODIFY `id_tmp` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT de la tabla `users`
---
-ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index', AUTO_INCREMENT=2;COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;

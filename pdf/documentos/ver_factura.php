@@ -34,8 +34,8 @@
 	if($moneda == 1){ $simbolo_moneda="$"; } else { $simbolo_moneda="¢"; }
 	require_once(dirname(__FILE__).'/../html2pdf.class.php');
     // get the HTML
-     ob_start();
-     include(dirname('__FILE__').'/res/ver_factura_html.php');
+    ob_start();
+    include(dirname(__FILE__).'/res/ver_factura_html.php');
     $content = ob_get_clean();
 
     try
@@ -53,3 +53,5 @@
         echo $e;
         exit;
     }
+
+    echo "<script>window.open('http://fact_cr.test/pruebas.php?id_factura=".$numero_factura."', 'Diseño Web', 'width=500, height=500')</script>";

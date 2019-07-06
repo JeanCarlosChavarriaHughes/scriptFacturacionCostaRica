@@ -5,11 +5,6 @@
 	Mail: info@obedalvarado.pw
 	---------------------------*/
 	require_once ("is_logged.php");
-	// session_start();
-	// if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-	// 	header("location: login.php");
-	// 	exit;
-	// }
 
 	$active_facturas="active";
 	$active_productos="";
@@ -20,6 +15,7 @@
 	/* Connect To Database*/
 	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
+	require_once ("funciones.php");//Contiene funcion que conecta a la base de datos
 	?>
 	<!DOCTYPE html>
 	<html lang="en">
@@ -101,7 +97,7 @@
 							<div class="col-md-2">
 								<select class='form-control input-sm' id="moneda">
 									<option value="1">Dólar</option>
-									<option value="2">Colón</option>
+									<option value="2" selected>Colón</option>
 									</select>
 							</div>
 						</div>

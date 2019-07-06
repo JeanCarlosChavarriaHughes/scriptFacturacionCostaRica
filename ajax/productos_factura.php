@@ -9,7 +9,7 @@
 	/* Connect To Database*/
 	require_once ("../config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
-	
+
 	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 	if($action == 'ajax'){
 		// escaping, additionally removing everything that could be (html/javascript-) code
@@ -45,7 +45,7 @@
 		$query = mysqli_query($con, $sql);
 		//loop through fetched data
 		if ($numrows>0){
-			
+
 			?>
 			<div class="table-responsive">
 			  <table class="table">
@@ -54,6 +54,8 @@
 					<th>Producto</th>
 					<th><span class="pull-right">Cant.</span></th>
 					<th><span class="pull-right">Precio <?php if($moneda == 1){ echo "$"; } else { echo "¢"; }?></span></th>
+					<th class=''>Tarifa Impuesto</th>
+					<th class=''>Descuento</th>
 					<th class='text-center' style="width: 36px;">Agregar</th>
 				</tr>
 				<?php
@@ -69,6 +71,11 @@
 					$precio_venta=$row["precio_colon"];
 					$precio_venta=number_format($precio_venta,2,'.','');
 					}
+					if($row["impuesto_es_iva"] == 1){
+						$impuesto_tarifa =$row["impuesto_iva_tarifa"];
+					}else{
+						$impuesto_tarifa =$row["imp_subimp_tarifa"];
+					}
 
 					?>
 					<tr>
@@ -79,8 +86,16 @@
 						<input type="text" class="form-control" style="text-align:right" id="cantidad_<?php echo $id_producto; ?>"  value="1" >
 						</div></td>
 						<td class='col-xs-2'><div class="pull-right">
-						<input type="text" class="form-control" style="text-align:right" id="precio_venta_<?php echo $id_producto; ?>"  value="<?php echo $precio_venta;?>" >
+						<input type="hidden" class="form-control" style="text-align:right" id="precio_venta_<?php echo $id_producto; ?>"  value="<?php echo $precio_venta;?>" >
+						<?php echo $precio_venta; ?>
 						</div></td>
+						<td class='col-xs-2 '><?php echo $impuesto_tarifa; ?>%</td>
+						<td class=''>
+							Naturaleza:<br>
+							<input type="text" class="form-control" name="descuento_desc_<?php echo $id_producto; ?>" id="descuento_desc_<?php echo $id_producto; ?>"><br>
+							Monto ¢:
+							<input type="number" class="form-control" name="descuento_monto_<?php echo $id_producto; ?>" id="descuento_monto_<?php echo $id_producto; ?>">
+						</td>
 						<td class='text-center'><a class='btn btn-info'href="#" onclick="agregar('<?php echo $id_producto ?>')"><i class="glyphicon glyphicon-plus"></i></a></td>
 					</tr>
 					<?php
