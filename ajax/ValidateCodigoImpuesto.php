@@ -7,7 +7,7 @@
 <?php
     if($codigoImpuesto == "07" || $codigoImpuesto == "01" )
     {
-	  	$content=file_get_contents("https://cloud-cube.s3.amazonaws.com/sp5z9nxkd1ra/public/assets/json/Nota8_TarifaImpuestoValorAgregado.json");
+	  	$content=file_get_contents(constant('subimpuestos_tarifas_iva'));
 	  	$data=json_decode($content);
 ?>
 	    <div class="form-group" id="divTarifaIva">
