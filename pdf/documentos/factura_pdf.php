@@ -9,8 +9,8 @@
         header("location: ../../login.php");
 		exit;
     }
-	
-	
+
+
 	/* Connect To Database*/
 	include("../../config/db.php");
 	include("../../config/conexion.php");
@@ -28,7 +28,7 @@
 	}
 
 	require_once(dirname(__FILE__).'/../html2pdf.class.php');
-		
+
 	//Variables por GET
 	$id_cliente=intval($_GET['id_cliente']);
 	$id_vendedor=intval($_GET['id_vendedor']);
@@ -38,14 +38,14 @@
 	//Fin de variables por GET
 	$sql=mysqli_query($con, "select LAST_INSERT_ID(numero_factura) as last from facturas order by id_factura desc limit 0,1 ");
 	$rw=mysqli_fetch_array($sql);
-	$numero_factura=$rw['last']+1;	
+	$numero_factura=$rw['last']+1;
 
 	if($moneda == 1){ $simbolo_moneda="$"; } else { $simbolo_moneda="¢"; }
     // get the HTML
-     ob_start();
-     include(dirname('__FILE__').'/res/factura_html.php');
-    $content = ob_get_clean();
-
+    // ob_start();
+    include(dirname('__FILE__').'/res/factura_html.php');
+    // $content = ob_get_clean();
+    exit;
     try
     {
         // init HTML2PDF

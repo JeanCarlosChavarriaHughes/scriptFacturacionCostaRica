@@ -16,10 +16,10 @@
 	$active_facturas="";
 	$active_productos="";
 	$active_clientes="";
-	$active_usuarios="";	
-	$active_perfil="active";	
+	$active_usuarios="";
+	$active_perfil="active";
 	$title="Configuración | Sistema de Facturación";
-	
+
 	$query_empresa=mysqli_query($con,"select * from perfil where id_perfil=1");
 	$row=mysqli_fetch_array($query_empresa);
 	?>
@@ -31,7 +31,7 @@
 	<body>
 		<?php
 		include("navbar.php");
-		?> 
+		?>
 		<div class="container">
 			<div class="row">
 				<form method="post" id="perfil">
@@ -45,12 +45,12 @@
 							<div class="panel-body">
 								<div class="row">
 
-									<div class="col-md-3 col-lg-3 " align="center"> 
+									<div class="col-md-3 col-lg-3 " align="center">
 										<div id="load_img">
 											<img class="img-responsive" src="<?php echo $row['logo_url'];?>" alt="Logo">
 
 										</div>
-										<br>				
+										<br>
 										<div class="row">
 											<div class="col-md-12">
 												<div class="form-group">
@@ -60,7 +60,7 @@
 
 										</div>
 									</div>
-									<div class=" col-md-9 col-lg-9 "> 
+									<div class=" col-md-9 col-lg-9 ">
 										<table class="table table-condensed">
 											<tbody>
 												<tr>
@@ -88,7 +88,7 @@
 													<td>Simbolo de moneda:</td>
 													<td>
 														<select class='form-control input-sm' name="moneda" required>
-															<?php 
+															<?php
 															$sql="select name, symbol from  currencies group by symbol order by name ";
 															$query=mysqli_query($con,$sql);
 															while($rw=mysqli_fetch_array($query)){
@@ -194,7 +194,7 @@
 					var file = inputFileImage.files[0];
 					if( (typeof file === "object") && (file !== null) )
 					{
-						$("#load_img").text('Cargando...');	
+						$("#load_img").text('Cargando...');
 						var data = new FormData();
 						data.append('imagefile',file);
 
@@ -209,12 +209,11 @@
 						success: function(data)   // A function to be called if request succeeds
 						{
 							$("#load_img").html(data);
-							
+
 						}
-					});	
+					});
 					}
 
 
 				}
 			</script>
-

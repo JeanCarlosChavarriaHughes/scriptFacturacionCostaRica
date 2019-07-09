@@ -53,14 +53,14 @@
 	<br>
 
 
-	
+
 	<table cellspacing="0" style="width: 100%; text-align: left; font-size: 11pt;">
 		<tr>
 			<td style="width:50%;" class='midnight-blue'>FACTURAR A</td>
 		</tr>
 		<tr>
 			<td style="width:50%;" >
-				<?php 
+				<?php
 				//Moneda de la factura
 				$moneda=intval($_GET['moneda']);
 				$sql_cliente=mysqli_query($con,"select * from clientes where id_cliente='$id_cliente'");
@@ -92,7 +92,7 @@
 		</tr>
 		<tr>
 			<td style="width:25%;">
-				<?php 
+				<?php
 				$sql_user=mysqli_query($con,"select * from users where user_id='$id_vendedor'");
 				$rw_user=mysqli_fetch_array($sql_user);
 				echo $rw_user['firstname']." ".$rw_user['lastname'];
@@ -100,7 +100,7 @@
 			</td>
 			<td style="width:25%;"><?php echo date("d/m/Y");?></td>
 			<td style="width:30%;" >
-				<?php 
+				<?php
 				if ($condiciones==1){echo "Efectivo";}
 				elseif ($condiciones==2){echo "Cheque";}
 				elseif ($condiciones==3){echo "Transferencia bancaria";}
@@ -109,7 +109,7 @@
 			</td>
 			<td style="width:20%;" ><?php if($moneda == 1){ echo "Dólares"; } else { echo "Colones"; } ?></td>
 		</tr>
-		
+
 
 
 	</table>
@@ -121,69 +121,108 @@
 			<th style="width: 60%" class='midnight-blue'>Descripción</th>
 			<th style="width: 15%;text-align: right" class='midnight-blue'>Precio Unit.</th>
 			<th style="width: 15%;text-align: right" class='midnight-blue'>Precio Total</th>
-
 		</tr>
 
 		<?php
-		$cambio = getVentaDolarColones();
+		// $cambio = getVentaDolarColones();
+		$cambio = 0;
 		$nums=1;
 		$sumador_total=0;
+		$sumador_total_impuestos  = 0;
+		$sumador_total_descuentos = 0;
 		$sql=mysqli_query($con, "select * from products, tmp where products.id_producto=tmp.id_producto and tmp.session_id='".$session_id."' and tmp.moneda_tmp=".$moneda);
 		while ($row=mysqli_fetch_array($sql))
 		{
-			$id_tmp=$row["id_tmp"];
-			$id_producto=$row["id_producto"];
-			$codigo_producto=$row['codigo_producto'];
-			$cantidad=$row['cantidad_tmp'];
-			$nombre_producto=$row['nombre_producto'];
+			$id_tmp 			= $row["id_tmp"];
+			$id_producto 		= $row["id_producto"];
+			$codigo_producto 	= $row['codigo_producto'];
+			$cantidad 			= $row['cantidad_tmp'];
+			$nombre_producto 	= $row['nombre_producto'];
+			$descuento_monto 	= (int) $row['monto_descuento'];
+			$descuento_desc 	= $row['desc_descuento'];
 
-			$precio_venta=$row['precio_tmp'];
-	$precio_venta_f=number_format($precio_venta,2);//Formateo variables
-	$precio_venta_r=str_replace(",","",$precio_venta_f);//Reemplazo las comas
-	$precio_total=$precio_venta_r*$cantidad;
-	$precio_total_f=number_format($precio_total,2);//Precio total formateado
-	$precio_total_r=str_replace(",","",$precio_total_f);//Reemplazo las comas
-	$sumador_total+=$precio_total_r;//Sumador
-	if ($nums%2==0){
-		$clase="clouds";
-	} else {
-		$clase="silver";
-	}
+			if($descuento_monto > 0){
+				$sumador_total_descuentos += $descuento_monto;
+			}
+
+			$precio_venta 		= (int) $row['precio_tmp'];
+			$precio_venta_f 	= number_format($precio_venta,2);//Formateo variables
+			$precio_venta_r 	= str_replace(",","",$precio_venta_f);//Reemplazo las comas
+
+			$precio_total 		= $precio_venta_r*$cantidad;
+			$precio_total_f 	= number_format($precio_total,2);//Precio total formateado
+			$precio_total_r 	= str_replace(",","",$precio_total_f);//Reemplazo las comas
+			$sumador_total 		+= $precio_total_r;//sumador_total
+
+			//Sumador de impuestos
+			if($row['impuesto_es_iva'] == 1){
+				$sumador_total_impuestos += ( ($precio_venta * $cantidad) * (int) $row['impuesto_iva_tarifa'] )/100;
+			}else{
+				$sumador_total_impuestos += ( ($precio_venta * $cantidad) * (int) $row['imp_subimp_tarifa'] )/100;
+			}
+
+			if ($nums%2==0){
+				$clase="clouds";
+			} else {
+				$clase="silver";
+			}
 	?>
 
-	<tr>
-		<td class='<?php echo $clase;?>' style="width: 10%; text-align: center"><?php echo $cantidad; ?></td>
-		<td class='<?php echo $clase;?>' style="width: 60%; text-align: left"><?php echo $nombre_producto;?></td>
-		<td class='<?php echo $clase;?>' style="width: 15%; text-align: right"><?php echo $precio_venta_f;?></td>
-		<td class='<?php echo $clase;?>' style="width: 15%; text-align: right"><?php echo $precio_total_f;?></td>
+			<tr>
+				<td class='<?php echo $clase;?>' style="width: 10%; text-align: center"><?php echo $cantidad; ?></td>
+				<td class='<?php echo $clase;?>' style="width: 60%; text-align: left"><?php echo $nombre_producto;?></td>
+				<td class='<?php echo $clase;?>' style="width: 15%; text-align: right"><?php echo $precio_venta_f;?></td>
+				<td class='<?php echo $clase;?>' style="width: 15%; text-align: right"><?php echo $precio_total_f;?></td>
+			</tr>
 
-	</tr>
+	<?php
+			if($descuento_monto > 0){
+	?>
+				<tr>
+					<td class='<?php echo $clase;?>' style="width: 10%; text-align: center"></td>
+					<td class='<?php echo $clase;?>' style="width: 60%; text-align: left">Descuento: <?php echo $descuento_desc;?></td>
+					<td class='<?php echo $clase;?>' style="width: 15%; text-align: right"></td>
+					<td class='<?php echo $clase;?>' style="width: 15%; text-align: right">-<?php echo $simbolo_moneda.$descuento_monto;?></td>
+				</tr>
+	<?php
+			}
 
-	<?php 
-	//Insert en la tabla detalle_cotizacion
-	$insert_detail=mysqli_query($con, "INSERT INTO detalle_factura VALUES ('','$numero_factura','$id_producto','$cantidad','$precio_venta_r')");
-	
-	$nums++;
-}
-if($impuestoValue == 2){
-	$impuesto=0.00;
-}else{
-	$impuesto=get_row('perfil','impuesto', 'id_perfil', 1);
-}
+			$nums++;
+	}
 
-$subtotal=number_format($sumador_total,2,'.','');
-$total_iva=($subtotal * $impuesto )/100;
-$total_iva=number_format($total_iva,2,'.','');
-$total_factura=$subtotal+$total_iva;
+	$impuesto  			= number_format($sumador_total_impuestos,2,'.','');
+	$descuentos 		= $sumador_total_descuentos;
+	$subtotal 			= number_format($sumador_total,2,'.','');
+	$total_factura 		= $subtotal+$impuesto;
+	$total_colones 		= $total_factura;
+	$total_colones_f 	= number_format( ($total_colones - $descuentos ) , 2);
 
-if($moneda == 1){
-	$total_colones=$total_factura*$cambio;
-} else { 
-	$total_colones=$total_factura;
-}
+	if($moneda == 1){
+		$total_colones = $total_colones_f*$cambio;
+	} else {
+		$total_colones = $total_colones_f;
+	}
 
-$total_colones_f=number_format($total_colones,2);
-$total_colones_r=str_replace(",","",$total_colones_f);
+	$total_colones_f = number_format($total_colones, 2);
+	$total_colones_r = str_replace(",","",$total_colones_f);
+
+	$date=date("d-m-Y");
+	if($moneda == 1){
+		$insert=mysqli_query($con,"INSERT INTO facturas VALUES (NULL,'$numero_factura','$date','$id_cliente','$id_vendedor','$condiciones','$total_factura','1','$total_colones_r','$cambio','$impuesto', '$moneda')");
+	}else{
+		$insert=mysqli_query($con,"INSERT INTO facturas VALUES (NULL,'$numero_factura','$date','$id_cliente','$id_vendedor','$condiciones','$total_factura','1','$total_colones_r','$cambio','$impuesto', '$moneda')");
+	}
+
+	$sql=mysqli_query($con,
+		"select * from products, tmp where products.id_producto=tmp.id_producto and tmp.session_id='".$session_id."' and tmp.moneda_tmp=".$moneda);
+
+	while($row=mysqli_fetch_array($sql)){
+		//Insert en la tabla detalle_cotizacion
+		$insert_detail=mysqli_query($con, "INSERT INTO detalle_factura (numero_factura, id_producto, cantidad, precio_venta, monto_descuento, desc_descuento)
+			VALUES (".$numero_factura.", ".$row['id_producto'].", ".$row['cantidad_tmp'].", ".$row['precio_tmp'].", ".$row['monto_descuento'].", '".$row['desc_descuento']."' )" );
+	}
+
+	$delete=mysqli_query($con,"DELETE FROM tmp WHERE session_id='".$session_id."'");
 
 ?>
 
@@ -191,26 +230,36 @@ $total_colones_r=str_replace(",","",$total_colones_f);
 	<td colspan="3" style="widtd: 85%; text-align: right;">Subtotal:</td>
 	<td style="widtd: 15%; text-align: right;"> <?php echo $simbolo_moneda;?><?php echo number_format($subtotal,2);?></td>
 </tr>
-<?php if($impuesto > 0){?>
+
+<?php if($descuentos > 0){ ?>
 <tr>
-	<td colspan="3" style="widtd: 85%; text-align: right;">Imp. Ventas: </td>
-	<td style="widtd: 15%; text-align: right;"> <?php echo $impuesto;?>%</td>
+	<td colspan="3" style="widtd: 85%; text-align: right;">Descuentos:</td>
+	<td style="widtd: 15%; text-align: right;"> -<?php echo $simbolo_moneda;?><?php echo number_format($descuentos,2);?></td>
 </tr>
-<? } ?>
+<?php } ?>
+
+<?php if($impuesto > 0){ ?>
+<tr>
+	<td colspan="3" style="widtd: 85%; text-align: right;">Impuestos: </td>
+	<td style="widtd: 15%; text-align: right;"> <?php echo $simbolo_moneda;?><?php echo $impuesto;?></td>
+</tr>
+<?php } ?>
 <tr>
 	<td colspan="3" style="widtd: 85%; text-align: right;">Total: </td>
-	<td style="widtd: 15%; text-align: right;"><?php echo $simbolo_moneda;?><?php echo number_format($total_factura,2);?></td>
+	<td style="widtd: 15%; text-align: right;"> <?php echo $simbolo_moneda; ?> <?php echo number_format($total_colones_f,2); ?> </td>
 </tr>
 </table>
+
 <?php if($moneda == 1){ ?>
 <table cellspacing="0" style="width: 100%; text-align: left; font-size: 8pt;margin-top: 0px;border:none;">
 	<tr>
-		<td style="width: 50%; text-align: left;border-top:1px;border-top-color:#D3D3D3">Tipo de cambio: ¢<?php echo number_format($cambio,2);?>&nbsp; Total en colones: <?php echo $total_colones_f;?></td>
+		<td style="width: 50%; text-align: left;border-top:1px;border-top-color:#D3D3D3">Tipo de cambio: ¢ <?php echo number_format($cambio,2); ?> &nbsp; Total en colones: <?php echo $total_colones_f; ?> </td>
 		<td style="width: 25%; text-align: center;border-top:1px;border-top-color:#D3D3D3"></td>
 		<td style="width: 25%; text-align: center;border-top:1px;border-top-color:#D3D3D3"></td>
 	</tr>
 </table>
 <?php } ?>
+
 <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;margin-top: 60px;border:none;">
 	<tr>
 		<td style="width: 100%; text-align: left;">¡Gracias por su preferencia!</td>
@@ -218,7 +267,7 @@ $total_colones_r=str_replace(",","",$total_colones_f);
 </table>
 <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;margin-top: 20px;border:1px;border-color: #778899">
 	<tr>
-		<td style="width: 100%; text-align: left;"><?php echo get_row('perfil','mensaje_factura', 'id_perfil', 1);?></td>
+		<td style="width: 100%; text-align: left;"><?php echo get_row('perfil','mensaje_factura', 'id_perfil', 1); ?></td>
 	</tr>
 </table>
 
@@ -226,14 +275,3 @@ $total_colones_r=str_replace(",","",$total_colones_f);
 <br>
 
 </page>
-
-<?php
-$date=date("d-m-Y");
-if($moneda == 1){
-	$insert=mysqli_query($con,"INSERT INTO facturas VALUES (NULL,'$numero_factura','$date','$id_cliente','$id_vendedor','$condiciones','$total_factura','1','$total_colones_r','$cambio','$impuesto', '$moneda')");	
-}else{
-	$insert=mysqli_query($con,"INSERT INTO facturas VALUES (NULL,'$numero_factura','$date','$id_cliente','$id_vendedor','$condiciones','$total_factura','1','$total_colones_r','$cambio','$impuesto', '$moneda')");	
-}
-
-$delete=mysqli_query($con,"DELETE FROM tmp WHERE session_id='".$session_id."'");
-?>

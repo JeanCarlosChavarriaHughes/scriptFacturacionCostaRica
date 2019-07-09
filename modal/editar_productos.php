@@ -26,7 +26,7 @@
 				  <textarea class="form-control" id="mod_nombre" name="mod_nombre" placeholder="Nombre del producto" required></textarea>
 				</div>
 			  </div>
-			  
+
 			  <div class="form-group">
 				<label for="mod_estado" class="col-sm-3 control-label">Estado</label>
 				<div class="col-sm-8">
@@ -49,9 +49,58 @@
 				  <input type="number" class="form-control" id="mod_precio_colon" name="mod_precio_colon" placeholder="Precio de venta colones del producto" required step="any" title="Ingrese el valor del producto en colones" maxlength="14">
 				</div>
 			  </div>
-			 
-			 
-			
+
+			   <?php
+			   	$content=file_get_contents(constant('unidad_medida'));
+			   	$data=json_decode($content);
+			   ?>
+			   <div class="form-group">
+			 	<label for="codigo" class="col-sm-3 control-label">Medida de unidad</label>
+			 	<div class="col-sm-8">
+			 		<select class="form-control" id="mod_unidadMedida" name="mod_unidadMedida" >
+			 			<?php
+			 				foreach ($data as $key => $value) {
+			 			?>
+			 				<option value=" <?php echo $value ?> " > <?php echo $key ?> </option>
+			 			<?php
+			 				}
+			 			?>
+			 		</select>
+			 	</div>
+
+			 	<div class="form-group">
+				<label for="mod_precio_colon" class="col-sm-3 control-label">Impuesto asignado</label>
+					<div class="col-sm-8" style="padding-top: 1%; padding-left: 3%;">
+						<div id="info_impuestos"></div>
+					</div>
+			  	</div>
+
+			   </div>
+
+			     <?php
+			     	$content=file_get_contents(constant('impuestos'));
+			     	$data=json_decode($content);
+			     ?>
+			     <div class="form-group">
+			   	<label for="codigo" class="col-sm-3 control-label">Impuesto</label>
+			   	<div class="col-sm-8">
+			   		<select class="form-control" id="mod_codigoImpuesto" name="mod_codigoImpuesto" >
+			   			<option value=""> -- Seleccione un impuesto -- </option>
+			   			<?php
+			   				foreach ($data as $value) {
+			   			?>
+			   				<option value="<?php echo $value->Codigo ?>" > <?php echo $value->CodigoDelImpuesto ?> </option>
+			   			<?php
+			   				}
+			   			?>
+			   		</select>
+			   	</div>
+			     </div>
+
+			     <div id="mod_ValidateCodigoImpuesto">
+			     </div>
+
+
 		  </div>
 		  <div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
