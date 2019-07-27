@@ -8,11 +8,14 @@
     ],
     "autoload":{
       "psr-4" : {
-        "Ajax\\": "ajax/"
+        "Ajax\\": "ajax/",
+        "ValidatorsFields\\": "classes/validators_fields",
+        "Configs\\": "config/"
       }
     },
     "require": {
         "illuminate/database": "^5.8",
-        "guzzlehttp/guzzle": "^6.3"
+        "guzzlehttp/guzzle": "^6.3",
+        "rakit/validation": "^1.2"
     }
 }

@@ -1,5 +1,6 @@
 <?php
     session_start();
+    require_once("config/constants.php");
 	require_once('vendor/autoload.php');
 	use GuzzleHttp\Client;
     use Ajax\Helpers as Helpers;
@@ -31,7 +32,7 @@
     // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
     $capsule->bootEloquent();
     // ======================================================
-    Helpers::validateTokenApi();
+    // Helpers::validateTokenApi();
 
     // ======================================================
     // PARA PRUEBAS SPRINT #2

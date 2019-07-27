@@ -53,5 +53,3 @@
         echo $e;
         exit;
     }
-
-    echo "<script>window.open('http://fact_cr.test/pruebas.php?id_factura=".$numero_factura."', 'Diseño Web', 'width=500, height=500')</script>";

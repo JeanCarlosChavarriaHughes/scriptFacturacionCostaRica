@@ -32,3 +32,6 @@
     // ======================================================
 
     Helpers::validateTokenApi();
+    // $xml = Helpers::createXmlFE(82);
+    // echo $xml->xml;
+

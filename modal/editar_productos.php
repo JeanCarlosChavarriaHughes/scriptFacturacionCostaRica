@@ -16,8 +16,24 @@
 			  <div class="form-group">
 				<label for="mod_codigo" class="col-sm-3 control-label">Código</label>
 				<div class="col-sm-8">
-				  <input type="text" class="form-control" id="mod_codigo" name="mod_codigo" placeholder="Código del producto" required>
+				  <input type="text" class="form-control" id="mod_codigo" name="mod_codigo" placeholder="Código del producto" maxlength="13" required>
 					<input type="hidden" name="mod_id" id="mod_id">
+				</div>
+			  </div>
+			  <div class="form-group">
+				<label for="codigo" class="col-sm-3 control-label">Tipo de Código</label>
+				<div class="col-sm-8">
+					<select class="form-control" id="mod_tip_cod_comerc_producto" name="mod_tip_cod_comerc_producto" >
+						<?php
+							$content=file_get_contents(constant('codigo_tipo_producto_servicio'));
+							$data=json_decode($content);
+							foreach ($data as $value) {
+						?>
+							<option value="<?php echo str_pad($value->Codigo, 2, '0', STR_PAD_LEFT); ?>"> <?php echo trim($value->TipoCodigoProductoServicio) ?> </option>
+						<?php
+							}
+						?>
+					</select>
 				</div>
 			  </div>
 			   <div class="form-group">
@@ -37,6 +53,18 @@
 				  </select>
 				</div>
 			  </div>
+
+			  <div class="form-group">
+				<label for="mod_tipo_producto" class="col-sm-3 control-label">Tipo</label>
+				<div class="col-sm-8">
+				 <select class="form-control" id="mod_tipo_producto" name="mod_tipo_producto" >
+					<option value="">-- Selecciona --</option>
+					<option value="mercancia">Mercancía</option>
+					<option value="servicio">Servicio</option>
+				  </select>
+				</div>
+			  </div>
+
 			  <div class="form-group">
 				<label for="mod_precio" class="col-sm-3 control-label">Precio $</label>
 				<div class="col-sm-8">
@@ -61,7 +89,7 @@
 			 			<?php
 			 				foreach ($data as $key => $value) {
 			 			?>
-			 				<option value=" <?php echo $value ?> " > <?php echo $key ?> </option>
+			 				<option value=" <?php echo $value ?> " > <?php echo trim($key) ?> </option>
 			 			<?php
 			 				}
 			 			?>
