@@ -2,7 +2,8 @@
 SQLyog Ultimate v11.11 (64 bit)
 MySQL - 5.5.5-10.1.34-MariaDB : Database - mxz841yn7rjpnlmu
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -18,6 +19,7 @@ USE `mxz841yn7rjpnlmu`;
 
 /*Table structure for table `clientes` */
 
+DROP TABLE IF EXISTS `clientes`;
 CREATE TABLE `clientes` (
   `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_cliente` varchar(255) NOT NULL,
@@ -38,7 +40,7 @@ CREATE TABLE `clientes` (
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `currencies` */
-
+DROP TABLE IF EXISTS `currencies`;
 CREATE TABLE `currencies` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
@@ -51,7 +53,7 @@ CREATE TABLE `currencies` (
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `detalle_factura` */
-
+DROP TABLE IF EXISTS `detalle_factura`;
 CREATE TABLE `detalle_factura` (
   `id_detalle` int(11) NOT NULL AUTO_INCREMENT,
   `numero_factura` int(11) NOT NULL,
@@ -68,7 +70,7 @@ CREATE TABLE `detalle_factura` (
 ) ENGINE=InnoDB AUTO_INCREMENT=288 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `facturas` */
-
+DROP TABLE IF EXISTS `facturas`;
 CREATE TABLE `facturas` (
   `id_factura` int(11) NOT NULL AUTO_INCREMENT,
   `numero_factura` int(11) NOT NULL,
@@ -93,7 +95,7 @@ CREATE TABLE `facturas` (
 ) ENGINE=InnoDB AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `perfil` */
-
+DROP TABLE IF EXISTS `perfil`;
 CREATE TABLE `perfil` (
   `id_perfil` int(11) NOT NULL AUTO_INCREMENT,
   `tipo_cedula` varchar(2) CHARACTER SET latin1 NOT NULL,
@@ -129,7 +131,7 @@ CREATE TABLE `perfil` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin;
 
 /*Table structure for table `products` */
-
+DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `id_producto` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_producto` char(20) NOT NULL,
@@ -152,7 +154,7 @@ CREATE TABLE `products` (
 ) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 /*Table structure for table `tmp` */
-
+DROP TABLE IF EXISTS `tmp`;
 CREATE TABLE `tmp` (
   `id_tmp` int(11) NOT NULL AUTO_INCREMENT,
   `id_producto` int(11) NOT NULL,
@@ -166,7 +168,7 @@ CREATE TABLE `tmp` (
 ) ENGINE=MyISAM AUTO_INCREMENT=248 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Table structure for table `users` */
-
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',
   `firstname` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
