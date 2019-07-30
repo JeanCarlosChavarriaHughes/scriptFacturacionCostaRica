@@ -11,8 +11,7 @@
     						"99"  => "https://cloud-cube.s3.amazonaws.com/sp5z9nxkd1ra/public/assets/json/subImpuestoOtros99.json"
     					));
 	define('subimpuestos_tarifas_iva', 'https://cloud-cube.s3.amazonaws.com/sp5z9nxkd1ra/public/assets/json/Nota8_TarifaImpuestoValorAgregado.json');
-    // define('codificacion_ubicacion', 'https://cloud-cube.s3.amazonaws.com/sp5z9nxkd1ra/public/assets/json/ubicacion.json');
-    define('codificacion_ubicacion', '../ubicacion.json');
+    define('codificacion_ubicacion', 'https://cloud-cube.s3.amazonaws.com/sp5z9nxkd1ra/public/assets/json/ubicacion.json');
     define('tipo_identificacion', 'https://cloud-cube.s3.amazonaws.com/sp5z9nxkd1ra/public/assets/json/Nota4_TipoDeIdentificacion.json');
     define('condiciones_venta', 'https://cloud-cube.s3.amazonaws.com/sp5z9nxkd1ra/public/assets/json/Nota5_CondicionesDeLaVenta.json');
     define('medios_pago', 'https://cloud-cube.s3.amazonaws.com/sp5z9nxkd1ra/public/assets/json/Nota6_MediosPago.json');

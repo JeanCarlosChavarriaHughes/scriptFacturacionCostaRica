@@ -31,7 +31,18 @@
     $capsule->bootEloquent();
     // ======================================================
 
+    $helpers = new Helpers();
     Helpers::validateTokenApi();
-    // $xml = Helpers::createXmlFE(82);
-    // echo $xml->xml;
+
+    // $xml = Helpers::createXmlFE($helpers, 83);
+
+    // $xmlfirmado = Helpers::firmarXML($helpers, $xml->xml,"FE");
+    // echo $xmlfirmado->xmlFirmado;
+
+    // $enviofe = Helpers::envioHaciendaFE($helpers, $xmlfirmado->xmlFirmado, 83);
+    // var_dump($enviofe);
+
+    // $consultaenviofe = Helpers::consultaEnvioHaciendaFE("50629071900012345878900100001010000000007184619703");
+    // var_dump($consultaenviofe);
+
 
