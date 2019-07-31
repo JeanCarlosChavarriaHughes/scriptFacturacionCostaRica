@@ -41,7 +41,7 @@
 		$total_pages = ceil($numrows/$per_page);
 		$reload = './index.php';
 		//main query to fetch the data
-		$sql="SELECT * FROM  $sTable $sWhere LIMIT $offset,$per_page";
+		$sql="SELECT * FROM $sTable $sWhere LIMIT $offset,$per_page";
 		$query = mysqli_query($con, $sql);
 		//loop through fetched data
 		if ($numrows>0){
@@ -63,14 +63,10 @@
 					$id_producto=$row['id_producto'];
 					$codigo_producto=$row['codigo_producto'];
 					$nombre_producto=$row['nombre_producto'];
-					if($moneda == 1){
+
 					$precio_venta=$row["precio_producto"];
 					$precio_venta=number_format($precio_venta,2,'.','');
-					}
-					if($moneda == 2){
-					$precio_venta=$row["precio_colon"];
-					$precio_venta=number_format($precio_venta,2,'.','');
-					}
+
 					if($row["impuesto_es_iva"] == 1){
 						$impuesto_tarifa =$row["impuesto_iva_tarifa"];
 					}else{

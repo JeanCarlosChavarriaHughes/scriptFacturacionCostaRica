@@ -5,10 +5,15 @@ use GuzzleHttp\Psr7;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Database\Capsule\Manager as Capsule;
-use Dotenv\Dotenv;
+
+// include(dirname(__FILE__).'/../config/constants.php');
 
 class Helpers {
+	private $perfil;
 
+	public function __construct(){
+		$this->perfil = Capsule::table('perfil')->where('id_perfil','=',1)->get()[0];
+	}
 	/**
 	 *  Función global para hacer login en la API.
 	*/
@@ -254,16 +259,16 @@ class Helpers {
 			return "Error validando los campos validateConsecutiveNumber()";
 		}
 
-		if($consecutive == 9999999999){
-			$new_consecutive = 1;
-		}else{
-			$new_consecutive = $consecutive + 1;
-		}
+		// if($consecutive == 9999999999){
+		// 	$new_consecutive = 1;
+		// }else{
+		// 	$new_consecutive = $consecutive + 1;
+		// }
 
 		$pad_final_tipo_comprobante	= str_pad( (string) $tipo_comprobante, 2, '0', STR_PAD_LEFT);
 		$pad_final_local 			= str_pad( (string) $local, 3, '0', STR_PAD_LEFT);
 		$pad_final_terminal 		= str_pad( (string) $terminal, 5, '0', STR_PAD_LEFT);
-		$pad_final_consecutive		= str_pad( (string) $new_consecutive, 10, '0', STR_PAD_LEFT);
+		$pad_final_consecutive		= str_pad( (string) $consecutive, 10, '0', STR_PAD_LEFT);
 
 		return $pad_final_local.$pad_final_terminal.$tipo_comprobante.$pad_final_consecutive;
 	}
@@ -320,9 +325,9 @@ class Helpers {
 	* @see validategetNumericKey()
 	* @see checkStatusForNumericKey()
 	*/
-	public static function getNumericKey($type_id, $id_client, $country, $consecutive, $document_type, $previousNumericKey=null){
+	public static function getNumericKey($type_id, $id_emisor, $country, $consecutive, $document_type, $previousNumericKey=null){
 
-		$result_valid	= self::validategetNumericKey($type_id, $id_client, $country, $consecutive, $document_type);
+		$result_valid	= self::validategetNumericKey($type_id, $id_emisor, $country, $consecutive, $document_type);
 		$situacion 		= self::checkStatusForNumericKey($previousNumericKey);
 
 		if($situacion == "sininternet" && $previousNumericKey != null){
@@ -355,7 +360,7 @@ class Helpers {
 	 	           ],
 	 	           [
 	 	               'name'     => 'cedula',
-	 	               'contents' => $id_client
+	 	               'contents' => $id_emisor
 	 	           ],
 	 	           [
 	 	               'name'     => 'codigoPais',
@@ -506,5 +511,423 @@ class Helpers {
 		}
 
 		return false;
+	}
+
+	public static function getJsonDetalleServicio($num_factura){
+		$factura = Capsule::table('facturas')->where('id_factura','=',$num_factura)->get()[0];
+		$detalle_factura = Capsule::table('detalle_factura')->where('numero_factura','=',$factura->numero_factura)->get();
+
+		$res_json	= [];
+		$linea 		= 0;
+		foreach ($detalle_factura as $detalle) {
+			//Taremos la información del producto actual
+			$producto = Capsule::table('products')->where('id_producto','=',$detalle->id_producto)->first();
+
+			//contador de líneas
+			$linea++;
+
+			//Definimos variables operadoras
+			$var_monto_total 	= $detalle->cantidad * $producto->precio_colon;
+			$var_subotal 		= $var_monto_total - $detalle->monto_descuento;
+
+			//Organizamos el Json
+			$json = [];
+			$json[$linea] 						= [];
+			$json[$linea]['codigo'] 			= (string) $producto->codigo_producto;
+			$json[$linea]['codigoComercial']	=  ["1" => [ "tipo" => (string) $producto->tip_cod_comerc_producto, "codigo" => (string) $producto->codigo_producto ] ];
+			$json[$linea]['cantidad'] 			= (string) $detalle->cantidad;
+			$json[$linea]['unidadMedida'] 		= (string) trim($producto->unidad_medida);
+			$json[$linea]['detalle'] 			= (string) $producto->nombre_producto;
+			$json[$linea]['precioUnitario'] 	= (string) $producto->precio_colon;
+			$json[$linea]['montoTotal'] 		= (string) $var_monto_total;
+
+			//Si aplica descuento, lo declaramos
+			if($detalle->monto_descuento != 0){
+				$json[$linea]['descuento']		=  ["1" => ["montoDescuento" => (string) $detalle->monto_descuento, "naturalezaDescuento" => (string) $detalle->desc_descuento]];
+			}
+
+			$json[$linea]['subtotal'] 			= (string) $var_subotal;
+
+			//Si el impuesto que aplica es IVA o IVA cálculo especial
+			if($producto->impuesto_es_iva == 1 && ($producto->impuesto_codigo == "07" || $producto->impuesto_codigo == "01")){
+
+				$var_monto_impuesto = ((int) $producto->precio_colon * (int) $producto->impuesto_iva_tarifa)/100;
+				//baseimponible se convierte en obligatorio cuando se seleccione en el campo “Código del impuesto” 07.
+				if($producto->impuesto_codigo == "07"){
+					$json[$linea]['baseImponible'] 	= (string) $producto->precio_colon;
+				}
+
+				$json[$linea]['impuesto']		= ["1" => [
+															"codigo" 			=> (string) $producto->impuesto_codigo,
+															"codigoTarifa"		=> (string) $producto->impuesto_iva_codigo,
+															"tarifa"			=> (string) $producto->impuesto_iva_tarifa,
+															// "factorIVA"			=> "",
+															"monto"				=> (string) $var_monto_impuesto,
+															// "montoExportacion"	=> "",
+															// "exoneracion"		=> [
+															// 							"tipoDocumento" 		=> "",
+															// 							"numeroDocumento" 		=> "",
+															// 							"nombreInstitucion" 	=> "",
+															// 							"fechaEmision"			=> "",
+															// 							"porcentajeExoneracion"	=> "",
+															// 							"montoExoneracion" 		=> "",
+															// 						]
+															]
+														];
+			}
+
+			//Si el impuesto que aplica no es ningún tipo de IVA
+			if($producto->impuesto_es_iva == 0){
+				$var_monto_impuesto = ((int) $producto->precio_colon * (int) $producto->imp_subimp_tarifa)/100;
+				$json[$linea]['impuesto']		= ["1" => [
+															"codigo" 			=> (string) $producto->impuesto_codigo,
+															// "codigoTarifa"		=> "",
+															"tarifa"			=> (string) $producto->imp_subimp_tarifa,
+															// "factorIVA"			=> "",
+															"monto"				=> (string) $var_monto_impuesto,
+															// "montoExportacion"	=> "",
+															// "exoneracion"		=> [
+															// 							"tipoDocumento" 		=> "",
+															// 							"numeroDocumento" 		=> "",
+															// 							"nombreInstitucion" 	=> "",
+															// 							"fechaEmision"			=> "",
+															// 							"porcentajeExoneracion"	=> "",
+															// 							"montoExoneracion" 		=> "",
+															// 						]
+															]
+														];
+			}
+
+			$json[$linea]['impuestoNeto']		= "";
+			$json[$linea]['montoTotalLinea']	= (string) ($var_subotal + $var_monto_impuesto);
+
+			$res_json += $json;
+		}
+
+		return json_encode($res_json, JSON_PRETTY_PRINT);
+	}
+
+	public static function getNodeResumenFactura($num_factura){
+		$factura = Capsule::table('facturas')->where('id_factura','=',$num_factura)->get()[0];
+		$detalle_factura = Capsule::table('detalle_factura')->where('numero_factura','=',$factura->numero_factura)->get();
+
+		$TotalServGravados 		= 0;
+		$TotalServExentos 		= 0;
+		$TotalServExonerado 	= 0; //No operable por ahora
+
+		$TotalMercanciasGravadas 	= 0;
+		$TotalMercanciasExentas 	= 0;
+		$TotalMercExonerada 		= 0; //No operable por ahora
+
+		$TotalDescuentos 	= 0;
+		$TotalGravado 		= 0;
+		$TotalExento 		= 0;
+		$TotalExonerado		= 0; //No operable por ahora
+		$TotalVenta			= 0;
+		$TotalVentaNeta		= 0;
+		$TotalImpuesto 		= 0;
+		$TotalIVADevuelto 	= 0;
+		$TotalOtrosCargos	= 0;
+		$TotalComprobante	= 0;
+
+		// $linea = null;
+		foreach ($detalle_factura as $detalle) {
+			//Taremos la información del producto actual
+			$producto = Capsule::table('products')->where('id_producto','=',$detalle->id_producto)->first();
+
+			//Definimos variables operadoras
+			$var_monto_total = $detalle->cantidad * $producto->precio_colon;
+			// $var_subotal 		= $var_monto_total - $detalle->monto_descuento;
+
+			/*
+			*	Sumatoria de productos RELACIONADOS con impuestos IVA.
+			*/
+			if($producto->impuesto_es_iva == 1 && $producto->impuesto_iva_codigo != "01"){
+
+				/*Suma los totales de productos de tipo SERVICIO */
+				if($producto->tipo_producto == "servicio"){
+					$TotalServGravados += (int) $var_monto_total;
+				}
+
+				/*Suma los totales de productos de tipo MERCANCIA */
+				if($producto->tipo_producto == "mercancia"){
+					$TotalMercanciasGravadas += (int) $var_monto_total;
+				}
+
+				/* Sumatoria de impuestos relacionados con IVA*/
+				$TotalImpuesto += $detalle->cantidad * (((int) $producto->precio_colon * (int) $producto->impuesto_iva_tarifa)/100);
+				$TotalGravado  += $var_monto_total;
+			}
+
+			/*
+			*	Sumatoria de productos EXCENTOS de impuesto IVA en cualquiera de sus variaciones.
+			*/
+			if($producto->impuesto_es_iva == 1 && $producto->impuesto_iva_codigo == "01"){
+				if($producto->tipo_producto == "servicio"){
+					$TotalServExentos += (int) $var_monto_total;
+				}
+
+				if($producto->tipo_producto == "mercancia"){
+					$TotalMercanciasExentas += (int) $var_monto_total;
+				}
+
+				$TotalExento 		+= $var_monto_total;
+			}
+
+			/* Sumatoria de impuestos NO relacionados con IVA*/
+			if($producto->impuesto_es_iva == 0){
+				$TotalImpuesto += $detalle->cantidad * (((int) $producto->precio_colon * (int) $producto->imp_subimp_tarifa)/100);
+			}
+
+			/*Suma todos los descuentos de una factura*/
+			if($detalle->monto_descuento != 0){
+				$TotalDescuentos += (int) $detalle->monto_descuento;
+			}
+		}
+
+		$TotalVenta 		= $TotalGravado + $TotalExento + $TotalExonerado;
+		$TotalVentaNeta 	= $TotalVenta - $TotalDescuentos;
+		$TotalComprobante 	= $TotalVentaNeta + $TotalImpuesto + $TotalOtrosCargos;
+		/*Respuesta en formato array*/
+		$res_node = [
+						"TotalServGravados"			=> $TotalServGravados,
+						"TotalServExentos"			=> $TotalServExentos,
+						"TotalServExonerado"		=> $TotalServExonerado,
+						"TotalMercanciasGravadas"	=> $TotalMercanciasGravadas,
+						"TotalMercanciasExentas"	=> $TotalMercanciasExentas,
+						"TotalMercExonerada"		=> $TotalMercExonerada,
+						"TotalGravado"				=> $TotalGravado,
+						"TotalExento" 				=> $TotalExento,
+						"TotalExonerado" 			=> $TotalExonerado,
+						"TotalVenta" 				=> $TotalVenta,
+						"TotalDescuentos"			=> $TotalDescuentos,
+						"TotalVentaNeta"			=> $TotalVentaNeta,
+						"TotalImpuesto"				=> $TotalImpuesto,
+						"TotalIVADevuelto"			=> $TotalIVADevuelto,
+						"TotalOtrosCargos"			=> $TotalOtrosCargos,
+						"TotalComprobante"			=> $TotalComprobante
+					];
+
+		return $res_node;
+	}
+
+	public static function createXmlFE(Helpers $helpers, $num_factura){
+		$factura 	= Capsule::table('facturas')->where('id_factura','=',$num_factura)->get()[0];
+		$receptor 	= Capsule::table('clientes')->where('id_cliente','=',$factura->id_cliente)->get()[0];
+
+		/*Recuperamos la información sobre ubicación*/
+		$emisor_ubi		= self::getUbicacion($helpers, "emisor", 1);
+		$receptor_ubi 	= self::getUbicacion($helpers, "receptor", $factura->id_cliente);
+
+		/*Recuperamos consecutivo para esta factura*/
+		$actual_cons 	= self::getConsecutiveNumber( (int) $factura->numero_factura, "01", (int)getenv('BASE_LOCAL'), (int)getenv('BASE_TERMINAL'));
+
+		/*Recuperamos clave numérica para esta factura*/
+		$actual_clave 	= self::getNumericKey( self::getTipoIdEnString($receptor->tipo_cedula_cliente), (int) $helpers->perfil->cedula, 506, (int) $factura->numero_factura, "FE")->clave;
+
+		/*Recuperamos nodo ResumenFactura*/
+		$resumen_fact	= self::getNodeResumenFactura($num_factura);
+
+		$clientHTTP = new Client; //Inicia el cliente HTTP para request
+		$reqCreateXmlFE = $clientHTTP->request('POST', getenv('API_BASE_URL'), [
+		    'form_params' => [
+		        "r" 						=> "gen_xml_fe",
+		        "w" 						=> "genXML",
+		        "clave"						=> $actual_clave,
+		        "codigo_actividad"			=> $helpers->perfil->codigo_actividad_empresa,
+		        "consecutivo"				=> $actual_cons,
+		        "fecha_emision"				=> date("Y-m-d")."T".date('H:i:sP'),
+
+		        "emisor_nombre"				=> $helpers->perfil->nombre_empresa,
+		        "emisor_tipo_identif"		=> $helpers->perfil->tipo_cedula,
+				"emisor_num_identif"		=> $helpers->perfil->cedula,
+				"emisor_nombre_comercial"	=> $helpers->perfil->nombre_empresa_comercial,
+				"emisor_provincia"			=> $emisor_ubi['Provincia'],
+				"emisor_canton"				=> $emisor_ubi['Canton'],
+				"emisor_distrito"			=> $emisor_ubi['Distrito'],
+				"emisor_barrio"				=> $emisor_ubi['Barrio'],
+				"emisor_otras_senas"		=> $helpers->perfil->direccion,
+				"emisor_cod_pais_tel" 		=> $helpers->perfil->telefono_cod,
+				"emisor_tel"				=> $helpers->perfil->telefono,
+				"emisor_cod_pais_fax"		=> $helpers->perfil->telefono_fax_cod,
+				"emisor_fax"				=> $helpers->perfil->telefono_fax,
+				"emisor_email"				=> $helpers->perfil->email,
+
+				"receptor_nombre"			=> $receptor->nombre_cliente,
+				"receptor_nombre_comercial"	=> $receptor->nombre_comercial_cliente,
+				"receptor_tipo_identif"		=> $receptor->tipo_cedula_cliente,
+				"receptor_num_identif"		=> $receptor->cedula_cliente,
+				"receptor_provincia"		=> $receptor_ubi['Provincia'],
+				"receptor_canton"			=> $receptor_ubi['Canton'],
+				"receptor_distrito"			=> $receptor_ubi['Distrito'],
+				"receptor_barrio"			=> $receptor_ubi['Barrio'],
+				"receptor_cod_pais_tel"		=> $receptor->telefono_cod_cliente,
+				"receptor_tel"				=> $receptor->telefono_cliente,
+				"receptor_cod_pais_fax"		=> $receptor->telefono_fax_cod_cliente,
+				"receptor_fax"				=> $receptor->telefono_fax_cliente,
+				"receptor_email"			=> $receptor->email_cliente,
+
+				"condicion_venta"			=> $factura->condiciones,
+				"plazo_credito"				=> $factura->plazo_credito,
+				"medios_pago"				=> '[{ "codigo": "'.$factura->medio_pago.'" }]',
+				"cod_moneda"				=> $factura->moneda,
+				"tipo_cambio"				=> $factura->tipo_cambio,
+				"total_serv_gravados"		=> $resumen_fact['TotalServGravados'],
+				"total_serv_exentos"		=> $resumen_fact['TotalServExentos'],
+				"total_serv_exonerados"		=> $resumen_fact['TotalServExonerado'],
+				"total_merc_gravada"		=> $resumen_fact['TotalMercanciasGravadas'],
+				"total_merc_exenta"			=> $resumen_fact['TotalMercanciasExentas'],
+				"total_merc_exonerada"		=> $resumen_fact['TotalMercExonerada'],
+				"total_gravados"			=> $resumen_fact['TotalGravado'],
+				"total_exento"				=> $resumen_fact['TotalExento'],
+				"total_exonerado"			=> $resumen_fact['TotalExonerado'],
+				"total_ventas"				=> $resumen_fact['TotalVenta'],
+				"total_descuentos"			=> $resumen_fact['TotalDescuentos'],
+				"total_ventas_neta"			=> $resumen_fact['TotalVentaNeta'],
+				"total_impuestos"			=> $resumen_fact['TotalImpuesto'],
+				"totalIVADevuelto"			=> $resumen_fact['TotalIVADevuelto'],
+				"TotalOtrosCargos"			=> $resumen_fact['TotalOtrosCargos'],
+				"total_comprobante"			=> $resumen_fact['TotalComprobante'],
+				"otros"						=> null, //Pendiente de adaptación
+				"otrosType"					=> null, //Pendiente de adaptación
+				"detalles"					=> self::getJsonDetalleServicio($num_factura),
+				"infoRefeTipoDoc"			=> null, //Pendiente de adaptación
+				"infoRefeNumero"			=> null, //Pendiente de adaptación
+				"infoRefeFechaEmision"		=> null, //Pendiente de adaptación
+				"infoRefeCodigo"			=> null, //Pendiente de adaptación
+				"infoRefeRazon"				=> null, //Pendiente de adaptación
+				"otrosCargos"				=> null  //Pendiente de adaptación
+ 		    ]
+		]);
+
+		$resCreateXmlFE = json_decode($reqCreateXmlFE->getBody());
+		return $resCreateXmlFE;
+	}
+
+	/**
+	*  Envía solicitud a la API para firmar y devuelve el xml
+	*  firmado en formato base64.
+	*
+	* @param integer $xml.
+	* @param string  $tipo_doc.
+	*
+	* @return object
+	*/
+
+	public static function firmarXML(Helpers $helpers, $xml, $tipo_doc){
+		/*Inicia el cliente HTTP para request*/
+		$client = new Client;
+		$requestFirmarXML = $client->request('POST', getenv('API_BASE_URL'), [
+		    'form_params' => [
+		        'r' 			=> 'firmar',
+		        'w' 			=> 'firmarXML',
+		        'inXml'			=> $xml,
+		        'p12Url'		=> $helpers->perfil->downloadCode,
+		        'pinP12'		=> $helpers->perfil->pin_p12,
+		        'tipodoc'		=> $tipo_doc,
+		    ]
+		]);
+
+		$responseFirmarXML = json_decode($requestFirmarXML->getBody());
+		return $responseFirmarXML;
+	}
+
+	public static function getUbicacion(Helpers $helpers, $tipo_usuario, $id_usuario){
+		if($tipo_usuario == "emisor"){
+			// $usuario =  Capsule::table('perfil')->where('id_perfil','=',$id_usuario)->first();
+			$ubicacion = $helpers->perfil->ubicacion;
+		}elseif ($tipo_usuario == "receptor") {
+			$usuario = Capsule::table('clientes')->where('id_cliente','=',$id_usuario)->first();
+			$ubicacion = $usuario->ubicacion_cliente;
+		}
+
+		$ubicaciones_file=file_get_contents(constant('codificacion_ubicacion'));
+		$ubicaciones=json_decode($ubicaciones_file);
+		foreach ($ubicaciones as $ubi) {
+			if($ubi->internalID == $ubicacion){
+				return array(
+					    "Provincia"			=> $ubi->Provincia,
+					    "Canton"			=> $ubi->Canton,
+					    "Distrito"			=> $ubi->Distrito,
+					    "Barrio"			=> $ubi->Barrio
+				);
+			}
+		}
+	}
+
+	/**
+	*	Función que retorna nombre en STRING del tipo de identificación
+	*/
+	public static function getTipoIdEnString($tipo_id){
+		$tipos_id_file=file_get_contents(constant('tipo_identificacion'));
+		$tipos_ids=json_decode($tipos_id_file);
+		foreach ($tipos_ids as $tipos_id) {
+			if($tipos_id->Codigo == $tipo_id){
+				return $tipos_id->NombreIdentificacion;
+			}
+		}
+	}
+
+	/**
+	*  Envía solicitud a la API para firmar y devuelve el xml
+	*  firmado en formato base64.
+	*
+	* @param string $xml.
+	* @param string $tipo_doc.
+	*
+	* @return object
+	*/
+	public static function envioHaciendaFE(Helpers $helpers, $xml, $id_factura){
+		/*Trae la información necesaria para la petición a la api*/
+		$factura 	= Capsule::table('facturas')->where('id_factura','=',$id_factura)->get()[0];
+		$receptor 	= Capsule::table('clientes')->where('id_cliente','=',$factura->id_cliente)->get()[0];
+
+		/*Recuperamos clave numérica para esta factura*/
+		$actual_clave 	= self::getNumericKey( self::getTipoIdEnString($receptor->tipo_cedula_cliente), (int)$receptor->cedula_cliente, 506, (int) $factura->numero_factura, "FE")->clave;
+
+		/*Inicia el cliente HTTP para request*/
+		$client = new Client;
+		$requestEnvioHacienda = $client->request('POST', getenv('API_BASE_URL'), [
+		    'form_params' => [
+		        'r' 						=> 'json',
+		        'w' 						=> 'send',
+		        'token'						=> $_SESSION['api_token'],
+		        'clave'						=> $actual_clave,
+		        'fecha'						=> date("Y-m-d")."T".date('H:i:sP'),
+		        'emi_tipoIdentificacion'	=> $helpers->perfil->tipo_cedula,
+		        'emi_numeroIdentificacion'	=> $helpers->perfil->cedula,
+		        'recp_tipoIdentificacion'	=> $receptor->tipo_cedula_cliente,
+		        'recp_numeroIdentificacion'	=> $receptor->cedula_cliente,
+		        'comprobanteXml'			=> $xml,
+		        'client_id'					=> getenv('API_ENVIRONMENT'),
+		    ]
+		]);
+
+		$responseEnvioHacienda = json_decode($requestEnvioHacienda->getBody());
+		return $responseEnvioHacienda;
+	}
+
+	/**
+	*  Envía solicitud a la API para consultar el estado de un documento
+	*
+	* @param string $clave_documento.
+	*
+	* @return object
+	*/
+	public static function consultaEnvioHaciendaFE($clave_documento){
+		/*Inicia el cliente HTTP para request*/
+		$client = new Client;
+		$requestConsultaEnvio = $client->request('POST', getenv('API_BASE_URL'), [
+		    'form_params' => [
+		        'r' 		=> 'consultarCom',
+		        'w' 		=> 'consultar',
+		        'token'		=> $_SESSION['api_token'],
+		        'clave'		=> $clave_documento,
+		        'client_id' => getenv('API_ENVIRONMENT')
+		    ]
+		]);
+
+		$responseConsultaEnvio = json_decode($requestConsultaEnvio->getBody());
+		return $responseConsultaEnvio;
 	}
 }

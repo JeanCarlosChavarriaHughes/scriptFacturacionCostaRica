@@ -9,7 +9,7 @@
 	/* Connect To Database*/
 	require_once ("../config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
-	
+
 	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 	if (isset($_GET['id'])){
 		$id_cliente=intval($_GET['id']);
@@ -22,7 +22,7 @@
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			  <strong>Aviso!</strong> Datos eliminados exitosamente.
 			</div>
-			<?php 
+			<?php
 		}else {
 			?>
 			<div class="alert alert-danger alert-dismissible" role="alert">
@@ -30,20 +30,20 @@
 			  <strong>Error!</strong> Lo siento algo ha salido mal intenta nuevamente.
 			</div>
 			<?php
-			
+
 		}
-			
+
 		} else {
 			?>
 			<div class="alert alert-danger alert-dismissible" role="alert">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			  <strong>Error!</strong> No se pudo eliminar éste  cliente. Existen facturas vinculadas a éste producto. 
+			  <strong>Error!</strong> No se pudo eliminar éste  cliente. Existen facturas vinculadas a éste producto.
 			</div>
 			<?php
 		}
-		
-		
-		
+
+
+
 	}
 	if($action == 'ajax'){
 		// escaping, additionally removing everything that could be (html/javascript-) code
@@ -79,7 +79,7 @@
 		$query = mysqli_query($con, $sql);
 		//loop through fetched data
 		if ($numrows>0){
-			
+
 			?>
 			<div class="table-responsive">
 			  <table class="table">
@@ -92,23 +92,23 @@
 					<th>Estado</th>
 					<th>Agregado</th>
 					<th class='text-right'>Acciones</th>
-					
+
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
 						$id_cliente=$row['id_cliente'];
-						$cedula=$row['cedula'];
+						$cedula=$row['cedula_cliente'];
 						$nombre_cliente=$row['nombre_cliente'];
 						$telefono_cliente=$row['telefono_cliente'];
 						$email_cliente=$row['email_cliente'];
 						$direccion_cliente=$row['direccion_cliente'];
-						$status_cliente=$row['status_cliente'];
+						$status_cliente=$row['estado_cliente'];
 						if ($status_cliente==1){$estado="Activo";}
 						else {$estado="Inactivo";}
 						$id_moneda=$row['id_moneda'];
-						
-						$date_added= date('d/m/Y', strtotime($row['date_added']));
-						
+
+						$date_added= date('d/m/Y', strtotime($row['fecha_creacion_cliente']));
+
 					?>
 					<input type="hidden" value="<?php echo $cedula;?>" id="cedula<?php echo $id_cliente;?>">
 					<input type="hidden" value="<?php echo $nombre_cliente;?>" id="nombre_cliente<?php echo $id_cliente;?>">
@@ -125,11 +125,11 @@
 						<td><?php echo $direccion_cliente;?></td>
 						<td><?php echo $estado;?></td>
 						<td><?php echo $date_added;?></td>
-						
+
 					<td ><span class="pull-right">
-					<a href="#" class='btn btn-default' title='Editar cliente' onclick="obtener_datos('<?php echo $id_cliente;?>');" data-toggle="modal" data-target="#myModal2"><i class="glyphicon glyphicon-edit"></i></a> 
+					<a href="#" class='btn btn-default' title='Editar cliente' onclick="obtener_datos('<?php echo $id_cliente;?>');" data-toggle="modal" data-target="#myModal2"><i class="glyphicon glyphicon-edit"></i></a>
 					<a href="#" class='btn btn-default' title='Borrar cliente' onclick="eliminar('<?php echo $id_cliente; ?>')"><i class="glyphicon glyphicon-trash"></i> </a></span></td>
-						
+
 					</tr>
 					<?php
 				}

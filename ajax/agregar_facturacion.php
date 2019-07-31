@@ -41,8 +41,6 @@
 		$descuento_desc = $_POST['descuento_desc'];
 	}
 
-
-
 	/* Connect To Database*/
 	require_once ("../config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
@@ -66,225 +64,130 @@
 		}
 	}
 
-	//codigo elimina un elemento del array
+	//Elimina un producto por GET
 	if (isset($_GET['id'])){
-		$id_tmp=intval($_GET['id']);
-		$moneda_id = $_GET['moneda'];
-		$delete=mysqli_query($con, "DELETE FROM tmp WHERE id_tmp='".$id_tmp."'");
+		$id_tmp 	= intval($_GET['id']);
+		$moneda_id 	= $_GET['moneda'];
+		$delete 	= mysqli_query($con, "DELETE FROM tmp WHERE id_tmp='".$id_tmp."'");
 	}
-
-	if($moneda_id == 1){
-		$simbolo_moneda="$";
-		//Manejo de la factura para DOLARES
 ?>
-	<table class="table">
-		<tr>
-			<th class='text-center'>CODIGO</th>
-			<th class='text-center'>CANT.</th>
-			<th>DESCRIPCION</th>
-			<th class='text-right'>PRECIO UNIT.</th>
-			<th class='text-right'>PRECIO TOTAL</th>
-			<th></th>
-		</tr>
-		<?php
-			$cambio = getVentaDolarColones();
-			$sumador_total=0;
-			$sql=mysqli_query($con, "select * from products, tmp where products.id_producto=tmp.id_producto and tmp.session_id='".$session_id."' and tmp.moneda_tmp=".$moneda_id);
-			while ($row=mysqli_fetch_array($sql))
-			{
-				$id_tmp 			= $row["id_tmp"];
-				$codigo_producto 	= $row['codigo_producto'];
-				$cantidad 			= $row['cantidad_tmp'];
-				$nombre_producto 	= $row['nombre_producto'];
+	<div class="table-responsive">
+		<table class="table">
+			<tr>
+				<th class='text-center'>CODIGO</th>
+				<th class='text-center'>CANT.</th>
+				<th>DESCRIPCION</th>
+				<th class='text-right'>PRECIO UNIT.</th>
+				<th class='text-right'>PRECIO TOTAL</th>
+				<th></th>
+			</tr>
+			<?php
+				// $cambio = getVentaDolarColones();
+				$sumador_total = 0;
+				$sumador_total_impuestos  = 0;
+				$sumador_total_descuentos = 0;
+				$sql = mysqli_query($con, "SELECT * FROM products, tmp
+					WHERE products.id_producto = tmp.id_producto AND tmp.session_id='".$session_id."' AND tmp.moneda_tmp='".$moneda_id."'");
+				while ($row=mysqli_fetch_array($sql))
+				{
+					$id_tmp 			= $row["id_tmp"];
+					$codigo_producto 	= $row['codigo_producto'];
+					$cantidad 			= $row['cantidad_tmp'];
+					$nombre_producto 	= $row['nombre_producto'];
+					$descuento_monto 	= $row['monto_descuento'];
+					$descuento_desc 	= $row['desc_descuento'];
 
-				$precio_venta 	= $row['precio_tmp'];
-				$precio_venta_f = number_format($precio_venta,2);//Formateo variables
-				$precio_venta_r = str_replace(",","",$precio_venta_f);//Reemplazo las comas
-				$precio_total 	= $precio_venta_r*$cantidad;
-				$precio_total_f = number_format($precio_total,2);//Precio total formateado
-				$precio_total_r = str_replace(",","",$precio_total_f);//Reemplazo las comas
-				$sumador_total 	+= $precio_total_r;//Sumador
+					if($descuento_monto > 0){
+						$sumador_total_descuentos += $descuento_monto;
+					}
 
-				?>
-				<tr>
-					<td class='text-center'><?php echo $codigo_producto;?></td>
-					<td class='text-center'><?php echo $cantidad;?></td>
-					<td><?php echo $nombre_producto;?></td>
-					<td class='text-right'><?php echo $precio_venta_f;?></td>
-					<td class='text-right'><?php echo $precio_total_f;?></td>
-					<td class='text-center'><a href="#" onclick="eliminar('<?php echo $id_tmp ?>')"><i class="glyphicon glyphicon-trash"></i></a></td>
-				</tr>
-				<?php
-			}
-			$impuesto 				= get_row('perfil','impuesto', 'id_perfil', 1);
-			$subtotal 				= number_format($sumador_total,2,'.','');
-			$total_iva 				= ($subtotal * $impuesto )/100;
-			$total_iva 				= number_format($total_iva,2,'.','');
-			$total_factura 			= $subtotal+$total_iva;
-			$total_colones 			= $total_factura*$cambio;
-			$total_colones_f 		= number_format($total_colones,2);
-			$total_iva_colones 		= $total_iva*$cambio;
-			$total_iva_colones_f 	= number_format($total_iva_colones,2);
 
-		?>
-		<tr>
-			<td class='text-right' colspan=4>SUBTOTAL </td>
-			<td class='text-right'><?php echo $simbolo_moneda;?><?php echo number_format($subtotal,2);?></td>
-			<input type="hidden" class="form-control input-sm" name="subtotal" id="subtotal" readonly value="<?php echo $total_colones_f;?>">
-			<td></td>
-		</tr>
-		<tr>
-			<td class='text-right' colspan=4>TIPO CAMBIO: </td>
-			<td class='text-right'>¢<?php echo number_format($cambio,2);?> </td>
-			<input type="hidden" class="form-control input-sm" name="tipoCambio" id="tipoCambio" readonly value="<?php echo number_format($cambio,2);?>">
-			<td></td>
-		</tr>
-		<tr>
-			<td class='text-right' colspan=4>IMP. VENTAS: </td>
-			<td class='text-right'><input type="text" style="border: none;padding: 0px;margin: 0px;" class='text-right' name="impuestoShow" id="impuestoShow" readonly value="¢<?php echo $impuesto;?>"%></td>
-			<input type="hidden" class="form-control input-sm" name="impuestoCalculo" id="impuestoCalculo" readonly value="<?php echo $total_iva_colones;?>">
-			<input type="hidden" class="form-control input-sm" name="impuestoDolares" id="impuestoDolares" readonly value="<?php echo $total_iva;?>">
-			<td></td>
-		</tr>
-		<tr>
-			<td class='text-right' colspan=4>TOTAL COLONES: </td>
-			<td class='text-right'><input type="text" style="border: none;padding: 0px;margin: 0px;" class='text-right' name="total_colonesShow" id="total_colonesShow" readonly value="¢<?php echo $total_colones_f;?>"> </td>
-			<input type="hidden" class="form-control input-sm" name="total_colones" id="total_colones" readonly value="<?php echo $total_colones;?>">
-			<input type="hidden" class="form-control input-sm" name="total_colonesOriginal" id="total_colonesOriginal" readonly value="<?php echo $total_colones;?>">
-			<td></td>
-		</tr>
-		<tr>
-			<td class='text-right' colspan=4>TOTAL DOLARES:</td>
-			<td class='text-right'><input type="text" style="border: none;padding: 0px;margin: 0px;" class='text-right' name="total_facturaShow" id="total_facturaShow" readonly value="<?php echo $simbolo_moneda;?><?php echo number_format($total_factura,2);?>"></td>
-			<input type="hidden" class="form-control input-sm" name="total_factura" id="total_factura" readonly value="<?php echo $total_factura;?>">
-			<input type="hidden" class="form-control input-sm" name="total_facturaOriginal" id="total_facturaOriginal" readonly value="<?php echo number_format($total_factura,2);?>">
-			<td></td>
-		</tr>
-	</table>
+					$precio_venta 		= $row['precio_tmp'];
+					$precio_venta_f 	= number_format($precio_venta,2);//Formateo variables
+					$precio_venta_r 	= str_replace(",","",$precio_venta_f);//Reemplazo las comas
 
-<?php
-	}else{
-		$simbolo_moneda="¢";
-		//Manejo de la factura para COLONES
-	?>
-	<table class="table">
-		<tr>
-			<th class='text-center'>CODIGO</th>
-			<th class='text-center'>CANT.</th>
-			<th>DESCRIPCION</th>
-			<th class='text-right'>PRECIO UNIT.</th>
-			<th class='text-right'>PRECIO TOTAL</th>
-			<th></th>
-		</tr>
-		<?php
-			// $cambio = getVentaDolarColones();
-			$sumador_total = 0;
-			$sumador_total_impuestos  = 0;
-			$sumador_total_descuentos = 0;
-			$sql = mysqli_query($con, "select * from products, tmp where products.id_producto=tmp.id_producto and tmp.session_id='".$session_id."' and tmp.moneda_tmp=".$moneda_id);
-			while ($row=mysqli_fetch_array($sql))
-			{
-				$id_tmp 			= $row["id_tmp"];
-				$codigo_producto 	= $row['codigo_producto'];
-				$cantidad 			= $row['cantidad_tmp'];
-				$nombre_producto 	= $row['nombre_producto'];
-				$descuento_monto 	= $row['monto_descuento'];
-				$descuento_desc 	= $row['desc_descuento'];
+					$precio_total 		= $precio_venta_r*$cantidad;
+					$precio_total_f 	= number_format($precio_total,2);//Precio total formateado
+					$precio_total_r 	= str_replace(",","",$precio_total_f);//Reemplazo las comas
+					$sumador_total 		+= $precio_total_r;//sumador_total
 
-				if($descuento_monto > 0){
-					$sumador_total_descuentos += $descuento_monto;
+					//Sumador de impuestos
+					if($row['impuesto_es_iva'] == 1){
+						$sumador_total_impuestos += ($precio_venta * $cantidad) * (int) $row['impuesto_iva_tarifa']/100;
+					}else{
+						$sumador_total_impuestos += ($precio_venta * $cantidad) * (int) $row['imp_subimp_tarifa']/100;
+					}
+
+					?>
+					<tr>
+						<td class='text-center'><?php echo $codigo_producto;?></td>
+						<td class='text-center'><?php echo $cantidad;?></td>
+						<td><?php echo $nombre_producto;?></td>
+						<td class='text-right'><?php echo $precio_venta_f;?></td>
+						<td class='text-right'>
+							<?php echo $precio_total_f; ?> <br>
+							<?php
+								if($descuento_monto > 0){
+							?>
+								<b>Descuento</b> <?php echo $descuento_desc." -".$descuento_monto; ?>
+							<?php
+								}
+							?>
+						</td>
+						<td class='text-center'><a href="#" onclick="eliminar('<?php echo $id_tmp ?>')"><i class="glyphicon glyphicon-trash"></i></a></td>
+					</tr>
+					<?php
 				}
+					// $impuesto 				= get_row('perfil','impuesto', 'id_perfil', 1);
+					$impuesto 				= $sumador_total_impuestos;
+					$descuentos 			= $sumador_total_descuentos;
+					$subtotal 				= number_format($sumador_total,2,'.','');
 
+					$total_iva 				= ($subtotal * $impuesto )/100;
+					$total_iva 				= number_format($total_iva,2,'.','');
 
-				$precio_venta 		= $row['precio_tmp'];
-				$precio_venta_f 	= number_format($precio_venta,2);//Formateo variables
-				$precio_venta_r 	= str_replace(",","",$precio_venta_f);//Reemplazo las comas
+					$total_factura 			= $subtotal+$impuesto;
+					$total_colones 			= $total_factura;
+					$total_colones_f 		= number_format( ($total_colones - $descuentos ) , 2);
 
-				$precio_total 		= $precio_venta_r*$cantidad;
-				$precio_total_f 	= number_format($precio_total,2);//Precio total formateado
-				$precio_total_r 	= str_replace(",","",$precio_total_f);//Reemplazo las comas
-				$sumador_total 		+= $precio_total_r;//sumador_total
+					$total_iva_colones   	= $total_iva;
+					$total_iva_colones_f 	= number_format($total_iva_colones,2);
 
-				//Sumador de impuestos
-				if($row['impuesto_es_iva'] == 1){
-					$sumador_total_impuestos += ($precio_venta * $cantidad) * (int) $row['impuesto_iva_tarifa']/100;
-				}else{
-					$sumador_total_impuestos += ($precio_venta * $cantidad) * (int) $row['imp_subimp_tarifa']/100;
-				}
+			?>
+			<tr>
+				<td class='text-right' colspan=4>SUBTOTAL </td>
+				<td class='text-right'><?php echo $moneda_id;?> <?php echo number_format($subtotal,2);?></td>
+				<input type="hidden" class="form-control input-sm" name="subtotal" id="subtotal" readonly value="<?php echo $total_colones_f;?>">
+				<td></td>
+			</tr>
 
-				?>
-				<tr>
-					<td class='text-center'><?php echo $codigo_producto;?></td>
-					<td class='text-center'><?php echo $cantidad;?></td>
-					<td><?php echo $nombre_producto;?></td>
-					<td class='text-right'><?php echo $precio_venta_f;?></td>
-					<td class='text-right'>
-						<?php echo $precio_total_f; ?> <br>
-						<?php
-							if($descuento_monto > 0){
-						?>
-							<b>Descuento</b> <?php echo $descuento_desc." -".$descuento_monto; ?>
-						<?php
-							}
-						?>
-					</td>
-					<td class='text-center'><a href="#" onclick="eliminar('<?php echo $id_tmp ?>')"><i class="glyphicon glyphicon-trash"></i></a></td>
-				</tr>
-				<?php
-			}
-				// $impuesto 				= get_row('perfil','impuesto', 'id_perfil', 1);
-				$impuesto 				= $sumador_total_impuestos;
-				$descuentos 			= $sumador_total_descuentos;
-				$subtotal 				= number_format($sumador_total,2,'.','');
+			<tr>
+				<td class='text-right' colspan=4>DESCUENTOS </td>
+				<td class='text-right'><?php echo $moneda_id;?> -<?php echo number_format($descuentos,2);?></td>
+				<td></td>
+			</tr>
 
-				$total_iva 				= ($subtotal * $impuesto )/100;
-				$total_iva 				= number_format($total_iva,2,'.','');
+			<tr>
+				<td class='text-right' colspan=4>IMPUESTOS:</td>
+				<td class='text-right'>
+					<!-- <input type="text" style="border: none;padding: 0px;margin: 0px;" class='text-right' name="impuestoShow" id="impuestoShow" readonly value=""> -->
+					<?php echo $moneda_id;?> <?php echo number_format($impuesto,2); ?>
+				</td>
 
-				$total_factura 			= $subtotal+$impuesto;
-				$total_colones 			= $total_factura;
-				$total_colones_f 		= number_format( ($total_colones - $descuentos ) , 2);
+				<input type="hidden" class="form-control input-sm" name="impuestoCalculo" id="impuestoCalculo" readonly value="<?php echo $total_iva_colones;?>">
+				<input type="hidden" class="form-control input-sm" name="impuestoDolares" id="impuestoDolares" readonly value="<?php echo $total_iva;?>">
+				<td></td>
+			</tr>
 
-				$total_iva_colones   	= $total_iva;
-				$total_iva_colones_f 	= number_format($total_iva_colones,2);
+			<tr>
+				<td class='text-right' colspan=4>TOTAL: </td>
+				<td class='text-right'><input type="text" style="border: none;padding: 0px;margin: 0px;" class='text-right' name="total_colonesShow" id="total_colonesShow" readonly value="<?php echo $moneda_id;?> <?php echo $total_colones_f;?>"> </td>
 
-		?>
-		<tr>
-			<td class='text-right' colspan=4>SUBTOTAL </td>
-			<td class='text-right'><?php echo $simbolo_moneda;?><?php echo number_format($subtotal,2);?></td>
-			<input type="hidden" class="form-control input-sm" name="subtotal" id="subtotal" readonly value="<?php echo $total_colones_f;?>">
-			<td></td>
-		</tr>
+				<input type="hidden" class="form-control input-sm" name="total_colones" id="total_colones" readonly value="<?php echo $total_colones;?>">
+				<input type="hidden" class="form-control input-sm" name="total_colonesOriginal" id="total_colonesOriginal" readonly value="<?php echo $total_colones;?>">
+				<input type="hidden" class="form-control input-sm" name="total_factura" id="total_factura" readonly value="<?php echo $total_factura;?>">
+				<td></td>
+			</tr>
 
-		<tr>
-			<td class='text-right' colspan=4>DESCUENTOS </td>
-			<td class='text-right'><?php echo $simbolo_moneda;?>-<?php echo number_format($descuentos,2);?></td>
-			<td></td>
-		</tr>
-
-		<tr>
-			<td class='text-right' colspan=4>IMPUESTOS:</td>
-			<td class='text-right'>
-				<!-- <input type="text" style="border: none;padding: 0px;margin: 0px;" class='text-right' name="impuestoShow" id="impuestoShow" readonly value=""> -->
-				¢<?php echo number_format($impuesto,2); ?>
-			</td>
-
-			<input type="hidden" class="form-control input-sm" name="impuestoCalculo" id="impuestoCalculo" readonly value="<?php echo $total_iva_colones;?>">
-			<input type="hidden" class="form-control input-sm" name="impuestoDolares" id="impuestoDolares" readonly value="<?php echo $total_iva;?>">
-			<td></td>
-		</tr>
-
-		<tr>
-			<td class='text-right' colspan=4>TOTAL: </td>
-			<td class='text-right'><input type="text" style="border: none;padding: 0px;margin: 0px;" class='text-right' name="total_colonesShow" id="total_colonesShow" readonly value="¢<?php echo $total_colones_f;?>"> </td>
-
-			<input type="hidden" class="form-control input-sm" name="total_colones" id="total_colones" readonly value="<?php echo $total_colones;?>">
-			<input type="hidden" class="form-control input-sm" name="total_colonesOriginal" id="total_colonesOriginal" readonly value="<?php echo $total_colones;?>">
-			<input type="hidden" class="form-control input-sm" name="total_factura" id="total_factura" readonly value="<?php echo $total_factura;?>">
-			<td></td>
-		</tr>
-
-	</table>
-
-<?php
-}
-?>
+		</table>
+	</div>

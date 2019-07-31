@@ -2,7 +2,6 @@
 	include('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
 	/*Inicia validacion del lado del servidor*/
     $codigoImpuesto = str_pad($_GET['codigoImpuesto'], 2, "0", STR_PAD_LEFT);
-    include('../config/constants.php');
 ?>
 <?php
     if($codigoImpuesto == "07" || $codigoImpuesto == "01" )

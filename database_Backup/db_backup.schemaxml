@@ -12,16 +12,22 @@
 <height>231</height>
 <sql_create_table>CREATE TABLE `clientes` (
   `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
-  `cedula` varchar(250) NOT NULL,
   `nombre_cliente` varchar(255) NOT NULL,
-  `telefono_cliente` char(30) NOT NULL,
+  `nombre_comercial_cliente` varchar(255) DEFAULT NULL,
+  `tipo_cedula_cliente` varchar(2) DEFAULT NULL,
+  `cedula_cliente` varchar(12) NOT NULL,
+  `ubicacion_cliente` varchar(10) DEFAULT NULL,
+  `telefono_cliente` varchar(15) NOT NULL,
+  `telefono_fax_cod_cliente` varchar(5) DEFAULT NULL,
+  `telefono_fax_cliente` varchar(15) DEFAULT NULL,
   `email_cliente` varchar(64) NOT NULL,
+  `estado_cliente` varchar(4) NOT NULL,
   `direccion_cliente` varchar(255) NOT NULL,
-  `status_cliente` tinyint(4) NOT NULL,
-  `date_added` datetime NOT NULL,
+  `telefono_cod_cliente` varchar(5) DEFAULT NULL,
+  `fecha_creacion_cliente` datetime NOT NULL,
   `id_moneda` int(2) NOT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8</sql_create_table>
 </table>
 <table name="currencies" view="colnames">
 <left>1151</left>
@@ -57,7 +63,7 @@
   KEY `id_producto` (`id_producto`),
   CONSTRAINT `detalle_factura_ibfk_1` FOREIGN KEY (`numero_factura`) REFERENCES `facturas` (`numero_factura`) ON DELETE CASCADE,
   CONSTRAINT `detalle_factura_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `products` (`id_producto`)
-) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=326 DEFAULT CHARSET=utf8</sql_create_table>
 </table>
 <table name="facturas" view="colnames">
 <left>391</left>
@@ -71,19 +77,21 @@
   `id_cliente` int(11) NOT NULL,
   `id_vendedor` int(11) NOT NULL,
   `condiciones` varchar(30) NOT NULL,
+  `medio_pago` varchar(30) DEFAULT NULL,
   `total_venta` varchar(20) NOT NULL,
   `estado_factura` tinyint(1) NOT NULL,
   `total_colones` varchar(30) NOT NULL,
   `tipo_cambio` varchar(20) NOT NULL,
   `impuestos` int(2) NOT NULL,
-  `moneda` int(11) NOT NULL,
+  `moneda` varchar(11) NOT NULL,
+  `plazo_credito` varchar(5) DEFAULT NULL,
   PRIMARY KEY (`id_factura`),
   UNIQUE KEY `numero_factura` (`numero_factura`),
-  KEY `id_cliente` (`id_cliente`),
   KEY `id_vendedor` (`id_vendedor`),
-  CONSTRAINT `facturas_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`),
+  KEY `facturas_ibfk_1` (`id_cliente`),
+  CONSTRAINT `facturas_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE CASCADE,
   CONSTRAINT `facturas_ibfk_2` FOREIGN KEY (`id_vendedor`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8</sql_create_table>
 </table>
 <table name="perfil" view="colnames">
 <left>803</left>
@@ -92,36 +100,37 @@
 <height>311</height>
 <sql_create_table>CREATE TABLE `perfil` (
   `id_perfil` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo_cedula` varchar(2) NOT NULL,
-  `cedula` varchar(250) NOT NULL,
-  `nombre_empresa` varchar(80) NOT NULL,
-  `nombre_empresa_comercial` varchar(80) DEFAULT NULL,
-  `direccion` varchar(255) NOT NULL,
-  `ciudad` varchar(100) NOT NULL,
-  `codigo_postal` varchar(100) NOT NULL,
-  `estado` varchar(100) NOT NULL,
-  `telefono` varchar(20) NOT NULL,
-  `telefono_cod` varchar(3) DEFAULT NULL,
-  `telefono_fax` varchar(20) DEFAULT NULL,
-  `telefono_fax_cod` varchar(3) DEFAULT NULL,
-  `email` varchar(60) NOT NULL,
-  `file_p12` varchar(128) DEFAULT NULL,
-  `key_username` varchar(52) DEFAULT NULL,
-  `key_password` varchar(20) DEFAULT NULL,
-  `pin_p12` varchar(4) DEFAULT NULL,
+  `tipo_cedula` varchar(2) CHARACTER SET latin1 NOT NULL,
+  `cedula` varchar(250) CHARACTER SET latin1 NOT NULL,
+  `nombre_empresa` varchar(80) CHARACTER SET latin1 NOT NULL,
+  `nombre_empresa_comercial` varchar(80) CHARACTER SET latin1 DEFAULT NULL,
+  `direccion` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `ciudad` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `codigo_postal` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `estado` varchar(100) CHARACTER SET latin1 NOT NULL,
+  `telefono` varchar(20) CHARACTER SET latin1 NOT NULL,
+  `telefono_cod` varchar(3) CHARACTER SET latin1 DEFAULT NULL,
+  `telefono_fax` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `telefono_fax_cod` varchar(3) CHARACTER SET latin1 DEFAULT NULL,
+  `email` varchar(60) CHARACTER SET latin1 NOT NULL,
+  `file_p12` varchar(128) CHARACTER SET latin1 DEFAULT NULL,
+  `key_username` varchar(52) CHARACTER SET latin1 DEFAULT NULL,
+  `key_password` varchar(20) CHARACTER SET latin1 DEFAULT NULL,
+  `pin_p12` varchar(4) CHARACTER SET latin1 DEFAULT NULL,
   `impuesto` int(2) DEFAULT NULL,
-  `moneda` varchar(6) NOT NULL,
-  `logo_url` varchar(255) NOT NULL,
+  `moneda` varchar(6) CHARACTER SET latin1 NOT NULL,
+  `logo_url` varchar(255) CHARACTER SET latin1 NOT NULL,
   `mensaje_factura` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `idFile` int(11) DEFAULT NULL,
-  `downloadCode` varchar(40) DEFAULT NULL,
-  `usernameAPI` varchar(40) DEFAULT NULL,
-  `passwordAPI` varchar(40) DEFAULT NULL,
+  `downloadCode` varchar(40) CHARACTER SET latin1 DEFAULT NULL,
+  `usernameAPI` varchar(40) CHARACTER SET latin1 DEFAULT NULL,
+  `passwordAPI` varchar(40) CHARACTER SET latin1 DEFAULT NULL,
   `iduserapi` int(11) DEFAULT NULL,
-  `acercade` varchar(40) DEFAULT NULL,
-  `ubicacion` varchar(40) DEFAULT NULL,
+  `acercade` varchar(40) CHARACTER SET latin1 DEFAULT NULL,
+  `ubicacion` varchar(40) CHARACTER SET latin1 DEFAULT NULL,
+  `codigo_actividad_empresa` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_perfil`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin</sql_create_table>
 </table>
 <table name="products" view="colnames">
 <left>725</left>
@@ -143,9 +152,11 @@
   `impuesto_iva_tarifa` varchar(2) DEFAULT NULL,
   `imp_subimp_tarifa` varchar(2) DEFAULT NULL,
   `imp_subimp_codigo` varchar(2) DEFAULT NULL,
+  `tipo_producto` enum('servicio','mercancia') NOT NULL,
+  `tip_cod_comerc_producto` varchar(2) DEFAULT NULL COMMENT 'codigoComercial&gt;tipo',
   PRIMARY KEY (`id_producto`),
   UNIQUE KEY `codigo_producto` (`codigo_producto`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8</sql_create_table>
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8</sql_create_table>
 </table>
 <table name="tmp" view="colnames">
 <left>1158</left>
@@ -160,9 +171,9 @@
   `monto_descuento` double(8,2) DEFAULT NULL,
   `desc_descuento` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `session_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
-  `moneda_tmp` int(2) NOT NULL,
+  `moneda_tmp` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id_tmp`)
-) ENGINE=MyISAM AUTO_INCREMENT=203 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
+) ENGINE=MyISAM AUTO_INCREMENT=256 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci</sql_create_table>
 </table>
 <table name="users" view="colnames">
 <left>582</left>

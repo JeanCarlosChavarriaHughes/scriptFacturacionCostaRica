@@ -1,5 +1,4 @@
 	<?php
-		include('config/constants.php');
 		if (isset($con))
 		{
 	?>
@@ -15,9 +14,26 @@
 			<form class="form-horizontal" method="post" id="guardar_producto" name="guardar_producto">
 			<div id="resultados_ajax_productos"></div>
 			  <div class="form-group">
-				<label for="codigo" class="col-sm-3 control-label">Código</label>
+				<label for="codigo" class="col-sm-3 control-label">Código producto</label>
 				<div class="col-sm-8">
-				  <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código del producto" >
+				  <input type="text" class="form-control" id="codigo" name="codigo" placeholder="Código del producto" maxlength="13">
+				</div>
+			  </div>
+
+			  <div class="form-group">
+				<label for="codigo" class="col-sm-3 control-label">Tipo de Código</label>
+				<div class="col-sm-8">
+					<select class="form-control" id="tip_cod_comerc_producto" name="tip_cod_comerc_producto" >
+						<?php
+							$content=file_get_contents(constant('codigo_tipo_producto_servicio'));
+							$data=json_decode($content);
+							foreach ($data as $value) {
+						?>
+							<option value="<?php echo str_pad($value->Codigo, 2, '0', STR_PAD_LEFT); ?>"> <?php echo trim($value->TipoCodigoProductoServicio) ?> </option>
+						<?php
+							}
+						?>
+					</select>
 				</div>
 			  </div>
 
@@ -38,6 +54,18 @@
 				  </select>
 				</div>
 			  </div>
+
+			  <div class="form-group">
+				<label for="tipo_producto" class="col-sm-3 control-label">Tipo</label>
+				<div class="col-sm-8">
+				 <select class="form-control" id="tipo_producto" name="tipo_producto" >
+					<option value="">-- Selecciona --</option>
+					<option value="2">Mercancía</option>
+					<option value="1">Servicio</option>
+				  </select>
+				</div>
+			  </div>
+
 			  <div class="form-group">
 				<label for="precio" class="col-sm-3 control-label">Precio $</label>
 				<div class="col-sm-8">
@@ -62,7 +90,7 @@
 						<?php
 							foreach ($data as $key => $value) {
 						?>
-							<option value=" <?php echo $value ?> " > <?php echo $key ?> </option>
+							<option value="<?php echo trim($value) ?>"><?php echo trim($key) ?></option>
 						<?php
 							}
 						?>

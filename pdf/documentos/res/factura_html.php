@@ -1,5 +1,8 @@
+<?php
+	use Ajax\Helpers as Helpers;
+	use Illuminate\Database\Capsule\Manager as Capsule;
+?>
 <style type="text/css">
-	<!--
 	table { vertical-align: top; }
 	tr    { vertical-align: top; }
 	td    { vertical-align: top; }
@@ -33,7 +36,6 @@
 	}
 	table.page_footer {width: 100%; border: none; background-color: white; padding: 2mm;border-collapse:collapse; border: none;}
 }
--->
 </style>
 <page backtop="15mm" backbottom="15mm" backleft="15mm" backright="15mm" style="font-size: 12pt; font-family: arial" >
 	<page_footer>
@@ -62,12 +64,12 @@
 			<td style="width:50%;" >
 				<?php
 				//Moneda de la factura
-				$moneda=intval($_GET['moneda']);
+				$moneda=$_GET['moneda'];
 				$sql_cliente=mysqli_query($con,"select * from clientes where id_cliente='$id_cliente'");
 				$rw_cliente=mysqli_fetch_array($sql_cliente);
 				echo $rw_cliente['nombre_cliente'];
 				echo "<br>Cédula: ";
-				echo $rw_cliente['cedula'];
+				echo $rw_cliente['cedula_cliente'];
 				echo "<br>";
 				echo $rw_cliente['direccion_cliente'];
 				echo "<br> Teléfono: ";
@@ -87,8 +89,15 @@
 		<tr>
 			<td style="width:25%;" class='midnight-blue'>Vendedor</td>
 			<td style="width:25%;" class='midnight-blue'>Fecha</td>
-			<td style="width:30%;" class='midnight-blue'>Forma de pago</td>
-			<td style="width:20%;" class='midnight-blue'>Moneda</td>
+			<td style="width:20%;" class='midnight-blue'>Forma de pago</td>
+			<?php
+				if($condiciones == 2 && !empty($credito_dias)){
+			?>
+				<td style="width:15%;" class='midnight-blue'>Plazo crédito</td>
+			<?php
+				}
+			?>
+			<td style="width:15%;" class='midnight-blue'>Moneda</td>
 		</tr>
 		<tr>
 			<td style="width:25%;">
@@ -99,15 +108,25 @@
 				?>
 			</td>
 			<td style="width:25%;"><?php echo date("d/m/Y");?></td>
-			<td style="width:30%;" >
+			<td style="width:20%;" >
 				<?php
-				if ($condiciones==1){echo "Efectivo";}
-				elseif ($condiciones==2){echo "Cheque";}
-				elseif ($condiciones==3){echo "Transferencia bancaria";}
-				elseif ($condiciones==4){echo "Crédito 30 días";}
+					$content=file_get_contents(constant('condiciones_venta'));
+					$data=json_decode($content);
+					foreach ($data as $value) {
+						if( $value->Codigo == $condiciones ){
+							echo $value->CondicionesDeLaVenta;
+						}
+					}
 				?>
 			</td>
-			<td style="width:20%;" ><?php if($moneda == 1){ echo "Dólares"; } else { echo "Colones"; } ?></td>
+			<?php
+				if($condiciones == 2 && !empty($credito_dias)){
+			?>
+				<td style="width:15%;"> <?php echo $credito_dias; ?> días</td>
+			<?php
+				}
+			?>
+			<td style="width:15%;" ><?php echo $simbolo_moneda; ?></td>
 		</tr>
 
 
@@ -126,11 +145,11 @@
 		<?php
 		// $cambio = getVentaDolarColones();
 		$cambio = 0;
-		$nums=1;
-		$sumador_total=0;
+		$nums = 1;
+		$sumador_total = 0;
 		$sumador_total_impuestos  = 0;
 		$sumador_total_descuentos = 0;
-		$sql=mysqli_query($con, "select * from products, tmp where products.id_producto=tmp.id_producto and tmp.session_id='".$session_id."' and tmp.moneda_tmp=".$moneda);
+		$sql=mysqli_query($con, "select * from products, tmp where products.id_producto=tmp.id_producto and tmp.session_id='".$session_id."' and tmp.moneda_tmp='".$moneda."'");
 		while ($row=mysqli_fetch_array($sql))
 		{
 			$id_tmp 			= $row["id_tmp"];
@@ -171,8 +190,8 @@
 			<tr>
 				<td class='<?php echo $clase;?>' style="width: 10%; text-align: center"><?php echo $cantidad; ?></td>
 				<td class='<?php echo $clase;?>' style="width: 60%; text-align: left"><?php echo $nombre_producto;?></td>
-				<td class='<?php echo $clase;?>' style="width: 15%; text-align: right"><?php echo $precio_venta_f;?></td>
-				<td class='<?php echo $clase;?>' style="width: 15%; text-align: right"><?php echo $precio_total_f;?></td>
+				<td class='<?php echo $clase;?>' style="width: 15%; text-align: right">$<?php echo $precio_venta_f;?> <?php echo $simbolo_moneda; ?></td>
+				<td class='<?php echo $clase;?>' style="width: 15%; text-align: right">$<?php echo $precio_total_f;?> <?php echo $simbolo_moneda; ?></td>
 			</tr>
 
 	<?php
@@ -182,7 +201,7 @@
 					<td class='<?php echo $clase;?>' style="width: 10%; text-align: center"></td>
 					<td class='<?php echo $clase;?>' style="width: 60%; text-align: left">Descuento: <?php echo $descuento_desc;?></td>
 					<td class='<?php echo $clase;?>' style="width: 15%; text-align: right"></td>
-					<td class='<?php echo $clase;?>' style="width: 15%; text-align: right">-<?php echo $simbolo_moneda.$descuento_monto;?></td>
+					<td class='<?php echo $clase;?>' style="width: 15%; text-align: right">-$<?php echo $descuento_monto;?> <?php echo $simbolo_moneda; ?></td>
 				</tr>
 	<?php
 			}
@@ -197,68 +216,95 @@
 	$total_colones 		= $total_factura;
 	$total_colones_f 	= number_format( ($total_colones - $descuentos ) , 2);
 
-	if($moneda == 1){
-		$total_colones = $total_colones_f*$cambio;
-	} else {
+	// if($moneda == 1){
+	// 	$total_colones = $total_colones_f*$cambio;
+	// } else {
 		$total_colones = $total_colones_f;
-	}
+	// }
 
 	$total_colones_f = number_format($total_colones, 2);
 	$total_colones_r = str_replace(",","",$total_colones_f);
 
 	$date=date("d-m-Y");
-	if($moneda == 1){
-		$insert=mysqli_query($con,"INSERT INTO facturas VALUES (NULL,'$numero_factura','$date','$id_cliente','$id_vendedor','$condiciones','$total_factura','1','$total_colones_r','$cambio','$impuesto', '$moneda')");
-	}else{
-		$insert=mysqli_query($con,"INSERT INTO facturas VALUES (NULL,'$numero_factura','$date','$id_cliente','$id_vendedor','$condiciones','$total_factura','1','$total_colones_r','$cambio','$impuesto', '$moneda')");
+
+	/*Guarda la factura en BD*/
+	$insert=mysqli_query($con,"INSERT INTO facturas VALUES (NULL,'$numero_factura','$date','$id_cliente','$id_vendedor','$condiciones','$medio_pago','$total_factura','1','$total_colones_r','$cambio','$impuesto', '$moneda', '$credito_dias')");
+
+	/*-------------------------*/
+		 // CREA, ENVÍA Y CONSULTA XML. Imprime en consola los resultados.
+		$helpers = new Helpers();
+		//Valida el estado del token
+		Helpers::validateTokenApi();
+
+		$xml = Helpers::createXmlFE($helpers, $id_factura_creada);
+		echo "<script type='text/javascript'>console.log('XML CREADO:".json_encode($xml)."');</script>";
+
+		$xmlfirmado = Helpers::firmarXML($helpers, $xml->resp->xml,"FE");
+		echo "<script type='text/javascript'>console.log('XML FIRMADO:".json_encode($xmlfirmado)."');</script>";
+
+		$enviofe = Helpers::envioHaciendaFE($helpers, $xmlfirmado->resp->xmlFirmado, $id_factura_creada);
+		echo "<script type='text/javascript'>console.log('RESP ENVIO HACIENDA:".json_encode($enviofe)."');</script>";
+
+		$consultaenviofe = Helpers::consultaEnvioHaciendaFE($xml->resp->clave);
+		echo "<script type='text/javascript'>console.log('RESP CONSULTA ENVIO:".json_encode($consultaenviofe)."');</script>";
+	/*-------------------------*/
+
+	if(!$insert){
+		echo "Lo siento algo ha salido mal intenta nuevamente. ".mysqli_error($con);
+		exit();
 	}
 
-	$sql=mysqli_query($con,
-		"select * from products, tmp where products.id_producto=tmp.id_producto and tmp.session_id='".$session_id."' and tmp.moneda_tmp=".$moneda);
+	$sql=mysqli_query($con,"SELECT * FROM products, tmp WHERE products.id_producto=tmp.id_producto AND tmp.session_id='{$session_id}' AND tmp.moneda_tmp='{$moneda}'");
+
+	if(!$sql){
+		echo "Lo siento algo ha salido mal intenta nuevamente. ".mysqli_error($con);
+		exit();
+	}
+
 
 	while($row=mysqli_fetch_array($sql)){
-		//Insert en la tabla detalle_cotizacion
+		/*Insert en la tabla detalle_factura*/
 		$insert_detail=mysqli_query($con, "INSERT INTO detalle_factura (numero_factura, id_producto, cantidad, precio_venta, monto_descuento, desc_descuento)
-			VALUES (".$numero_factura.", ".$row['id_producto'].", ".$row['cantidad_tmp'].", ".$row['precio_tmp'].", ".$row['monto_descuento'].", '".$row['desc_descuento']."' )" );
+			VALUES ('".$numero_factura."', '".$row['id_producto']."', '".$row['cantidad_tmp']."', '".$row['precio_tmp']."', '".$row['monto_descuento']."', '".$row['desc_descuento']."')");
+
+		if(!$insert_detail){
+			echo "Lo siento algo ha salido mal intenta nuevamente. ".mysqli_error($con);
+		}
+
 	}
 
+	/*Elimina los elementos pertenecientes a esta factura en la tabla temporal*/
 	$delete=mysqli_query($con,"DELETE FROM tmp WHERE session_id='".$session_id."'");
+
+	if(!$delete){
+		echo "Lo siento algo ha salido mal intenta nuevamente. ".mysqli_error($con);
+	}
 
 ?>
 
 <tr>
 	<td colspan="3" style="widtd: 85%; text-align: right;">Subtotal:</td>
-	<td style="widtd: 15%; text-align: right;"> <?php echo $simbolo_moneda;?><?php echo number_format($subtotal,2);?></td>
+	<td style="widtd: 15%; text-align: right;"> $<?php echo number_format($subtotal,2);?> <?php echo $simbolo_moneda; ?></td>
 </tr>
 
 <?php if($descuentos > 0){ ?>
 <tr>
 	<td colspan="3" style="widtd: 85%; text-align: right;">Descuentos:</td>
-	<td style="widtd: 15%; text-align: right;"> -<?php echo $simbolo_moneda;?><?php echo number_format($descuentos,2);?></td>
+	<td style="widtd: 15%; text-align: right;"> -$<?php echo number_format($descuentos,2);?> <?php echo $simbolo_moneda; ?></td>
 </tr>
 <?php } ?>
 
 <?php if($impuesto > 0){ ?>
 <tr>
 	<td colspan="3" style="widtd: 85%; text-align: right;">Impuestos: </td>
-	<td style="widtd: 15%; text-align: right;"> <?php echo $simbolo_moneda;?><?php echo $impuesto;?></td>
+	<td style="widtd: 15%; text-align: right;"> $<?php echo number_format($impuesto,2);?> <?php echo $simbolo_moneda; ?></td>
 </tr>
 <?php } ?>
 <tr>
 	<td colspan="3" style="widtd: 85%; text-align: right;">Total: </td>
-	<td style="widtd: 15%; text-align: right;"> <?php echo $simbolo_moneda; ?> <?php echo number_format($total_colones_f,2); ?> </td>
+	<td style="widtd: 15%; text-align: right;"> $<?php echo number_format($total_colones_f,2); ?> <?php echo $simbolo_moneda; ?></td>
 </tr>
 </table>
-
-<?php if($moneda == 1){ ?>
-<table cellspacing="0" style="width: 100%; text-align: left; font-size: 8pt;margin-top: 0px;border:none;">
-	<tr>
-		<td style="width: 50%; text-align: left;border-top:1px;border-top-color:#D3D3D3">Tipo de cambio: ¢ <?php echo number_format($cambio,2); ?> &nbsp; Total en colones: <?php echo $total_colones_f; ?> </td>
-		<td style="width: 25%; text-align: center;border-top:1px;border-top-color:#D3D3D3"></td>
-		<td style="width: 25%; text-align: center;border-top:1px;border-top-color:#D3D3D3"></td>
-	</tr>
-</table>
-<?php } ?>
 
 <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;margin-top: 60px;border:none;">
 	<tr>

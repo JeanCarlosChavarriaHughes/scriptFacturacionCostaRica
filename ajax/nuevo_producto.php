@@ -3,8 +3,15 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 	/*Inicia validacion del lado del servidor*/
 	if (empty($_POST['codigo'])) {
            $errors[] = "Código vacío";
+        } else if (strlen($_POST['codigo']) > 13){
+			$errors[] = "Código no puede tener más de 14 caracteres.";
+
         } else if (empty($_POST['unidadMedida'])){
 			$errors[] = "Medida de unidad vacío";
+
+        } else if (empty($_POST['tip_cod_comerc_producto'])){
+			$errors[] = "Tipo de código del producto está vacío";
+
         } else if (empty($_POST['codigoImpuesto'])){
 			$errors[] = "Seleccione un impuesto.";
 
@@ -18,6 +25,10 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 			$errors[] = "Nombre del producto vacío";
 		} else if ($_POST['estado']==""){
 			$errors[] = "Selecciona el estado del producto";
+
+		} else if ($_POST['tipo_producto']==""){
+			$errors[] = "Elige un tipo para este producto.";
+
 		} else if (empty($_POST['precio'])){
 			$errors[] = "Precio de venta en dolares vacío";
 		} else if (empty($_POST['precio_colon'])){
@@ -34,9 +45,11 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 			require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
 			// escaping, additionally removing everything that could be (html/javascript-) code
 			$codigo=mysqli_real_escape_string($con,(strip_tags($_POST["codigo"],ENT_QUOTES)));
+			$tip_cod_comerc_producto=mysqli_real_escape_string($con,(strip_tags($_POST["tip_cod_comerc_producto"],ENT_QUOTES)));
 			$nombre=mysqli_real_escape_string($con,(strip_tags($_POST["nombre"],ENT_QUOTES)));
 			$unidad_medida=$_POST['unidadMedida'];
 			$estado=intval($_POST['estado']);
+			$tipo_producto=intval($_POST['tipo_producto']);
 
 			////===============IMPUESTOS
 			$codigoImpuesto 	= str_pad($_POST['codigoImpuesto'], 2, "0", STR_PAD_LEFT);
@@ -65,9 +78,9 @@ include('is_logged.php');//Archivo verifica que el usario que intenta acceder a 
 			$precio_colon = floatval($_POST['precio_colon']);
 			$date_added=date("Y-m-d H:i:s");
 			$sql="INSERT INTO products
-				 (codigo_producto, nombre_producto, status_producto, date_added, precio_producto, precio_colon, unidad_medida $query_insert)
+				 (codigo_producto, nombre_producto, status_producto, date_added, precio_producto, precio_colon, unidad_medida, tipo_producto, tip_cod_comerc_producto $query_insert)
 				 VALUES
-				 ('$codigo','$nombre','$estado','$date_added','$precio_venta','$precio_colon','$unidad_medida'".$query_values.")";
+				 ('$codigo','$nombre','$estado','$date_added','$precio_venta','$precio_colon','$unidad_medida','$tipo_producto','$tip_cod_comerc_producto'".$query_values.")";
 
 				$query_new_insert = mysqli_query($con,$sql);
 				if ($query_new_insert){

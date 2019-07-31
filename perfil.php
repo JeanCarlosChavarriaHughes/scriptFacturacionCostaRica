@@ -4,11 +4,8 @@
 	Web: obedalvarado.pw
 	Mail: info@obedalvarado.pw
 	---------------------------*/
-	session_start();
-	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-		header("location: login.php");
-		exit;
-	}
+
+	require_once ("is_logged.php");
 
 	/* Connect To Database*/
 	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
@@ -27,6 +24,7 @@
 	<html lang="en">
 	<head>
 		<?php include("head.php");?>
+		<link href="css/select2.min.css" rel="stylesheet"/>
 	</head>
 	<body>
 		<?php
@@ -36,8 +34,6 @@
 			<div class="row">
 				<form method="post" id="perfil">
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 toppad" >
-
-
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<h3 class="panel-title"><i class='glyphicon glyphicon-cog'></i> Configuración</h3>
@@ -63,26 +59,132 @@
 									<div class=" col-md-9 col-lg-9 ">
 										<table class="table table-condensed">
 											<tbody>
-												<tr>
-													<td class='col-md-3'>Cédula Jurídica de la empresa:</td>
-													<td><input type="text" class="form-control input-sm" name="cedula" value="<?php echo $row['cedula']?>" required></td>
-												</tr>
+
 												<tr>
 													<td class='col-md-3'>Nombre de la empresa:</td>
 													<td><input type="text" class="form-control input-sm" name="nombre_empresa" value="<?php echo $row['nombre_empresa']?>" required></td>
 												</tr>
-
 												<tr>
-													<td>Teléfono:</td>
-													<td><input type="text" class="form-control input-sm" name="telefono" value="<?php echo $row['telefono']?>" required></td>
+													<td class='col-md-3'>Nombre comercial:</td>
+													<td><input type="text" class="form-control input-sm" name="nombre_empresa_comercial" value="<?php echo $row['nombre_empresa_comercial']?>" required></td>
+												</tr>
+												<tr>
+													<td class='col-md-3'>Actividad:</td>
+													<td>
+														<select name="codigo_actividad_empresa" class="form-control select-ubicacion">
+															<?php
+																$content = file_get_contents(constant('codigo_actividad'));
+																$data = json_decode($content);
+																foreach ($data as $value) {
+															?>
+																<option value="<?php echo key($data) ?>"
+																	<?php echo (key($data) == $row['codigo_actividad_empresa']) ? "selected" : ''; ?>>
+																	<?php echo ucfirst($value->actividad) ?>
+																</option>
+															<?php
+																	next($data);
+																}
+															?>
+														</select>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														Identificación
+													</td>
+													<td>
+														<div class="row">
+															<div class="col-sm-6">
+																<p>Tipo</p>
+																<select name="tipo_cedula" class="form-control">
+																	<?php
+																		$content = file_get_contents(constant('tipo_identificacion'));
+																		$data = json_decode($content);
+																		foreach ($data as $value) {
+																	?>
+																		<option value="<?php echo $value->Codigo ?>"
+																			<?php echo ($value->Codigo == $row['tipo_cedula']) ? "selected" : ''; ?>>
+																			<?php echo ucfirst($value->TipoDeIdentificacion) ?>
+																		</option>
+																	<?php
+																		}
+																	?>
+																</select>
+															</div>
+															<div class="col-sm-6">
+																<p>Número</p>
+																<input type="text" class="form-control input-sm" name="cedula" value="<?php echo $row['cedula']?>" required>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														Ubicación
+													</td>
+													<td>
+														<div class="row">
+															<div class="col-sm-6">
+																<p>Provincia - canton - Distrito - Barrio</p>
+																<select name="ubicacion" class="form-control select-ubicacion">
+																	<?php
+																		$content=file_get_contents(constant('codificacion_ubicacion'));
+																		$data=json_decode($content);
+																		foreach ($data as $value) {
+																	?>
+																		<option value="<?php echo $value->internalID ?>"
+																			<?php echo ($value->internalID == $row['ubicacion']) ? "selected" : ''; ?>><?php echo ucfirst($value->NombreProvincia)." - ".ucfirst($value->NombreCanton)." - ".ucfirst($value->NombreDistrito)." - ".ucfirst($value->NombreBarrio); ?></option>
+																	<?php
+																		}
+																	?>
+																</select>
+															</div>
+															<div class="col-sm-6">
+																<p>Indicación exacta</p>
+																<textarea class="form-control" name="direccion" rows="3" placeholder="Ej: Av. 26 sur #9-25 segundo piso"><?php echo $row['direccion']?></textarea>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														Teléfono
+													</td>
+													<td>
+														<div class="row">
+															<div class="col-sm-6">
+																<p>Código del país</p>
+																<input type="text" class="form-control input-sm" name="telefono_cod" value="<?php echo $row['telefono_cod']?>" required>
+																</select>
+															</div>
+															<div class="col-sm-6">
+																<p>Número</p>
+																<input type="text" class="form-control input-sm" name="telefono" value="<?php echo $row['telefono']?>" required>
+															</div>
+														</div>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														Fax
+													</td>
+													<td>
+														<div class="row">
+															<div class="col-sm-6">
+																<p>Código del país</p>
+																<input type="text" class="form-control input-sm" name="telefono_fax_cod" value="<?php echo $row['telefono_fax_cod']?>" required>
+																</select>
+															</div>
+															<div class="col-sm-6">
+																<p>Número</p>
+																<input type="text" class="form-control input-sm" name="telefono_fax" value="<?php echo $row['telefono_fax']?>" required>
+															</div>
+														</div>
+													</td>
 												</tr>
 												<tr>
 													<td>Correo electrónico:</td>
-													<td><input type="email" class="form-control input-sm" name="email" value="<?php echo $row['email']?>" ></td>
-												</tr>
-												<tr>
-													<td>IVA (%):</td>
-													<td><input type="text" class="form-control input-sm" required name="impuesto" value="<?php echo $row['impuesto']?>"></td>
+													<td><input type="text" class="form-control input-sm" name="email" value="<?php echo $row['email']?>" ></td>
 												</tr>
 												<tr>
 													<td>Simbolo de moneda:</td>
@@ -108,29 +210,11 @@
 													</td>
 												</tr>
 												<tr>
-													<td>Dirección:</td>
-													<td><input type="text" class="form-control input-sm" name="direccion" value="<?php echo $row["direccion"];?>" required></td>
-												</tr>
-												<tr>
-													<td>Ciudad:</td>
-													<td><input type="text" class="form-control input-sm" name="ciudad" value="<?php echo $row["ciudad"];?>" required></td>
-												</tr>
-												<tr>
-													<td>Región/Provincia:</td>
-													<td><input type="text" class="form-control input-sm" name="estado" value="<?php echo $row["estado"];?>"></td>
-												</tr>
-												<tr>
-													<td>Código postal:</td>
-													<td><input type="text" class="form-control input-sm" name="codigo_postal" value="<?php echo $row["codigo_postal"];?>"></td>
-												</tr>
-												<tr>
 													<td>Mensaje en factura:</td>
-													<td><textarea rows="4" cols="50" class="form-control input-sm" name="mensaje_factura">
-														<?php echo $row["mensaje_factura"];?>
-														</textarea></td>
-													</tr>
-
-
+													<td>
+														<textarea rows="4" cols="50" class="form-control input-sm" name="mensaje_factura"><?php echo $row["mensaje_factura"];?></textarea>
+													</td>
+												</tr>
 												</tbody>
 											</table>
 
@@ -158,6 +242,13 @@
 				?>
 			</body>
 			</html>
+			<script src="js/select2.full.min.js"></script>
+			<script type="text/javascript">
+				// In your Javascript (external .js resource or <script> tag)
+				$(document).ready(function() {
+				    $('.select-ubicacion').select2();
+				});
+			</script>
 			<script type="text/javascript" src="js/bootstrap-filestyle.js"> </script>
 			<script>
 				$( "#perfil" ).submit(function( event ) {
@@ -179,12 +270,6 @@
 					});
 					event.preventDefault();
 				})
-
-
-
-
-
-
 			</script>
 
 			<script>

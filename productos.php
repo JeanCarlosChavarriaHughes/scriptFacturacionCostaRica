@@ -4,13 +4,8 @@
 	Web: obedalvarado.pw
 	Mail: info@obedalvarado.pw
 	---------------------------*/
-	session_start();
-	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-        header("location: login.php");
-		exit;
-    }
-
 	/* Connect To Database*/
+	require_once ("is_logged.php");
 	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
 
@@ -127,15 +122,22 @@ $( "#editar_producto" ).submit(function( event ) {
 
 	function obtener_datos(id){
 			var codigo_producto = $("#codigo_producto"+id).val();
+			var tip_cod_comerc_producto = $("#tip_cod_comerc_producto"+id).val();
 			var nombre_producto = $("#nombre_producto"+id).val();
 			var estado = $("#estado"+id).val();
+			var tipo_producto = $("#tipo_producto"+id).val();
 			var precio_producto = $("#precio_producto"+id).val();
+			var precio_colon = $("#precio_colon"+id).val();
 			var impuesto_codigo = $("#impuesto_codigo"+id).val();
+
 			$("#mod_id").val(id);
 			$("#mod_codigo").val(codigo_producto);
+			$("#mod_tip_cod_comerc_producto").val(tip_cod_comerc_producto);
 			$("#mod_nombre").val(nombre_producto);
 			$("#mod_precio").val(precio_producto);
+			$("#mod_precio_colon").val(precio_colon);
 			$("#mod_estado").val(estado);
+			$("#mod_tipo_producto").val(tipo_producto);
 			$("#mod_codigoImpuesto").val(impuesto_codigo);
 
 			getInfoProductoImpuestos(id);
