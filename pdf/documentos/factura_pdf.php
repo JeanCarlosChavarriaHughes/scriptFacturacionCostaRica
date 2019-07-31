@@ -2,7 +2,8 @@
 	/*-------------------------*/
 		//Includes
 		include("../../is_logged.php");
-		// include("../../config/constants.php");
+		use Illuminate\Database\Capsule\Manager as Capsule;
+
 		/* Connect To Database*/
 		include("../../config/db.php");
 		include("../../config/conexion.php");
@@ -36,11 +37,9 @@
 	$rw=mysqli_fetch_array($sql);
 	$numero_factura=$rw['last']+1;
 
-	// if($moneda == 1){
-	// 	$simbolo_moneda="$";
-	// } else {
-	// 	$simbolo_moneda="¢";
-	// }
+	/*Determina el id de la factura que se creará a continuación */
+	$id_actual = (int) Capsule::table('facturas')->max('id_factura');
+	$id_factura_creada = $id_actual + 1;
 
     // get the HTML
     ob_start();
@@ -61,3 +60,4 @@
         echo $e;
         exit;
     }
+

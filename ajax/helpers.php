@@ -6,14 +6,13 @@ use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-include('../config/constants.php');
+// include(dirname(__FILE__).'/../config/constants.php');
 
 class Helpers {
 	private $perfil;
 
 	public function __construct(){
 		$this->perfil = Capsule::table('perfil')->where('id_perfil','=',1)->get()[0];
-		// return $this->emisor;
 	}
 	/**
 	 *  Función global para hacer login en la API.
@@ -802,7 +801,7 @@ class Helpers {
 		]);
 
 		$resCreateXmlFE = json_decode($reqCreateXmlFE->getBody());
-		return $resCreateXmlFE->resp;
+		return $resCreateXmlFE;
 	}
 
 	/**
@@ -830,7 +829,7 @@ class Helpers {
 		]);
 
 		$responseFirmarXML = json_decode($requestFirmarXML->getBody());
-		return $responseFirmarXML->resp;
+		return $responseFirmarXML;
 	}
 
 	public static function getUbicacion(Helpers $helpers, $tipo_usuario, $id_usuario){
@@ -905,7 +904,7 @@ class Helpers {
 		]);
 
 		$responseEnvioHacienda = json_decode($requestEnvioHacienda->getBody());
-		return $responseEnvioHacienda->resp;
+		return $responseEnvioHacienda;
 	}
 
 	/**
@@ -929,6 +928,6 @@ class Helpers {
 		]);
 
 		$responseConsultaEnvio = json_decode($requestConsultaEnvio->getBody());
-		return $responseConsultaEnvio->resp;
+		return $responseConsultaEnvio;
 	}
 }
