@@ -26,14 +26,16 @@
 	$validation = $validator->validate($_POST, [
 	    'nombre_cliente'         	=> 'required|max:100',
 	    'nombre_comercial_cliente'	=> 'max:80',
-	    'tipo_cedula_cliente'       => 'required|numeric|digits:1',
+	    'tipo_cedula_cliente'       => 'required|numeric|digits:2',
 	    'ubicacion_cliente'         => 'required|numeric',
 	    'direccion_cliente'      	=> 'required|max:250',
 	    'telefono_cod_cliente'      => 'numeric|digits_between:1,3',
 	    'telefono_cliente'      	=> 'numeric|digits_between:1,20',
 	    'telefono_fax_cod_cliente'  => 'numeric|digits_between:1,3',
 	    'telefono_fax_cliente'      => 'numeric|digits_between:1,20',
-	    'email_cliente'      		=> 'required|email|unique:clientes,email_cliente'
+	    'email_cliente'      		=> 'required|email|unique:clientes,email_cliente',
+	    'estado_cliente'			=> 'required|numeric|digits:1',
+	    'id_moneda'      			=> 'required|max:3'
 	]);
 
 	/*Imprime los errores en caso de que hayan*/
@@ -57,28 +59,28 @@
 	/*Para validar la cédula segun el tipo de documento*/
 	switch ($_POST['tipo_cedula_cliente']) {
 		/*Cedula fisica*/
-		case 1:
+		case "01":
 			$validation = $validator->validate($_POST, [
 			    'cedula_cliente' => 'regex:/^[1-9]{9}$/|unique:clientes,cedula_cliente',
 			]);
 		break;
 
 		/*Cedula juridica*/
-		case 2:
+		case "02":
 			$validation = $validator->validate($_POST, [
 			    'cedula_cliente' => 'regex:/^[1-9]{10}$/|unique:clientes,cedula_cliente',
 			]);
 		break;
 
 		/*Cedula dimex*/
-		case 3:
+		case "03":
 			$validation = $validator->validate($_POST, [
 			    'cedula_cliente' => 'regex:/^[1-9]{11,12}$/|unique:clientes,cedula_cliente',
 			]);
 		break;
 
 		/*nite*/
-		case 4:
+		case "04":
 			$validation = $validator->validate($_POST, [
 			    'cedula_cliente' => 'regex:/^[1-9]{10}$/|unique:clientes,cedula_cliente',
 			]);
@@ -114,7 +116,9 @@
 	$telefono_fax_cod_cliente 	= mysqli_real_escape_string($con,(strip_tags($_POST["telefono_fax_cod_cliente"],ENT_QUOTES)));
 	$telefono_fax_cliente 		= mysqli_real_escape_string($con,(strip_tags($_POST["telefono_fax_cliente"],ENT_QUOTES)));
 	$email_cliente 				= mysqli_real_escape_string($con,(strip_tags($_POST["email_cliente"],ENT_QUOTES)));
-	// $moneda 					= mysqli_real_escape_string($con,(strip_tags($_POST["moneda"],ENT_QUOTES)));
+	$estado_cliente 			= mysqli_real_escape_string($con,(strip_tags($_POST["estado_cliente"],ENT_QUOTES)));
+	$id_moneda 					= mysqli_real_escape_string($con,(strip_tags($_POST["id_moneda"],ENT_QUOTES)));
+	$fecha_creacion_cliente		= date('Y/m/d H:i:s');
 
 	$sql="INSERT INTO clientes (
 	nombre_cliente,
@@ -127,7 +131,10 @@
 	telefono_cliente,
 	telefono_fax_cod_cliente,
 	telefono_fax_cliente,
-	email_cliente)
+	email_cliente,
+	estado_cliente,
+	fecha_creacion_cliente,
+	id_moneda)
 	VALUES (
 	'$nombre_cliente',
 	'$nombre_comercial_cliente',
@@ -139,7 +146,10 @@
 	'$telefono_cliente',
 	'$telefono_fax_cod_cliente',
 	'$telefono_fax_cliente',
-	'$email_cliente')";
+	'$email_cliente',
+	'$estado_cliente',
+	'$fecha_creacion_cliente',
+	'$id_moneda')";
 
 	$query_update = mysqli_query($con,$sql);
 

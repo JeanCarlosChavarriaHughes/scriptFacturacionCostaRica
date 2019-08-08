@@ -96,34 +96,46 @@
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
-						$id_cliente=$row['id_cliente'];
-						$cedula=$row['cedula_cliente'];
-						$nombre_cliente=$row['nombre_cliente'];
-						$telefono_cliente=$row['telefono_cliente'];
-						$email_cliente=$row['email_cliente'];
-						$direccion_cliente=$row['direccion_cliente'];
-						$status_cliente=$row['estado_cliente'];
-						if ($status_cliente==1){$estado="Activo";}
-						else {$estado="Inactivo";}
-						$id_moneda=$row['id_moneda'];
+						$id_cliente 				= $row['id_cliente'];
+						$nombre_cliente 			= $row['nombre_cliente'];
+						$nombre_comercial_cliente 	= $row['nombre_comercial_cliente'];
+						$tipo_cedula_cliente 		= $row['tipo_cedula_cliente'];
+						$cedula_cliente 			= $row['cedula_cliente'];
+						$ubicacion_cliente 			= $row['ubicacion_cliente'];
+						$direccion_cliente 			= $row['direccion_cliente'];
+						$telefono_cod_cliente 		= $row['telefono_cod_cliente'];
+						$telefono_cliente 			= $row['telefono_cliente'];
+						$telefono_fax_cod_cliente 	= $row['telefono_fax_cod_cliente'];
+						$telefono_fax_cliente 		= $row['telefono_fax_cliente'];
+						$email_cliente 				= $row['email_cliente'];
+						$id_moneda 					= $row['id_moneda'];
+						$estado_cliente				= $row['estado_cliente'];
 
 						$date_added= date('d/m/Y', strtotime($row['fecha_creacion_cliente']));
 
 					?>
-					<input type="hidden" value="<?php echo $cedula;?>" id="cedula<?php echo $id_cliente;?>">
-					<input type="hidden" value="<?php echo $nombre_cliente;?>" id="nombre_cliente<?php echo $id_cliente;?>">
-					<input type="hidden" value="<?php echo $telefono_cliente;?>" id="telefono_cliente<?php echo $id_cliente;?>">
-					<input type="hidden" value="<?php echo $email_cliente;?>" id="email_cliente<?php echo $id_cliente;?>">
-					<input type="hidden" value="<?php echo $direccion_cliente;?>" id="direccion_cliente<?php echo $id_cliente;?>">
-					<input type="hidden" value="<?php echo $status_cliente;?>" id="status_cliente<?php echo $id_cliente;?>">
-					<input type="hidden" value="<?php echo $id_moneda;?>" id="id_moneda<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $id_cliente;?>" id="id_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $nombre_cliente;?>" id="nombre_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $nombre_comercial_cliente;?>" id="nombre_comercial_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $tipo_cedula_cliente;?>" id="tipo_cedula_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $cedula_cliente;?>" id="cedula_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $ubicacion_cliente;?>" id="ubicacion_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $direccion_cliente;?>" id="direccion_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $telefono_cod_cliente;?>" id="telefono_cod_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $telefono_cliente;?>" id="telefono_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $telefono_fax_cod_cliente;?>" id="telefono_fax_cod_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $telefono_fax_cliente;?>" id="telefono_fax_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $email_cliente;?>" id="email_cliente_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $id_moneda;?>" id="id_moneda_<?php echo $id_cliente;?>">
+					<input type="hidden" value="<?php echo $estado_cliente;?>" id="estado_cliente_<?php echo $id_cliente;?>">
+
 					<tr>
-						<td><?php echo $cedula; ?></td>
+						<td><?php echo $cedula_cliente; ?></td>
 						<td><?php echo $nombre_cliente; ?></td>
 						<td><?php echo $telefono_cliente; ?></td>
 						<td><?php echo $email_cliente;?></td>
 						<td><?php echo $direccion_cliente;?></td>
-						<td><?php echo $estado;?></td>
+						<td><?php echo $estado_cliente == 1 ? 'Activo' : 'Inactivo'; ?></td>
 						<td><?php echo $date_added;?></td>
 
 					<td ><span class="pull-right">

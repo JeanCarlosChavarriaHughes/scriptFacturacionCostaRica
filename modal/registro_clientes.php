@@ -64,7 +64,7 @@
 									<label for="" class="col-sm-4">Ubicación:</label>
 									<div class="col-sm-4">
 										<p>Provincia - canton - Distrito - Barrio</p>
-										<select name="ubicacion_cliente" class="select-ubicacion">
+										<select name="ubicacion_cliente" class="select-ubicacion" style="width: 100%;">
 											<?php
 												$content=file_get_contents(constant('codificacion_ubicacion'));
 												$data=json_decode($content);
@@ -129,12 +129,31 @@
 										</select>
 									</div>
 								</div>
-						</form>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-						<button type="submit" class="btn btn-primary" id="guardar_datos">Guardar datos</button>
-					</div>
+
+								<div class="form-group">
+								<label for="mod_moneda" class="col-sm-4">Moneda</label>
+								<div class="col-sm-8">
+									<select class="select_moneda" style="width: 100%;" name="id_moneda">
+										<?php
+											$content=file_get_contents(constant('codigos_monedas'));
+											$data=json_decode($content);
+											foreach ($data as $value) {
+										?>
+											<option value="<?php echo $value->codigoMoneda; ?>">
+												<?php echo $value->codigoMoneda; ?>
+											</option>
+										<?php
+											}
+										?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+							<button type="submit" class="btn btn-primary" id="guardar_datos">Guardar datos</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>

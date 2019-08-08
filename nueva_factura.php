@@ -133,9 +133,19 @@
 							<!-- /.col-md -->
 
 							<div class="col-md-3">
-								<label for="">Moneda</label>
-								<select class='form-control input-sm' id="moneda">
-									<option value="CRC" selected>CRC</option>
+								<label for="">Moneda</label><br>
+								<select class='select-moneda' id="moneda" style="width: 100%;">
+									<?php
+										$content=file_get_contents(constant('codigos_monedas'));
+										$data=json_decode($content);
+										foreach ($data as $value) {
+									?>
+										<option value="<?php echo $value->codigoMoneda; ?>">
+											<?php echo $value->codigoMoneda; ?>
+										</option>
+									<?php
+										}
+									?>
 								</select>
 							</div>
 						</div>
@@ -182,6 +192,7 @@
 			    $('.select-ubicacion').select2({
 				    dropdownParent: $('#nuevoCliente .modal-content')
 				});
+				$('.select-moneda').select2();
 			});
 		</script>
 		<!-- END Select de ubicación -->
@@ -196,9 +207,11 @@
 						$('#nombre_cliente').val(ui.item.nombre_cliente);
 						$('#tel1').val(ui.item.telefono_cliente);
 						$('#mail').val(ui.item.email_cliente);
-						$('#moneda').val(ui.item.moneda);
-						load(1);
 
+						$('#moneda').val(ui.item.moneda);
+						$('#moneda').trigger('change');
+
+						load(1);
 					}
 				});
 
