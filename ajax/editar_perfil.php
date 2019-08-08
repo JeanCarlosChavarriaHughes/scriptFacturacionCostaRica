@@ -23,7 +23,7 @@
 	    'nombre_empresa'         	=> 'required|max:100',
 	    'codigo_actividad_empresa'	=> 'required|numeric|max:11',
 	    'nombre_empresa_comercial'	=> 'required|max:80',
-	    'tipo_cedula'           	=> 'required|numeric|digits:1',
+	    'tipo_cedula'           	=> 'required|numeric|digits:2',
 	    'ubicacion'              	=> 'required|numeric',
 	    'direccion'      			=> 'required|max:250',
 	    'telefono_cod'      		=> 'required|numeric|digits_between:1,3',

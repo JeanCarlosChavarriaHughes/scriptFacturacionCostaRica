@@ -2,8 +2,7 @@
 SQLyog Ultimate v11.11 (64 bit)
 MySQL - 5.5.5-10.1.34-MariaDB : Database - mxz841yn7rjpnlmu
 *********************************************************************
-*/
-
+*/
 
 /*!40101 SET NAMES utf8 */;
 
@@ -20,6 +19,7 @@ USE `mxz841yn7rjpnlmu`;
 /*Table structure for table `clientes` */
 
 DROP TABLE IF EXISTS `clientes`;
+
 CREATE TABLE `clientes` (
   `id_cliente` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_cliente` varchar(255) NOT NULL,
@@ -35,15 +35,15 @@ CREATE TABLE `clientes` (
   `direccion_cliente` varchar(255) NOT NULL,
   `telefono_cod_cliente` varchar(5) DEFAULT NULL,
   `fecha_creacion_cliente` datetime NOT NULL,
-  `id_moneda` int(2) NOT NULL,
+  `id_moneda` varchar(6) NOT NULL,
   PRIMARY KEY (`id_cliente`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 /*Data for the table `clientes` */
 
 LOCK TABLES `clientes` WRITE;
 
-insert  into `clientes`(`id_cliente`,`nombre_cliente`,`nombre_comercial_cliente`,`tipo_cedula_cliente`,`cedula_cliente`,`ubicacion_cliente`,`telefono_cliente`,`telefono_fax_cod_cliente`,`telefono_fax_cliente`,`email_cliente`,`estado_cliente`,`direccion_cliente`,`telefono_cod_cliente`,`fecha_creacion_cliente`,`id_moneda`) values (3,'Daniel Gonzalez',NULL,'02','1234567891',NULL,'87700010',NULL,NULL,'dgonzalez@imagineing.com','1','',NULL,'2019-05-10 02:51:23',0);
+insert  into `clientes`(`id_cliente`,`nombre_cliente`,`nombre_comercial_cliente`,`tipo_cedula_cliente`,`cedula_cliente`,`ubicacion_cliente`,`telefono_cliente`,`telefono_fax_cod_cliente`,`telefono_fax_cliente`,`email_cliente`,`estado_cliente`,`direccion_cliente`,`telefono_cod_cliente`,`fecha_creacion_cliente`,`id_moneda`) values (3,'Daniel Gonzalez','Daniel','01','125487632','4','3225896503','506','3016710511','marcpt@hotmail.com','1','CALLE 7A #12-42','506','2019-05-10 02:51:23','CRC'),(14,'Pepito perez','pepi','01','123547865','4455','1245478546','506','1248756324','ma5rcpt@hotmail.com','1','CL 25 SUR','506','2019-08-07 22:52:53','AFN'),(15,'Fabio','Faban','01','963285647','5313','6349875648','506','3214587458','aaapt@hotmail.com','1','Los martires cr 52 #9 89','506','2019-08-07 22:53:48','USD');
 
 UNLOCK TABLES;
 
@@ -71,7 +71,9 @@ insert  into `currencies`(`id`,`name`,`symbol`,`precision`,`thousand_separator`,
 UNLOCK TABLES;
 
 /*Table structure for table `detalle_factura` */
+
 DROP TABLE IF EXISTS `detalle_factura`;
+
 CREATE TABLE `detalle_factura` (
   `id_detalle` int(11) NOT NULL AUTO_INCREMENT,
   `numero_factura` int(11) NOT NULL,
@@ -85,19 +87,20 @@ CREATE TABLE `detalle_factura` (
   KEY `id_producto` (`id_producto`),
   CONSTRAINT `detalle_factura_ibfk_1` FOREIGN KEY (`numero_factura`) REFERENCES `facturas` (`numero_factura`) ON DELETE CASCADE,
   CONSTRAINT `detalle_factura_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `products` (`id_producto`)
-) ENGINE=InnoDB AUTO_INCREMENT=326 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=331 DEFAULT CHARSET=utf8;
 
 /*Data for the table `detalle_factura` */
 
 LOCK TABLES `detalle_factura` WRITE;
 
-insert  into `detalle_factura`(`id_detalle`,`numero_factura`,`id_producto`,`cantidad`,`precio_venta`,`monto_descuento`,`desc_descuento`) values (278,3,20,1,56,15,'Día del niño'),(279,3,19,3,23,0,''),(280,3,17,1,40,0,''),(281,3,18,1,10,2,'Día del niño'),(282,4,36,1,15,2,'Descuento'),(285,6,39,1,15,0,''),(286,6,38,1,12,0,''),(287,6,37,1,12,3,'UN DESCUENTO'),(288,7,39,1,15,0,''),(289,7,37,1,12,0,''),(290,7,36,1,15,3,'Día del padre'),(291,8,17,1,40,0,'');
+insert  into `detalle_factura`(`id_detalle`,`numero_factura`,`id_producto`,`cantidad`,`precio_venta`,`monto_descuento`,`desc_descuento`) values (278,3,20,1,56,15,'Día del niño'),(279,3,19,3,23,0,''),(280,3,17,1,40,0,''),(281,3,18,1,10,2,'Día del niño'),(282,4,36,1,15,2,'Descuento'),(285,6,39,1,15,0,''),(286,6,38,1,12,0,''),(287,6,37,1,12,3,'UN DESCUENTO'),(288,7,39,1,15,0,''),(289,7,37,1,12,0,''),(290,7,36,1,15,3,'Día del padre'),(291,8,17,1,40,0,''),(326,9,18,1,10,0,''),(327,9,19,1,23,0,''),(328,10,39,1,15,0,''),(329,10,37,1,12,0,''),(330,11,17,1,40,0,'');
 
 UNLOCK TABLES;
 
 /*Table structure for table `facturas` */
 
 DROP TABLE IF EXISTS `facturas`;
+
 CREATE TABLE `facturas` (
   `id_factura` int(11) NOT NULL AUTO_INCREMENT,
   `numero_factura` int(11) NOT NULL,
@@ -119,18 +122,20 @@ CREATE TABLE `facturas` (
   KEY `facturas_ibfk_1` (`id_cliente`),
   CONSTRAINT `facturas_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `clientes` (`id_cliente`) ON DELETE CASCADE,
   CONSTRAINT `facturas_ibfk_2` FOREIGN KEY (`id_vendedor`) REFERENCES `users` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
 
 /*Data for the table `facturas` */
 
 LOCK TABLES `facturas` WRITE;
 
-insert  into `facturas`(`id_factura`,`numero_factura`,`fecha_factura`,`id_cliente`,`id_vendedor`,`condiciones`,`medio_pago`,`total_venta`,`estado_factura`,`total_colones`,`tipo_cambio`,`impuestos`,`moneda`,`plazo_credito`) values (79,3,'21-07-2019',3,1,'1','1','184.3',1,'167.30','0',9,'CRC',NULL),(80,4,'21-07-2019',3,1,'1','1','16.95',1,'14.95','0',2,'CRC',NULL),(82,6,'26-07-2019',3,1,'01','02','44.07',1,'41.07','0',5,'CRC',''),(83,7,'29-07-2019',3,1,'02','01','47.46',1,'44.46','0',5,'CRC','30'),(84,8,'30-07-2019',3,1,'01','01','45.2',1,'45.20','0',5,'CRC','');
+insert  into `facturas`(`id_factura`,`numero_factura`,`fecha_factura`,`id_cliente`,`id_vendedor`,`condiciones`,`medio_pago`,`total_venta`,`estado_factura`,`total_colones`,`tipo_cambio`,`impuestos`,`moneda`,`plazo_credito`) values (79,3,'21-07-2019',3,1,'1','1','184.3',1,'167.30','0',9,'CRC',NULL),(80,4,'21-07-2019',3,1,'1','1','16.95',1,'14.95','0',2,'CRC',NULL),(82,6,'26-07-2019',3,1,'01','02','44.07',1,'41.07','0',5,'CRC',''),(83,7,'29-07-2019',3,1,'02','01','47.46',1,'44.46','0',5,'CRC','30'),(84,8,'30-07-2019',3,1,'01','01','45.2',1,'45.20','0',5,'CRC',''),(104,9,'01-08-2019',3,1,'01','01','34.3',1,'34.30','0',1,'CRC',''),(105,10,'01-08-2019',3,1,'01','01','30.51',1,'30.51','0',4,'CRC',''),(106,11,'07-08-2019',14,1,'01','01','45.2',1,'45.20','0',5,'AFN','');
 
 UNLOCK TABLES;
 
 /*Table structure for table `perfil` */
+
 DROP TABLE IF EXISTS `perfil`;
+
 CREATE TABLE `perfil` (
   `id_perfil` int(11) NOT NULL AUTO_INCREMENT,
   `tipo_cedula` varchar(2) CHARACTER SET latin1 NOT NULL,
@@ -169,12 +174,14 @@ CREATE TABLE `perfil` (
 
 LOCK TABLES `perfil` WRITE;
 
-insert  into `perfil`(`id_perfil`,`tipo_cedula`,`cedula`,`nombre_empresa`,`nombre_empresa_comercial`,`direccion`,`ciudad`,`codigo_postal`,`estado`,`telefono`,`telefono_cod`,`telefono_fax`,`telefono_fax_cod`,`email`,`file_p12`,`key_username`,`key_password`,`pin_p12`,`impuesto`,`moneda`,`logo_url`,`mensaje_factura`,`idFile`,`downloadCode`,`usernameAPI`,`passwordAPI`,`iduserapi`,`acercade`,`ubicacion`,`codigo_actividad_empresa`) values (1,'01','123458789','Su nombre','Su nombre Comercial','San Pedro','Grecia','20201','Alajuela','89888447','506','27102083','506','pruebas@mail.com','070211023522.p12','cpf-07-0211-0235@stag.comprobanteselectronicos.go.cr','.HG@gK=]H>6M[^8ts/^*','2525',13,'¢','img/1503637578_html-2188441_640.png','Esta factura constituye Titulo Ejecutivo y se rige por el artículo 460 del código de Comercio. La cancelación de esta factura se hará en U.S. $, o en colones al tipo de cambio vigente en la fecha de facturación de la misma.																																										',44,'a840d380943483705bf10a6acc50631d','test702110235','pass702110235',5,'Acerca de PRUEBAS DE REGISTRO','6558',900002);
+insert  into `perfil`(`id_perfil`,`tipo_cedula`,`cedula`,`nombre_empresa`,`nombre_empresa_comercial`,`direccion`,`ciudad`,`codigo_postal`,`estado`,`telefono`,`telefono_cod`,`telefono_fax`,`telefono_fax_cod`,`email`,`file_p12`,`key_username`,`key_password`,`pin_p12`,`impuesto`,`moneda`,`logo_url`,`mensaje_factura`,`idFile`,`downloadCode`,`usernameAPI`,`passwordAPI`,`iduserapi`,`acercade`,`ubicacion`,`codigo_actividad_empresa`) values (1,'01','123456789','Su nombre','Su nombre Comercial','San Pedro','Grecia','20201','Alajuela','89888447','506','27102083','506','pruebas@mail.com','070211023522.p12','cpf-07-0211-0235@stag.comprobanteselectronicos.go.cr','.HG@gK=]H>6M[^8ts/^*','2525',13,'XOF','img/1503637578_html-2188441_640.png','Esta factura constituye Titulo Ejecutivo y se rige por el artículo 460 del código de Comercio. La cancelación de esta factura se hará en U.S. $, o en colones al tipo de cambio vigente en la fecha de facturación de la misma.																																										',45,'8e66fc2e9cf854df9674259589f96f55','test702110235','pass702110235',5,'Acerca de PRUEBAS DE REGISTRO','6558',900002);
 
 UNLOCK TABLES;
 
 /*Table structure for table `products` */
+
 DROP TABLE IF EXISTS `products`;
+
 CREATE TABLE `products` (
   `id_producto` int(11) NOT NULL AUTO_INCREMENT,
   `codigo_producto` char(20) NOT NULL,
@@ -205,7 +212,9 @@ insert  into `products`(`id_producto`,`codigo_producto`,`nombre_producto`,`statu
 UNLOCK TABLES;
 
 /*Table structure for table `tmp` */
+
 DROP TABLE IF EXISTS `tmp`;
+
 CREATE TABLE `tmp` (
   `id_tmp` int(11) NOT NULL AUTO_INCREMENT,
   `id_producto` int(11) NOT NULL,
@@ -216,18 +225,20 @@ CREATE TABLE `tmp` (
   `session_id` varchar(100) COLLATE utf8_unicode_ci NOT NULL,
   `moneda_tmp` varchar(10) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id_tmp`)
-) ENGINE=MyISAM AUTO_INCREMENT=256 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=268 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `tmp` */
 
 LOCK TABLES `tmp` WRITE;
 
-insert  into `tmp`(`id_tmp`,`id_producto`,`cantidad_tmp`,`precio_tmp`,`monto_descuento`,`desc_descuento`,`session_id`,`moneda_tmp`) values (254,17,1,40.00,0.00,'','qgg543oqpcl615fnv6mbiql81p','CRC'),(255,18,1,10.00,0.00,'','qgg543oqpcl615fnv6mbiql81p','CRC');
+insert  into `tmp`(`id_tmp`,`id_producto`,`cantidad_tmp`,`precio_tmp`,`monto_descuento`,`desc_descuento`,`session_id`,`moneda_tmp`) values (254,17,1,40.00,0.00,'','qgg543oqpcl615fnv6mbiql81p','CRC'),(255,18,1,10.00,0.00,'','qgg543oqpcl615fnv6mbiql81p','CRC'),(266,17,1,40.00,0.00,'','3hmsqphg53v6ka2ebm2lf4l9ae','');
 
 UNLOCK TABLES;
 
 /*Table structure for table `users` */
+
 DROP TABLE IF EXISTS `users`;
+
 CREATE TABLE `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'auto incrementing user_id of each user, unique index',
   `firstname` varchar(20) COLLATE utf8_unicode_ci NOT NULL,

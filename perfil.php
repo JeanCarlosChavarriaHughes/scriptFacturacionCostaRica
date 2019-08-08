@@ -189,22 +189,17 @@
 												<tr>
 													<td>Simbolo de moneda:</td>
 													<td>
-														<select class='form-control input-sm' name="moneda" required>
+														<select class='select-moneda' name="moneda" style="width: 100%;" required>
 															<?php
-															$sql="select name, symbol from  currencies group by symbol order by name ";
-															$query=mysqli_query($con,$sql);
-															while($rw=mysqli_fetch_array($query)){
-																$simbolo=$rw['symbol'];
-																$moneda=$rw['name'];
-																if ($row['moneda']==$simbolo){
-																	$selected="selected";
-																} else {
-																	$selected="";
+																$content=file_get_contents(constant('codigos_monedas'));
+																$data=json_decode($content);
+																foreach ($data as $value) {
+															?>
+																<option value="<?php echo $value->codigoMoneda; ?>" <?php echo ($value->codigoMoneda == $row['moneda']) ? "selected" : ''; ?>>
+																	<?php echo $value->codigoMoneda; ?>
+																</option>
+															<?php
 																}
-																?>
-																<option value="<?php echo $simbolo;?>" <?php echo $selected;?>><?php echo ($simbolo);?></option>
-																<?php
-															}
 															?>
 														</select>
 													</td>
@@ -247,6 +242,7 @@
 				// In your Javascript (external .js resource or <script> tag)
 				$(document).ready(function() {
 				    $('.select-ubicacion').select2();
+				    $('.select-moneda').select2();
 				});
 			</script>
 			<script type="text/javascript" src="js/bootstrap-filestyle.js"> </script>

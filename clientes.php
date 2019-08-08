@@ -57,15 +57,10 @@
 							</div>
 
 						</div>
-
-
-
 			</form>
 				<div id="resultados"></div><!-- Carga los datos ajax -->
 				<div class='outer_div'></div><!-- Carga los datos ajax -->
-
-
-  </div>
+  			</div>
 </div>
 
 	</div>
@@ -73,6 +68,9 @@
 	<?php
 	include("footer.php");
 	?>
+	<!-- END Select de ubicación -->
+	<script type="text/javascript" src="js/clientes.js"></script>
+
 	<!-- Select de ubicación -->
 	<script src="js/select2.full.min.js"></script>
 	<script type="text/javascript">
@@ -80,9 +78,16 @@
 		    $('.select-ubicacion').select2({
 			    dropdownParent: $('#nuevoCliente .modal-content')
 			});
+			$('.mod-select-ubicacion').select2({
+			    dropdownParent: $('#myModal2 .modal-content')
+			});
+			$('.select_moneda').select2({
+			    dropdownParent: $('#nuevoCliente .modal-content')
+			});
+			$('.mod_select_moneda').select2({
+			    dropdownParent: $('#myModal2 .modal-content')
+			});
 		});
 	</script>
-	<!-- END Select de ubicación -->
-	<script type="text/javascript" src="js/clientes.js"></script>
   </body>
 </html>
