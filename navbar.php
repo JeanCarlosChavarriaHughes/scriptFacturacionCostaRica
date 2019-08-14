@@ -32,7 +32,7 @@
   </div><!-- /.container-fluid -->
 </nav>
 <?php
-  if (!$_SESSION['EXISTS_FILE_P12']) {
+  if (!isset($_SESSION['EXISTS_FILE_P12'])) {
     echo '<div class="container">
             <div class="alert alert-warning" role="alert">
               <button type="button" class="close" data-dismiss="alert">&times;</button>

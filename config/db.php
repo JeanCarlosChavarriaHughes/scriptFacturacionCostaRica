@@ -8,6 +8,9 @@ define('DB_HOST', getenv('DB_HOST'));//DB_HOST:  generalmente suele ser "127.0.0
 define('DB_USER', getenv('DB_USERNAME'));//Usuario de tu base de datos
 define('DB_PASS', getenv('DB_PASSWORD'));//Contraseña del usuario de la base de datos
 define('DB_NAME', getenv('DB_NAME'));//Nombre de la base de datos
+define('DB_DRIVER', getenv('DB_DRIVER'));
+define('DB_CHARSET', getenv('DB_CHARSET'));
+define('DB_COLLATION', getenv('DB_COLLATION'));
 
 // db4free credentials no longer working.
 /*define('DB_HOST', 'db4free.net');//DB_HOST:  generalmente suele ser "127.0.0.1"

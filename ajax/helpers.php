@@ -232,7 +232,7 @@ class Helpers {
 	public static function validateIfExistsP12(){
 		$user_info = self::getUserInfo(1);
 		if(empty($user_info->file_p12)){
-			$_SESSION['EXISTS_FILE_P12'] = false;
+			unset($_SESSION['EXISTS_FILE_P12']);
 			return false;
 		}else{
 			$_SESSION['EXISTS_FILE_P12'] = true;

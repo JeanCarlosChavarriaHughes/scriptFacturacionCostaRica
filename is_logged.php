@@ -2,13 +2,14 @@
     session_start();
     require_once("config/constants.php");
 	require_once('vendor/autoload.php');
+    require_once('config/db.php');
 	use GuzzleHttp\Client;
     use Ajax\Helpers as Helpers;
 	use Illuminate\Database\Capsule\Manager as Capsule;
 
 
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-        header("location: ../login.php");
+        header("location: login.php");
 		exit;
     }
 
@@ -17,14 +18,14 @@
     // ======================================================
     $capsule = new Capsule;
     $capsule->addConnection([
-        'driver'    => getenv('DB_DRIVER'),
-        'host'      => getenv('DB_HOST'),
-        'database'  => getenv('DB_NAME'),
-        'username'  => getenv('DB_USERNAME'),
-        'password'  => getenv('DB_PASSWORD'),
-        'charset'   => getenv('DB_CHARSET'),
-        'collation' => getenv('DB_COLLATION'),
-        // 'prefix'    => getenv('DB_PREFIX'),
+        'driver'    => DB_DRIVER,
+        'host'      => DB_HOST,
+        'database'  => DB_NAME,
+        'username'  => DB_USER,
+        'password'  => DB_PASS,
+        'charset'   => DB_CHARSET,
+        'collation' => DB_COLLATION,
+        // 'prefix'    => getenv('DB_PREFIX,
     ]);
 
     // Make this Capsule instance available globally via static methods... (optional)
