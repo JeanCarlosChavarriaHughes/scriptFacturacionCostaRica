@@ -4,6 +4,10 @@
         {
             "name": "juniorsotto",
             "email": "juniorsotto8@gmail.com"
+        },
+        {
+          "name": "JeanCarlos Chavarría Hughes",
+          "email": "negrotico19@gmail.com"
         }
     ],
     "autoload":{
@@ -16,6 +20,7 @@
     "require": {
         "illuminate/database": "^5.8",
         "guzzlehttp/guzzle": "^6.3",
-        "rakit/validation": "^1.2"
+        "rakit/validation": "^1.2",
+        "ext-gd": "*"
     }
 }
