@@ -61,7 +61,7 @@
              $rw_cliente=mysqli_fetch_array($sql_cliente);
              echo $rw_cliente['nombre_cliente'];
              echo "<br>Cédula: ";
-             echo $rw_cliente['cedula'];
+             echo $rw_cliente['cedula_cliente'];
              echo "<br>";
              echo $rw_cliente['direccion_cliente'];
              echo "<br> Teléfono: ";
