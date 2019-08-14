@@ -54,28 +54,28 @@
 	/*Para validar la cédula segun el tipo de documento*/
 	switch ($_POST['tipo_cedula']) {
 		/*Cedula fisica*/
-		case 1:
+		case "01":
 			$validation = $validator->validate($_POST, [
 			    'cedula' => 'regex:/^[1-9]{9}$/',
 			]);
 		break;
 
 		/*Cedula juridica*/
-		case 2:
+		case "02":
 			$validation = $validator->validate($_POST, [
 			    'cedula' => 'regex:/^[1-9]{10}$/',
 			]);
 		break;
 
 		/*Cedula dimex*/
-		case 3:
+		case "03":
 			$validation = $validator->validate($_POST, [
 			    'cedula' => 'regex:/^[1-9]{11,12}$/',
 			]);
 		break;
 
 		/*nite*/
-		case 4:
+		case "04":
 			$validation = $validator->validate($_POST, [
 			    'cedula' => 'regex:/^[1-9]{10}$/',
 			]);
