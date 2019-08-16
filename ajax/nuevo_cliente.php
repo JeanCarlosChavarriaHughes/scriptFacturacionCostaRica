@@ -61,28 +61,28 @@
 		/*Cedula fisica*/
 		case "01":
 			$validation = $validator->validate($_POST, [
-			    'cedula_cliente' => 'regex:/^[1-9]{9}$/|unique:clientes,cedula_cliente',
+			    'cedula_cliente' => 'regex:/^[1-9]{1}[0-9]{8}$/|unique:clientes,cedula_cliente',
 			]);
 		break;
 
 		/*Cedula juridica*/
 		case "02":
 			$validation = $validator->validate($_POST, [
-			    'cedula_cliente' => 'regex:/^[1-9]{10}$/|unique:clientes,cedula_cliente',
+			    'cedula_cliente' => 'regex:/^[1-9]{1}[0-9]{9}$/|unique:clientes,cedula_cliente',
 			]);
 		break;
 
 		/*Cedula dimex*/
 		case "03":
 			$validation = $validator->validate($_POST, [
-			    'cedula_cliente' => 'regex:/^[1-9]{11,12}$/|unique:clientes,cedula_cliente',
+			    'cedula_cliente' => 'regex:/^[1-9]{1}[0-9]{10,11}$/|unique:clientes,cedula_cliente',
 			]);
 		break;
 
 		/*nite*/
 		case "04":
 			$validation = $validator->validate($_POST, [
-			    'cedula_cliente' => 'regex:/^[1-9]{10}$/|unique:clientes,cedula_cliente',
+			    'cedula_cliente' => 'regex:/^[1-9]{1}[0-9]{9}$/|unique:clientes,cedula_cliente',
 			]);
 		break;
 	}
