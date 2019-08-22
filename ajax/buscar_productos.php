@@ -49,7 +49,7 @@
 	if($action == 'ajax'){
 		// escaping, additionally removing everything that could be (html/javascript-) code
          $q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
-		 $aColumns = array('codigo_producto', 'nombre_producto');//Columnas de busqueda
+		 $aColumns = array('codigo_producto', 'nombre_producto', 'precio_colon');//Columnas de busqueda
 		 $sTable = "products";
 		 $sWhere = "";
 		if ( $_GET['q'] != "" )
