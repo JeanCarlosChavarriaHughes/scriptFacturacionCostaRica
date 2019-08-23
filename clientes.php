@@ -30,9 +30,15 @@
     <div class="container">
 	<div class="panel panel-info">
 		<div class="panel-heading">
+
 		    <div class="btn-group pull-right">
-				<button type='button' class="btn btn-info" data-toggle="modal" data-target="#nuevoCliente"><span class="glyphicon glyphicon-plus" ></span> Nuevo Cliente</button>
+				<button type='button' class="btn btn-info" style="margin-left: 20px;" data-toggle="modal" data-target="#nuevoCliente"><span class="glyphicon glyphicon-plus" ></span> Nuevo Cliente</button>
 			</div>
+
+			<div class="btn-group pull-right">
+				<button type='button' class="btn btn-info" data-toggle="modal" data-target="#checkHacienda"><span class="glyphicon glyphicon-plus" ></span>Check Hacienda</button>
+			</div>
+
 			<h4><i class='glyphicon glyphicon-search'></i> Buscar Clientes</h4>
 		</div>
 		<div class="panel-body">
@@ -42,6 +48,8 @@
 			<?php
 				include("modal/registro_clientes.php");
 				include("modal/editar_clientes.php");
+				include("modal/check_hacienda.php");
+
 			?>
 			<form class="form-horizontal" role="form" id="datos_cotizacion">
 

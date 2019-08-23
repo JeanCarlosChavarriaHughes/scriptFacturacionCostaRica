@@ -111,4 +111,43 @@ function obtener_datos(id){
 	$("#mod_estado_cliente").val(estado_cliente);
 }
 
+function check_hacienda_not(userid){
+	var parametros = $(this).serialize();
+	console.log(parametros);
+	console.log(userid);
+	var q= $(userid).val();
+	$("#loader").fadeIn('slow');
+	$.ajax({
+		url:'https://api.hacienda.go.cr/fe/ae?identificacion='+userid,
+		 beforeSend: function(objeto){
+		 $('#loader').html('<img src="./img/ajax-loader.gif"> Cargando...');
+	  },
+		success:function(data){
+			console.lof(data);
+			$(".outer_div").html(data).fadeIn('slow');
+			$('#loader').html('');
+		}
+	})
+}
 
+$("#check_hacienda").submit(function(event) {
+	$('#check_hacienda_datos').attr("disabled", true);
+
+   var cedula_cliente = $("#cedula_cliente").val();
+   $.ajax({
+	  type: "GET",
+	  url: 'https://api.hacienda.go.cr/fe/ae?identificacion='+cedula_cliente,
+	  //data: parametros,
+	  success: function(datos){
+		  console.log(datos['nombre']);
+		  $("#NombreCliente").html(datos['nombre'] );
+		  $("#TipoIdentificacion").html(datos['tipoIdentificacion']);
+		  $("#ActividadesCliente").html(JSON.stringify(datos['actividades']));
+
+		  $('#check_hacienda_datos').attr("disabled", false);
+		  load(1);
+		  console.log(datos)
+	  }
+  });
+	event.preventDefault();
+});
