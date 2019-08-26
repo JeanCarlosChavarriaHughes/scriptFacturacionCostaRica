@@ -62,6 +62,9 @@
 	<?php
 	include("footer.php");
 	?>
+	<?php
+		$client_id = SB_CLIENT_ID;
+	?>
 	<script type="text/javascript" src="js/VentanaCentrada.js"></script>
 	<script type="text/javascript" src="js/facturas.js"></script>
   </body>
