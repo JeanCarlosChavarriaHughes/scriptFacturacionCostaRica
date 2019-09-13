@@ -1,5 +1,5 @@
 <?php
-	include('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
+	require_once('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
     use Rakit\Validation\Validator;
     use ValidatorsFields\UniqueRule;
 
