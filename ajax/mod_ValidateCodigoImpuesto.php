@@ -1,6 +1,6 @@
 <?php
-	include('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
-	include("../config/constants.php");
+	require_once('is_logged.php');//Archivo verifica que el usario que intenta acceder a la URL esta logueado
+	require_once("../config/constants.php");
 	/*Inicia validacion del lado del servidor*/
     $codigoImpuesto = str_pad($_GET['mod_codigoImpuesto'], 2, "0", STR_PAD_LEFT);
 ?>

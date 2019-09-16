@@ -1,7 +1,3 @@
-<?php
-	use Ajax\Helpers as Helpers;
-	use Illuminate\Database\Capsule\Manager as Capsule;
-?>
 <style type="text/css">
 	table { vertical-align: top; }
 	tr    { vertical-align: top; }
@@ -228,26 +224,7 @@
 	$date=date("d-m-Y");
 
 	/*Guarda la factura en BD*/
-	$insert=mysqli_query($con,"INSERT INTO facturas VALUES (NULL,'$numero_factura','$date','$id_cliente','$id_vendedor','$condiciones','$medio_pago','$total_factura','1','$total_colones_r','$cambio','$impuesto', '$moneda', '$credito_dias')");
-
-	/*-------------------------*/
-		 // CREA, ENVÍA Y CONSULTA XML. Imprime en consola los resultados.
-		$helpers = new Helpers();
-		//Valida el estado del token
-		Helpers::validateTokenApi();
-
-		$xml = Helpers::createXmlFE($helpers, $id_factura_creada);
-		echo "<script type='text/javascript'>console.log('XML CREADO:".json_encode($xml)."');</script>";
-
-		$xmlfirmado = Helpers::firmarXML($helpers, $xml->resp->xml,"FE");
-		echo "<script type='text/javascript'>console.log('XML FIRMADO:".json_encode($xmlfirmado)."');</script>";
-
-		$enviofe = Helpers::envioHaciendaFE($helpers, $xmlfirmado->resp->xmlFirmado, $id_factura_creada);
-		echo "<script type='text/javascript'>console.log('RESP ENVIO HACIENDA:".json_encode($enviofe)."');</script>";
-
-		$consultaenviofe = Helpers::consultaEnvioHaciendaFE($xml->resp->clave);
-		echo "<script type='text/javascript'>console.log('RESP CONSULTA ENVIO:".json_encode($consultaenviofe)."');</script>";
-	/*-------------------------*/
+	$insert=mysqli_query($con,"INSERT INTO facturas VALUES (NULL,'$numero_factura','$date','$id_cliente','$id_vendedor','$condiciones','$medio_pago','$total_factura','1','$total_colones_r','$cambio','$impuesto', '$moneda', '$credito_dias',0,'','','','','')");
 
 	if(!$insert){
 		echo "Lo siento algo ha salido mal intenta nuevamente. ".mysqli_error($con);

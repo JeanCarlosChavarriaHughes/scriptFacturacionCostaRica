@@ -33,5 +33,12 @@
     // ======================================================
 
     Helpers::validateTokenApi();
+    // $res= Helpers::consultaEnvioHaciendaFE(50610091900012345678900100001010000000054184619703);
+    // var_dump($res);
+    // echo Helpers::getJsonDetalleServicio(154);
+    // $helpers = new Helpers();
+    // $res = $helpers->createXmlFE($helpers, 154);
+    // var_dump($res);
+
 
 

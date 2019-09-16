@@ -3,6 +3,7 @@
     require_once("config/constants.php");
 	require_once('vendor/autoload.php');
     require_once('config/db.php');
+    require_once('config/conexion.php');
 	use GuzzleHttp\Client;
     use Ajax\Helpers as Helpers;
 	use Illuminate\Database\Capsule\Manager as Capsule;

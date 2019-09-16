@@ -66,7 +66,7 @@
 			$TarifaSubimpuesto_codigo 	= str_pad($TarifaSubimpuesto[0], 2, "0", STR_PAD_LEFT);
 			$TarifaSubimpuesto_tarifa 	= $TarifaSubimpuesto[1];
 
-			$query_to_update = ", impuesto_codigo = '{$codigoImpuesto}', impuesto_es_iva = '0', imp_subimp_tarifa = '{$TarifaSubimpuesto_codigo}', imp_subimp_codigo='{$TarifaSubimpuesto_tarifa}'";
+			$query_to_update = ", impuesto_codigo = '{$codigoImpuesto}', impuesto_es_iva = '0', imp_subimp_tarifa = '{$TarifaSubimpuesto_tarifa}', imp_subimp_codigo='{$TarifaSubimpuesto_codigo}'";
 			// $query_values = ", '".$codigoImpuesto."', 0, ".$TarifaSubimpuesto;
 		}
 

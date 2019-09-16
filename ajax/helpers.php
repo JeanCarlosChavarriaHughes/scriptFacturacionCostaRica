@@ -1,12 +1,15 @@
 <?php
 namespace Ajax;
 use GuzzleHttp\Client;
-use GuzzleHttp\Psr7;
-use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\ClientException;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
 use Illuminate\Database\Capsule\Manager as Capsule;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use Paypal\GetOrder;
 
-// include(dirname(__FILE__).'/../config/constants.php');
+require_once(dirname(__FILE__).'/../config/constants.php');
 
 class Helpers {
 	private $perfil;
@@ -728,6 +731,9 @@ class Helpers {
 		/*Recuperamos nodo ResumenFactura*/
 		$resumen_fact	= self::getNodeResumenFactura($num_factura);
 
+		/*Detalles factura*/
+		$detalles = self::getJsonDetalleServicio($num_factura);
+
 		$clientHTTP = new Client; //Inicia el cliente HTTP para request
 		$reqCreateXmlFE = $clientHTTP->request('POST', getenv('API_BASE_URL'), [
 		    'form_params' => [
@@ -790,7 +796,7 @@ class Helpers {
 				"total_comprobante"			=> $resumen_fact['TotalComprobante'],
 				"otros"						=> null, //Pendiente de adaptación
 				"otrosType"					=> null, //Pendiente de adaptación
-				"detalles"					=> self::getJsonDetalleServicio($num_factura),
+				"detalles"					=> $detalles,
 				"infoRefeTipoDoc"			=> null, //Pendiente de adaptación
 				"infoRefeNumero"			=> null, //Pendiente de adaptación
 				"infoRefeFechaEmision"		=> null, //Pendiente de adaptación
@@ -929,5 +935,68 @@ class Helpers {
 
 		$responseConsultaEnvio = json_decode($requestConsultaEnvio->getBody());
 		return $responseConsultaEnvio;
+	}
+
+	public static function sendEmailToReceptor(Helpers $helpers, $clave, $xml_firmado, $acuse, $pdf, $to){
+
+		/*Trae el correo electrónico del cliente*/
+		$to = Capsule::table('clientes')->where('id_cliente','=',$to)->first();
+
+		$mail = new PHPMailer(true);
+		try {
+		    //Server settings
+		    $mail->SMTPDebug = 0;                                   // Enable verbose debug output
+		    $mail->isSMTP();                                        // Set mailer to use SMTP
+		    $mail->Host = getenv('EMAIL_HOST');                           // Specify main and backup SMTP servers
+		    $mail->SMTPAuth = true;                                 // Enable SMTP authentication
+		    $mail->Username = getenv('EMAIL_USER');                   // SMTP username
+		    $mail->Password = getenv('EMAIL_PASS');                   // SMTP password
+		    $mail->SMTPSecure = 'tls';                              // Enable TLS encryption, `ssl` also accepted
+		    $mail->Port = 587;                                      // TCP port to connect to
+
+		    //Recipients
+		    $mail->setFrom(getenv('EMAIL_USER'), $helpers->perfil->nombre_empresa_comercial);
+		    $mail->addAddress($to->email_cliente, $to->nombre_cliente);     // Add a recipient
+
+		    //Attachments
+		    $mail->addStringAttachment(base64_decode($xml_firmado), "factura-{$clave}.xml", 		'base64', 'application/pdf');
+		    $mail->addStringAttachment(base64_decode($acuse),  		"xml-response-{$clave}.xml", 	'base64', 'application/pdf');
+		    $mail->addStringAttachment($pdf, 						"factura-{$clave}.pdf", 		'base64', 'application/pdf');
+
+		    //Content
+		    $mail->CharSet = 'UTF-8';
+		    $mail->isHTML(true);                                  // Set email format to HTML
+		    $mail->Subject = 'Su factura con clave '.$clave;
+		    $mail->Body    = "Buen día {$to->nombre_cliente}, <br> A continuación se adjuntan copias de su factura. <br><br> Gracias por su preferencia.";
+		    // $mail->AltBody = $bodyHTML;
+
+		    $mail->send();
+		    echo 'Message has been sent';
+		} catch (Exception $e) {
+		    echo 'Message could not be sent. Mailer Error: ', $mail->ErrorInfo;
+		}
+	}
+
+	public static function updateInvoicePaymentWithPaypal($order, $factura){
+		$order = GetOrder::getOrder($_POST['orderID'], true);
+		$verify_amount = Capsule::table('facturas')->where([
+			['id_factura','=',$factura],
+			['total_venta','=',floatval($order->purchase_units[0]->amount->value)]
+		])->count();
+
+		if($verify_amount == 0){
+			return false;
+		}
+
+		Capsule::table('facturas')->where('id_factura','=',$factura)->update([
+			'pago_online' 			=> 1,
+			'pago_online_order_id'	=> $order->id,
+			'pago_online_payer_id' 	=> $order->payer->payer_id,
+			'pago_online_status' 	=> $order->status,
+			'pago_online_time' 		=> $order->update_time,
+			'pago_online_id_trans'	=> $order->purchase_units[0]->payments->captures[0]->id
+		]);
+
+		return true;
 	}
 }

@@ -10,14 +10,14 @@
 
 	/*Instancia validador*/
 	$validator = new Validator([
-						'required' 			=> ':attribute no puede estar vacío.',
-						'max' 				=> ':attribute no puede tener mas de 100 caracteres.',
-						'email' 			=> ':attribute parece estar mal escrito.',
-						'numeric' 			=> ':attribute debe ser numérico.',
-						'digits' 			=> ':attribute debe tener exactamente x digitos.',
-						'regex' 			=> 'Escriba :attribute en su formato original.',
-						'digits_between'	=> ':attribute debe tener entre x y x digitos.'
-					]);
+		'required' 			=> ':attribute no puede estar vacío.',
+		'max' 				=> ':attribute no puede tener mas de 100 caracteres.',
+		'email' 			=> ':attribute parece estar mal escrito.',
+		'numeric' 			=> ':attribute debe ser numérico.',
+		'digits' 			=> ':attribute debe tener exactamente x digitos.',
+		'regex' 			=> 'Escriba :attribute en su formato original.',
+		'digits_between'	=> ':attribute debe tener entre x y x digitos.'
+	]);
 
 	/*Declara una regla propia*/
 	$validator->addValidator('unique', new UniqueRule());

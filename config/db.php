@@ -12,6 +12,8 @@ define('DB_DRIVER', getenv('DB_DRIVER'));
 define('DB_CHARSET', getenv('DB_CHARSET'));
 define('DB_COLLATION', getenv('DB_COLLATION'));
 
+define('SB_CLIENT_ID', getenv('SB_CLIENT_ID'));
+
 // db4free credentials no longer working.
 /*define('DB_HOST', 'db4free.net');//DB_HOST:  generalmente suele ser "127.0.0.1"
 define('DB_USER', 'imagineing');//Usuario de tu base de datos
