@@ -1,11 +1,10 @@
 <?php
 	/*-------------------------
-	Autor: Obed Alvarado
-	Web: obedalvarado.pw
-	Mail: info@obedalvarado.pw
-	---------------------------*/
-	require_once ("is_logged.php");
-
+	Autor: JeanCarlos Chavarria
+	Web: https://jeancarloschavarriahughes.github.io
+	Mail: negrotico19@gmail.com
+    ---------------------------*/
+    
 	$active_facturas="active";
 	$active_productos="";
 	$active_clientes="";
@@ -13,9 +12,11 @@
 	$title="Nueva Factura | Sistema de Facturacion";
 
 	/* Connect To Database*/
-	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
-	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
-	require_once ("funciones.php");//Contiene funcion que conecta a la base de datos
+	require_once ("config/db.php"); //Contiene las variables de configuracion para conectar a la base de datos
+	require_once ("config/conexion.php"); //Contiene funcion que conecta a la base de datos
+    require_once ("funciones.php"); //Contiene funcion que conecta a la base de datos
+    require_once ("config/constants_min.php"); //Contiene los valores de Condicion, Medios de Pago, Moneda y otros.
+
 	?>
 	<!DOCTYPE html>
 	<html lang="en">
@@ -74,7 +75,7 @@
 								<label for="">Vendedor</label>
 								<select class="form-control input-sm" id="id_vendedor">
 									<?php
-									$sql_vendedor=mysqli_query($con,"select * from users order by lastname");
+									$sql_vendedor=mysqli_query($con,"select * from users where user_id = 1");
 									while ($rw=mysqli_fetch_array($sql_vendedor)){
 										$id_vendedor=$rw["user_id"];
 										$nombre_vendedor=$rw["firstname"]." ".$rw["lastname"];
@@ -99,12 +100,15 @@
 										$content=file_get_contents(constant('condiciones_venta'));
 										$data=json_decode($content);
 										foreach ($data as $value) {
+                                            if ($value->CondicionesDeLaVenta == "Contado") {
 									?>
 										<option value="<?php echo $value->Codigo ?>">
 											<?php echo ucfirst($value->CondicionesDeLaVenta) ?>
 										</option>
 									<?php
-										}
+                                            break;
+                                            }
+                                        }
 									?>
 								</select><br>
 								<div id="plazo_credito" style="display: none;">
@@ -160,13 +164,10 @@
 
 
 						<div class="col-md-12">
-							<div class="pull-left">
-							<input type="checkbox" id="send_link" value="send_link" Checked>Enviar <b>Link de Pago</b> en Línea
+                            <div class="pull-left">
+                                <input type="checkbox" id="send_link" value="send_link" Checked disabled>Enviar <b>Link de Pago</b> en Línea
                             </div>
 							<div class="pull-right">
-								<button type="button" class="btn btn-success button-in-mobile" data-toggle="modal" data-target="#nuevoProducto">
-									<span class="glyphicon glyphicon-plus"></span> Nuevo producto
-								</button>
 								<button type="button" class="btn btn-warning button-in-mobile" data-toggle="modal" data-target="#nuevoCliente">
 									<span class="glyphicon glyphicon-user"></span> Nuevo cliente
 								</button>
