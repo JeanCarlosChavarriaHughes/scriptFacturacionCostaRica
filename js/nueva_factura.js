@@ -138,6 +138,17 @@ $("#datos_factura").submit(function(){
 	var medio_pago 			= $("#medio_pago").val();
 	var plazo_credito_dias 	= $("#plazo_credito_dias").val();
 	var moneda 				= $("#moneda").val();
+	var send_link			= $("#send_link")[0].checked;
+
+	if(send_link) {
+		// ToDo
+		// Enviar link de pago por PayPal al Correo para la factura que se acaba de crear
+		// con un token válido por N horas (parametrizable en .env) por defecto 24 horas.
+		// Debe poder abrir el link sin estar logueado en el sistema.
+		// Ejemplo -> http://127.0.0.1:8096/pagar_factura.php?id_factura=105?hmac=
+		// https://dev.to/pim/hmac-authentication-better-protection-for-your-api-4e0
+		console.log("Enviar link de pago por PayPal al Correo para la factura que se acaba de crear")
+	}
 
 	if(moneda == ""){
 		alert("Debes especificar la moneda de la factura.");

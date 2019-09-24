@@ -1,9 +1,9 @@
 <?php
-	session_start();
+	/*session_start();
 	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
         header("location: login.php");
 		exit;
-        }
+        }*/
 	$active_facturas="active";
 	$active_productos="";
 	$active_clientes="";
@@ -50,9 +50,6 @@
     <?php include("head.php");?>
   </head>
   <body>
-	<?php
-	include("navbar.php");
-	?>
     <div class="container">
         <div class="panel panel-info">
             <div class="panel-heading">
