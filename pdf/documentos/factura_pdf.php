@@ -83,7 +83,7 @@
     	// echo "<script type='text/javascript'>console.log('RESP CONSULTA ENVIO:".json_encode($consultaenviofe)."');</script>";
 
     	/*Envía copia al cliente*/
-    	$helpers->sendEmailToReceptor($helpers, $xml->resp->clave, $xmlfirmado->resp->xmlFirmado, $xmlfirmado->resp->xmlFirmado /*$consultaenviofe->resp->respuesta-xml*/, $pdfContent, $id_cliente);
+    	$helpers->sendEmailToReceptor($helpers, $xml->resp->clave, $xmlfirmado->resp->xmlFirmado, /* $xmlfirmado->resp->xmlFirmado */ $consultaenviofe->resp->respuesta-xml, $pdfContent, $id_cliente);
     	/*-------------------------*/
 
     }catch(HTML2PDF_exception $e) {
