@@ -1,5 +1,4 @@
 <style type="text/css">
-    <!--
     table { vertical-align: top; }
     tr    { vertical-align: top; }
     td    { vertical-align: top; }
@@ -31,9 +30,9 @@
    .border-bottom{
        border-bottom: solid 1px #bdc3c7;
    }
-   table.page_footer {width: 100%; border: none; background-color: white; padding: 2mm;border-collapse:collapse; border: none;}
-}
--->
+   table.page_footer {
+    width: 100%; border: none; background-color: white; padding: 2mm;border-collapse:collapse; border: none;
+  }
 </style>
 <page backtop="15mm" backbottom="15mm" backleft="15mm" backright="15mm" style="font-size: 12pt; font-family: arial" >
     <page_footer>
@@ -51,21 +50,18 @@
     </page_footer>
     <?php include("encabezado_factura.php");?>
     <br>
-    
-
-
     <table cellspacing="0" style="width: 100%; text-align: left; font-size: 11pt;">
         <tr>
          <td style="width:50%;" class='midnight-blue'>Facturado a:</td>
      </tr>
      <tr>
          <td style="width:50%;" >
-             <?php 
+             <?php
              $sql_cliente=mysqli_query($con,"select * from clientes where id_cliente='$id_cliente'");
              $rw_cliente=mysqli_fetch_array($sql_cliente);
              echo $rw_cliente['nombre_cliente'];
              echo "<br>Cédula: ";
-             echo $rw_cliente['cedula'];
+             echo $rw_cliente['cedula_cliente'];
              echo "<br>";
              echo $rw_cliente['direccion_cliente'];
              echo "<br> Teléfono: ";
@@ -90,7 +86,7 @@
  </tr>
  <tr>
      <td style="width:25%;">
-         <?php 
+         <?php
          $sql_user=mysqli_query($con,"select * from users where user_id='$id_vendedor'");
          $rw_user=mysqli_fetch_array($sql_user);
          echo $rw_user['firstname']." ".$rw_user['lastname'];
@@ -98,7 +94,7 @@
      </td>
      <td style="width:25%;"><?php echo $fecha_factura;?></td>
      <td style="width:30%;" >
-        <?php 
+        <?php
         if ($condiciones==1){echo "Efectivo";}
         elseif ($condiciones==2){echo "Cheque";}
         elseif ($condiciones==3){echo "Transferencia bancaria";}
@@ -159,7 +155,7 @@
 
     </tr>
 
-    <?php 
+    <?php
 
 
     $nums++;
@@ -178,9 +174,9 @@ $total_factura=$subtotal+$total_iva;
 <?php if($impuesto > 0){?>
 <tr>
   <td colspan="3" style="widtd: 85%; text-align: right;">Imp. Ventas: <?php echo $impuesto;?>%</td>
-  <td style="widtd: 15%; text-align: right;"> <?php echo $total_iva;?></td>
+  <td style="width: 15%; text-align: right;"> <?php echo $total_iva;?></td>
 </tr>
-<? } ?>
+<?php } ?>
 <tr>
     <td colspan="3" style="width: 85%; text-align: right;">Total: <?php echo $simbolo_moneda;?> </td>
     <td style="width: 15%; text-align: right;"> <?php echo number_format($total_factura,2);?></td>
@@ -194,7 +190,7 @@ $total_factura=$subtotal+$total_iva;
         <td style="width: 25%; text-align: center;border-top:1px;border-top-color:#D3D3D3"></td>
     </tr>
 </table>
-<?php } ?> 
+<?php } ?>
 <table cellspacing="0" style="width: 100%; text-align: left; font-size: 10pt;margin-top: 60px;border:none;">
     <tr>
         <td style="width: 100%; text-align: left;">¡Gracias por su preferencia!</td>

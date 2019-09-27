@@ -23,7 +23,7 @@
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			  <strong>Aviso!</strong> Datos eliminados exitosamente.
 			</div>
-			<?php 
+			<?php
 		}else {
 			?>
 			<div class="alert alert-danger alert-dismissible" role="alert">
@@ -31,25 +31,25 @@
 			  <strong>Error!</strong> Lo siento algo ha salido mal intenta nuevamente.
 			</div>
 			<?php
-			
+
 		}
-			
+
 		} else {
 			?>
 			<div class="alert alert-danger alert-dismissible" role="alert">
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			  <strong>Error!</strong> No se pudo eliminar éste  producto. Existen cotizaciones vinculadas a éste producto. 
+			  <strong>Error!</strong> No se pudo eliminar éste  producto. Existen cotizaciones vinculadas a éste producto.
 			</div>
 			<?php
 		}
-		
-		
-		
+
+
+
 	}
 	if($action == 'ajax'){
 		// escaping, additionally removing everything that could be (html/javascript-) code
          $q = mysqli_real_escape_string($con,(strip_tags($_REQUEST['q'], ENT_QUOTES)));
-		 $aColumns = array('codigo_producto', 'nombre_producto');//Columnas de busqueda
+		 $aColumns = array('codigo_producto', 'nombre_producto', 'precio_colon');//Columnas de busqueda
 		 $sTable = "products";
 		 $sWhere = "";
 		if ( $_GET['q'] != "" )
@@ -92,28 +92,40 @@
 					<th class='text-right'>Precio $</th>
 					<th class='text-right'>Precio ¢</th>
 					<th class='text-right'>Acciones</th>
-					
+
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
 						$id_producto=$row['id_producto'];
 						$codigo_producto=$row['codigo_producto'];
+						$tip_cod_comerc_producto=$row['tip_cod_comerc_producto'];
 						$nombre_producto=$row['nombre_producto'];
 						$status_producto=$row['status_producto'];
+						$tipo_producto  =$row['tipo_producto'];
 						if ($status_producto==1){$estado="Activo";}
 						else {$estado="Inactivo";}
 						$date_added= date('d/m/Y', strtotime($row['date_added']));
 						$precio_producto=$row['precio_producto'];
 						$precio_colon=$row['precio_colon'];
+
+						$unidad_medida=$row['unidad_medida'];
+						$impuesto_codigo=$row['impuesto_codigo'];
+						$impuesto_es_iva=$row['impuesto_es_iva'];
+						$impuesto_iva_codigo=$row['impuesto_iva_codigo'];
+						$impuesto_iva_tarifa=$row['impuesto_iva_tarifa'];
+						$imp_subimp_tarifa=$row['imp_subimp_tarifa'];
 					?>
-					
+
 					<input type="hidden" value="<?php echo $codigo_producto;?>" id="codigo_producto<?php echo $id_producto;?>">
+					<input type="hidden" value="<?php echo $tip_cod_comerc_producto;?>" id="tip_cod_comerc_producto<?php echo $id_producto;?>">
 					<input type="hidden" value="<?php echo $nombre_producto;?>" id="nombre_producto<?php echo $id_producto;?>">
 					<input type="hidden" value="<?php echo $status_producto;?>" id="estado<?php echo $id_producto;?>">
 					<input type="hidden" value="<?php echo number_format($precio_producto,2,'.','');?>" id="precio_producto<?php echo $id_producto;?>">
 					<input type="hidden" value="<?php echo number_format($precio_colon,2,'.','');?>" id="precio_colon<?php echo $id_producto;?>">
+					<input type="hidden" value="<?php echo $unidad_medida;?>" id="medida_unidad<?php echo $id_producto;?>">
+					<input type="hidden" value="<?php echo $tipo_producto;?>" id="tipo_producto<?php echo $id_producto;?>">
 					<tr>
-						
+
 						<td><?php echo $codigo_producto; ?></td>
 						<td ><?php echo $nombre_producto; ?></td>
 						<td><?php echo $estado;?></td>
@@ -121,9 +133,9 @@
 						<td><span class='pull-right'><?php echo number_format($precio_producto,2);?></span></td>
 						<td><span class='pull-right'><?php echo number_format($precio_colon,2);?></span></td>
 					<td ><span class="pull-right">
-					<a href="#" class='btn btn-default' title='Editar producto' onclick="obtener_datos('<?php echo $id_producto;?>');" data-toggle="modal" data-target="#myModal2"><i class="glyphicon glyphicon-edit"></i></a> 
+					<a href="#" class='btn btn-default' title='Editar producto' onclick="obtener_datos('<?php echo $id_producto;?>');" data-toggle="modal" data-target="#myModal2"><i class="glyphicon glyphicon-edit"></i></a>
 					<a href="#" class='btn btn-default' title='Borrar producto' onclick="eliminar('<?php echo $id_producto; ?>')"><i class="glyphicon glyphicon-trash"></i> </a></span></td>
-						
+
 					</tr>
 					<?php
 				}

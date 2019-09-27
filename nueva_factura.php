@@ -4,60 +4,74 @@
 	Web: obedalvarado.pw
 	Mail: info@obedalvarado.pw
 	---------------------------*/
-	session_start();
-	if (!isset($_SESSION['user_login_status']) AND $_SESSION['user_login_status'] != 1) {
-		header("location: login.php");
-		exit;
-	}
+	require_once ("is_logged.php");
+
 	$active_facturas="active";
 	$active_productos="";
 	$active_clientes="";
-	$active_usuarios="";	
+	$active_usuarios="";
 	$title="Nueva Factura | Sistema de Facturacion";
-	
+
 	/* Connect To Database*/
 	require_once ("config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("config/conexion.php");//Contiene funcion que conecta a la base de datos
+	require_once ("funciones.php");//Contiene funcion que conecta a la base de datos
 	?>
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
 		<?php include("head.php");?>
+		<link href="css/select2.min.css" rel="stylesheet"/>
 	</head>
 	<body>
 		<?php
 		include("navbar.php");
-		?>  
+		?>
 		<div class="container">
 			<div class="panel panel-info">
 				<div class="panel-heading">
 					<h4><i class='glyphicon glyphicon-edit'></i> Nueva Factura</h4>
 				</div>
 				<div class="panel-body">
-					<?php 
+					<?php
 					include("modal/buscar_productos.php");
 					include("modal/registro_clientes.php");
 					include("modal/registro_productos.php");
 					?>
 					<form class="form-horizontal" role="form" id="datos_factura">
 						<div class="form-group row">
-							<label for="nombre_cliente" class="col-md-1 control-label">Cliente</label>
 							<div class="col-md-3">
+								<label for="">Cliente</label>
 								<input type="text" class="form-control input-sm" id="nombre_cliente" placeholder="Selecciona un cliente" required>
-								<input id="id_cliente" type='hidden'>	
+								<input id="id_cliente" type='hidden'>
 							</div>
-							<label for="tel1" class="col-md-1 control-label">Teléfono</label>
-							<div class="col-md-2">
+							<!-- /.col-md -->
+
+							<div class="col-md-3">
+								<label for="">Teléfono</label>
 								<input type="text" class="form-control input-sm" id="tel1" placeholder="Teléfono" readonly>
 							</div>
-							<label for="mail" class="col-md-1 control-label">Email</label>
+							<!-- /.col-md -->
+
 							<div class="col-md-3">
+								<label for="">Email</label>
 								<input type="text" class="form-control input-sm" id="mail" placeholder="Email" readonly>
 							</div>
+							<!-- /.col-md -->
+
+							<div class="col-md-3">
+								<label for="" class="">Fecha</label>
+								<input type="text" class="form-control input-sm" id="fecha" value="<?php echo date("d/m/Y");?>" readonly>
+							</div>
+							<!-- /.col-md -->
 						</div>
+
+						<!-- /.form-group -->
+
 						<div class="form-group row">
-							<label for="empresa" class="col-md-1 control-label">Vendedor</label>
-							<div class="col-md-1">
+
+							<div class="col-md-3">
+								<label for="">Vendedor</label>
 								<select class="form-control input-sm" id="id_vendedor">
 									<?php
 									$sql_vendedor=mysqli_query($con,"select * from users order by lastname");
@@ -76,63 +90,102 @@
 									?>
 								</select>
 							</div>
-							<label for="tel2" class="col-md-1 control-label">Fecha</label>
-							<div class="col-md-2">
-								<input type="text" class="form-control input-sm" id="fecha" value="<?php echo date("d/m/Y");?>" readonly>
-							</div>
-							<label for="email" class="col-md-1 control-label">Pago</label>
-							<div class="col-md-2">
+							<!-- /.col-md -->
+
+							<div class="col-md-3">
+								<label for="">Condición</label>
 								<select class='form-control input-sm' id="condiciones">
-									<option value="1">Efectivo</option>
-									<option value="2">Cheque</option>
-									<option value="3">Transferencia bancaria</option>
-									<option value="4">Crédito</option>
+									<?php
+										$content=file_get_contents(constant('condiciones_venta'));
+										$data=json_decode($content);
+										foreach ($data as $value) {
+									?>
+										<option value="<?php echo $value->Codigo ?>">
+											<?php echo ucfirst($value->CondicionesDeLaVenta) ?>
+										</option>
+									<?php
+										}
+									?>
+								</select><br>
+								<div id="plazo_credito" style="display: none;">
+									<label for="">Plazo crédito en días</label>
+									<input type="text" id="plazo_credito_dias" class="form-control">
+								</div>
+							</div>
+							<!-- /.col-md -->
+
+							<div class="col-md-3">
+								<label for="">Medio de pago</label>
+								<select class='form-control input-sm' id="medio_pago">
+									<?php
+										$content=file_get_contents(constant('medios_pago'));
+										$data=json_decode($content);
+										foreach ($data as $value) {
+									?>
+										<option value="<?php echo str_pad($value->Codigo, 2, '0', STR_PAD_LEFT); ?>">
+											<?php echo ucfirst($value->MediosDePago) ?>
+										</option>
+									<?php
+										}
+									?>
 								</select>
 							</div>
-							<label for="impuesto" class="col-md-1 control-label">Impuesto</label>
-							<div class="col-md-1">
-								<select class='form-control input-sm' id="impuesto">
-									<option value="1">Incluye</option>
-									<option value="2">Exonerado</option>
-									</select>
-							</div>
-							<div class="col-md-2">
-								<select class='form-control input-sm' id="moneda">				
-									<option value="1">Dólar</option>
-									<option value="2">Colón</option>
-									</select>
+							<!-- /.col-md -->
+
+							<div class="col-md-3">
+								<label for="">Moneda</label><br>
+								<select class='select-moneda' id="moneda" style="width: 100%;">
+									<?php
+										$content=file_get_contents(constant('codigos_monedas'));
+										$data=json_decode($content);
+										foreach ($data as $value) {
+									?>
+										<option value="<?php echo $value->codigoMoneda; ?>"
+                                            <?php
+                                                if ($value->codigoMoneda == "CRC") {
+                                            ?>
+                                                selected
+                                            <?php
+                                                }
+                                            ?>
+                                            >
+											<?php echo $value->codigoMoneda; ?>
+										</option>
+									<?php
+										}
+									?>
+								</select>
 							</div>
 						</div>
 
 
 						<div class="col-md-12">
+							<div class="pull-left">
+							<input type="checkbox" id="send_link" value="send_link" Checked>Enviar <b>Link de Pago</b> en Línea
+                            </div>
 							<div class="pull-right">
-								<button type="button" class="btn btn-success" data-toggle="modal" data-target="#nuevoProducto">
+								<button type="button" class="btn btn-success button-in-mobile" data-toggle="modal" data-target="#nuevoProducto">
 									<span class="glyphicon glyphicon-plus"></span> Nuevo producto
 								</button>
-								<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#nuevoCliente">
+								<button type="button" class="btn btn-warning button-in-mobile" data-toggle="modal" data-target="#nuevoCliente">
 									<span class="glyphicon glyphicon-user"></span> Nuevo cliente
 								</button>
-								<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+								<button type="button" class="btn btn-info button-in-mobile" data-toggle="modal" data-target="#agregarProductos">
 									<span class="glyphicon glyphicon-search"></span> Agregar productos
 								</button>
-								<button type="submit" class="btn btn-primary">
+								<button type="submit" class="btn btn-primary button-in-mobile">
 									<span class="glyphicon glyphicon-print"></span> Guardar e Imprimir
 								</button>
-							</div>	
+							</div>
 						</div>
-					</form>	
-
-					<div id="resultados" class='col-md-12' style="margin-top:10px"></div><!-- Carga los datos ajax -->			
+					</form>
 				</div>
-			</div>		
-			<div class="row-fluid">
+			</div>
+			<div class="row">
 				<div class="col-md-12">
-
-
-
-
-				</div>	
+					<!-- Carga los datos ajax -->
+					<div id="resultados" style="margin-bottom: 5% !important;"></div>
+				</div>
 			</div>
 		</div>
 		<hr>
@@ -143,6 +196,17 @@
 		<script type="text/javascript" src="js/nueva_factura.js"></script>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<!-- Select de ubicación -->
+		<script src="js/select2.full.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+			    $('.select-ubicacion').select2({
+				    dropdownParent: $('#nuevoCliente .modal-content')
+				});
+				$('.select-moneda').select2();
+			});
+		</script>
+		<!-- END Select de ubicación -->
 		<script>
 			$(function() {
 				$("#nombre_cliente").autocomplete({
@@ -154,9 +218,11 @@
 						$('#nombre_cliente').val(ui.item.nombre_cliente);
 						$('#tel1').val(ui.item.telefono_cliente);
 						$('#mail').val(ui.item.email_cliente);
-						$('#moneda').val(ui.item.moneda);
-						load(1);
 
+						$('#moneda').val(ui.item.moneda);
+						$('#moneda').trigger('change');
+
+						load(1);
 					}
 				});
 
@@ -179,7 +245,7 @@
 					$("#mail" ).val("");
 					$("#moneda" ).val("");
 				}
-			});	
+			});
 		</script>
 
 	</body>

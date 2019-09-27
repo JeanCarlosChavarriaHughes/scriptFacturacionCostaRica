@@ -9,7 +9,7 @@
 	/* Connect To Database*/
 	require_once ("../config/db.php");//Contiene las variables de configuracion para conectar a la base de datos
 	require_once ("../config/conexion.php");//Contiene funcion que conecta a la base de datos
-	
+
 	$action = (isset($_REQUEST['action'])&& $_REQUEST['action'] !=NULL)?$_REQUEST['action']:'';
 	if (isset($_GET['id'])){
 		$numero_factura=intval($_GET['id']);
@@ -21,7 +21,7 @@
 			  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			  <strong>Aviso!</strong> Datos eliminados exitosamente
 			</div>
-			<?php 
+			<?php
 		}else {
 			?>
 			<div class="alert alert-danger alert-dismissible" role="alert">
@@ -29,7 +29,7 @@
 			  <strong>Error!</strong> No se puedo eliminar los datos
 			</div>
 			<?php
-			
+
 		}
 	}
 	if($action == 'ajax'){
@@ -41,9 +41,9 @@
 		if ( $_GET['q'] != "" )
 		{
 		$sWhere.= " and  (clientes.nombre_cliente like '%$q%' or facturas.numero_factura like '%$q%')";
-			
+
 		}
-		
+
 		$sWhere.=" order by facturas.id_factura desc";
 		include 'pagination.php'; //include pagination file
 		//pagination variables
@@ -72,9 +72,10 @@
 					<th>Cliente</th>
 					<th>Vendedor</th>
 					<th>Estado</th>
+					<th>Pago online</th>
 					<th class='text-right'>Total</th>
 					<th class='text-right'>Acciones</th>
-					
+
 				</tr>
 				<?php
 				while ($row=mysqli_fetch_array($query)){
@@ -87,6 +88,9 @@
 						$nombre_vendedor=$row['firstname']." ".$row['lastname'];
 						$estado_factura=$row['estado_factura'];
 						$moneda=$row['moneda'];
+						$pago_online=$row['pago_online'];
+						$pago_online_status=$row['pago_online_status'];
+						$pago_online_id_trans=$row['pago_online_id_trans'];
 						if ($estado_factura==1){$text_estado="Pagada";$label_class='label-success';}
 						else{$text_estado="Pendiente";$label_class='label-warning';}
 						$total_venta=$row['total_venta'];
@@ -97,14 +101,33 @@
 						<td><a href="#" data-toggle="tooltip" data-placement="top" title="<i class='glyphicon glyphicon-phone'></i> <?php echo $telefono_cliente;?><br><i class='glyphicon glyphicon-envelope'></i>  <?php echo $email_cliente;?>" ><?php echo $nombre_cliente;?></a></td>
 						<td><?php echo $nombre_vendedor; ?></td>
 						<td><span class="label <?php echo $label_class;?>"><?php echo $text_estado; ?></span></td>
-						<td class='text-right'><?php if($moneda == 1) { echo "$"; } elseif($moneda == 2) { echo "¢"; } ?><?php echo number_format ($total_venta,2); ?></td>					
+
+						<td><center>
+							<?php
+								if($pago_online_status == "COMPLETED"){
+							?>
+							<a href="#" data-toggle="tooltip" data-placement="top" title="<i class='glyphicon glyphicon-info-sign'></i> <?php echo $pago_online_status." - ".$pago_online_id_trans;?>" >
+							<i class="glyphicon glyphicon-ok" style="size: 18px; font-color: green !important; display: <?php echo ($pago_online == 1) ?'inline-block !important' :  'none !important' ?>"></i></a>
+							<?php
+								}else{
+							?>
+							<a href="#" data-toggle="tooltip" data-placement="top" title="<i class='glyphicon glyphicon-info-sign'></i> <?php echo $pago_online_status." - ".$pago_online_id_trans;?>" >
+							<i class="glyphicon glyphicon-alert" style="size: 18px; font-color: green !important; display: <?php echo ($pago_online == 1) ?'inline-block !important' :  'none !important' ?>"></i></a>
+							<?php
+								}
+							 ?>
+							 </center>
+						</td>
+
+						<td class='text-right'><?php if($moneda == 1) { echo "$"; } elseif($moneda == 2) { echo "¢"; } ?><?php echo number_format ($total_venta,2); ?></td>
 					<td class="text-right">
-						<a href="editar_factura.php?id_factura=<?php echo $id_factura;?>" class='btn btn-default' title='Editar factura' ><i class="glyphicon glyphicon-edit"></i></a> 
+						<a href="editar_factura.php?id_factura=<?php echo $id_factura;?>" class='btn btn-default' title='Editar factura' ><i class="glyphicon glyphicon-edit"></i></a>
+						<a href="pagar_factura.php?id_factura=<?php echo $id_factura;?>" class='btn btn-default' title='Pagar factura' target="_blank:" ><i class="glyphicon glyphicon-shopping-cart"></i> </a>
 						<a href="#" class='btn btn-default' title='Descargar factura' onclick="imprimir_factura('<?php echo $id_factura;?>');"><i class="glyphicon glyphicon-download"></i></a>
 						<a href="#" class='btn btn-default' title='Enviar por email' onclick="enviar_email('<?php echo $id_factura; ?>','<?php echo $email_cliente;?>')"><i class="glyphicon glyphicon-envelope"></i> </a>
 						<a href="#" class='btn btn-default' title='Borrar factura' onclick="eliminar('<?php echo $numero_factura; ?>')"><i class="glyphicon glyphicon-trash"></i> </a>
 					</td>
-						
+
 					</tr>
 					<?php
 				}

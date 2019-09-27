@@ -1,45 +1,30 @@
 {
-    "name": "phpmailer/phpmailer",
-    "type": "library",
-    "description": "PHPMailer is a full-featured email creation and transfer class for PHP",
+    "name": "junio/factcr",
     "authors": [
         {
-            "name": "Marcus Bointon",
-            "email": "phpmailer@synchromedia.co.uk"
+            "name": "juniorsotto",
+            "email": "juniorsotto8@gmail.com"
         },
         {
-            "name": "Jim Jagielski",
-            "email": "jimjag@gmail.com"
-        },
-        {
-            "name": "Andy Prevost",
-            "email": "codeworxtech@users.sourceforge.net"
-        },
-        {
-            "name": "Brent R. Matzelle"
+          "name": "JeanCarlos Chavarría Hughes",
+          "email": "negrotico19@gmail.com"
         }
     ],
+    "autoload":{
+      "psr-4" : {
+        "Ajax\\": "ajax/",
+        "Paypal\\": "ajax/paypal/",
+        "ValidatorsFields\\": "classes/validators_fields",
+        "Configs\\": "config/"
+      }
+    },
     "require": {
-        "php": ">=7.1.16",
-        "ext-gd": "*"
-    },
-    "require-dev": {
-        "phpdocumentor/phpdocumentor": "*",
-        "phpunit/phpunit": "4.7.*"
-    },
-    "suggest": {
-        "league/oauth2-google": "Needed for Google XOAUTH2 authentication"
-    },
-    "autoload": {
-        "classmap": [
-            "libraries/phpmailer/class.phpmailer.php",
-            "libraries/phpmailer/class.phpmaileroauth.php",
-            "libraries/phpmailer/class.phpmaileroauthgoogle.php",
-            "libraries/phpmailer/lass.smtp.php",
-            "libraries/phpmailer/lass.pop3.php",
-            "libraries/phpmailer/xtras/EasyPeasyICS.php",
-            "libraries/phpmailer/xtras/ntlm_sasl_client.php"
-        ]
-    },
-    "license": "LGPL-2.1"
+        "illuminate/database": "^5.8",
+        "guzzlehttp/guzzle": "^6.3",
+        "rakit/validation": "^1.2",
+        "ext-gd": "*",
+        "paypal/paypal-checkout-sdk": "1.0.0",
+        "phpmailer/phpmailer": "^6.0",
+        "dompdf/dompdf": "dev-master"
+    }
 }

@@ -1,0 +1,1342 @@
+﻿{
+  "1": {
+    "nombrePais": "AFGANISTÁN",
+    "NombreMoneda": "Afghani",
+    "codigoMoneda": "AFN"
+  },
+  "2": {
+    "nombrePais": "ALBANIA",
+    "NombreMoneda": "Lek",
+    "codigoMoneda": "ALL"
+  },
+  "3": {
+    "nombrePais": "ALEMANIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "4": {
+    "nombrePais": "ALGERIA",
+    "NombreMoneda": "Dinar argelino",
+    "codigoMoneda": "DZD"
+  },
+  "5": {
+    "nombrePais": "ANDORRA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "6": {
+    "nombrePais": "ANGOLA",
+    "NombreMoneda": "Kwanza",
+    "codigoMoneda": "AOA"
+  },
+  "7": {
+    "nombrePais": "ANGUILA",
+    "NombreMoneda": "Dólar del Caribe Oriental",
+    "codigoMoneda": "XCD"
+  },
+  "8": {
+    "nombrePais": "ANTIGUA Y BARBUDA",
+    "NombreMoneda": "Dólar del Caribe Oriental",
+    "codigoMoneda": "XCD"
+  },
+  "9": {
+    "nombrePais": "ANTÁRTIDA",
+    "NombreMoneda": "Sin moneda universal",
+    "codigoMoneda": ""
+  },
+  "10": {
+    "nombrePais": "ARABIA SAUDITA",
+    "NombreMoneda": "Riyal saudí",
+    "codigoMoneda": "SAR"
+  },
+  "11": {
+    "nombrePais": "ARGENTINA",
+    "NombreMoneda": "Peso Argentino",
+    "codigoMoneda": "ARS"
+  },
+  "12": {
+    "nombrePais": "ARMENIA",
+    "NombreMoneda": "Dram armenio",
+    "codigoMoneda": "AMD"
+  },
+  "13": {
+    "nombrePais": "ARUBA",
+    "NombreMoneda": "Florín arubeño",
+    "codigoMoneda": "AWG"
+  },
+  "14": {
+    "nombrePais": "AUSTRALIA",
+    "NombreMoneda": "Dólar australiano",
+    "codigoMoneda": "AUD"
+  },
+  "15": {
+    "nombrePais": "AUSTRIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "16": {
+    "nombrePais": "AZERBAIYÁN",
+    "NombreMoneda": "Manat azerbaiyano",
+    "codigoMoneda": "AZN"
+  },
+  "17": {
+    "nombrePais": "BAHAMAS (LAS)",
+    "NombreMoneda": "Dólar de las Bahamas",
+    "codigoMoneda": "BSD"
+  },
+  "18": {
+    "nombrePais": "BAHRAIN",
+    "NombreMoneda": "Dinar de Bahrein",
+    "codigoMoneda": "BHD"
+  },
+  "19": {
+    "nombrePais": "BANGLADESH",
+    "NombreMoneda": "Taka",
+    "codigoMoneda": "BDT"
+  },
+  "20": {
+    "nombrePais": "BARBADOS",
+    "NombreMoneda": "Dólar de Barbados",
+    "codigoMoneda": "BBD"
+  },
+  "21": {
+    "nombrePais": "BELICE",
+    "NombreMoneda": "Dólar de Belice",
+    "codigoMoneda": "BZD"
+  },
+  "22": {
+    "nombrePais": "BENIN",
+    "NombreMoneda": "Franco CFA BCEAO",
+    "codigoMoneda": "XOF"
+  },
+  "23": {
+    "nombrePais": "BERMUDA",
+    "NombreMoneda": "Dólar de Bermudas",
+    "codigoMoneda": "BMD"
+  },
+  "24": {
+    "nombrePais": "BIELORRUSIA",
+    "NombreMoneda": "Rublo bielorruso",
+    "codigoMoneda": "BYR"
+  },
+  "25": {
+    "nombrePais": "PLURINACIONAL",
+    "NombreMoneda": "Boliviano",
+    "codigoMoneda": "BOB"
+  },
+  "26": {
+    "nombrePais": "PLURINACIONAL",
+    "NombreMoneda": "Mvdol",
+    "codigoMoneda": "BOV"
+  },
+  "27": {
+    "nombrePais": "EUSTAQUIO Y",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "28": {
+    "nombrePais": "BOSNIA Y HERZEGOVINA",
+    "NombreMoneda": "Marco bosnioherzegovino",
+    "codigoMoneda": "BAM"
+  },
+  "29": {
+    "nombrePais": "BOTSWANA",
+    "NombreMoneda": "Pula",
+    "codigoMoneda": "BWP"
+  },
+  "30": {
+    "nombrePais": "BRASIL",
+    "NombreMoneda": "Real Brasileño",
+    "codigoMoneda": "BRL"
+  },
+  "31": {
+    "nombrePais": "BRUNEI DARUSSALAM",
+    "NombreMoneda": "Dólar de Brunei",
+    "codigoMoneda": "BND"
+  },
+  "32": {
+    "nombrePais": "BULGARIA",
+    "NombreMoneda": "Lev búlgaro",
+    "codigoMoneda": "BGN"
+  },
+  "33": {
+    "nombrePais": "BURKINA FASO",
+    "NombreMoneda": "Franco CFA BCEAO",
+    "codigoMoneda": "XOF"
+  },
+  "34": {
+    "nombrePais": "BURUNDI",
+    "NombreMoneda": "Franco Burundi",
+    "codigoMoneda": "BIF"
+  },
+  "35": {
+    "nombrePais": "BUTÁN",
+    "NombreMoneda": "Ngultrum",
+    "codigoMoneda": "BTN"
+  },
+  "36": {
+    "nombrePais": "BUTÁN",
+    "NombreMoneda": "Rupia india",
+    "codigoMoneda": "INR"
+  },
+  "37": {
+    "nombrePais": "BÉLGICA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "38": {
+    "nombrePais": "CABO VERDE",
+    "NombreMoneda": "Cabo Verde Escudo",
+    "codigoMoneda": "CVE"
+  },
+  "39": {
+    "nombrePais": "CAMBOYA",
+    "NombreMoneda": "Riel",
+    "codigoMoneda": "KHR"
+  },
+  "40": {
+    "nombrePais": "CAMERÚN",
+    "NombreMoneda": "Franco CFA BEAC",
+    "codigoMoneda": "XAF"
+  },
+  "41": {
+    "nombrePais": "CANADÁ",
+    "NombreMoneda": "Dólar canadiense",
+    "codigoMoneda": "CAD"
+  },
+  "42": {
+    "nombrePais": "CHAD",
+    "NombreMoneda": "Franco CFA BEAC",
+    "codigoMoneda": "XAF"
+  },
+  "43": {
+    "nombrePais": "CHILE",
+    "NombreMoneda": "Unidad de Fomento",
+    "codigoMoneda": "CLF"
+  },
+  "44": {
+    "nombrePais": "CHILE",
+    "NombreMoneda": "Peso chileno",
+    "codigoMoneda": "CLP"
+  },
+  "45": {
+    "nombrePais": "CHINA",
+    "NombreMoneda": "Yuan",
+    "codigoMoneda": "CNY"
+  },
+  "46": {
+    "nombrePais": "CHIPRE",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "47": {
+    "nombrePais": "COLOMBIA",
+    "NombreMoneda": "Peso ColombianO",
+    "codigoMoneda": "COP"
+  },
+  "48": {
+    "nombrePais": "COLOMBIA",
+    "NombreMoneda": "Unidad de Valor Real",
+    "codigoMoneda": "COU"
+  },
+  "49": {
+    "nombrePais": "COMOROS",
+    "NombreMoneda": "Franco Comoro",
+    "codigoMoneda": "KMF"
+  },
+  "50": {
+    "nombrePais": "CONGO",
+    "NombreMoneda": "Franco CFA BEAC",
+    "codigoMoneda": "XAF"
+  },
+  "51": {
+    "nombrePais": "REPÚBLICA DEMOCRÁTICA",
+    "NombreMoneda": "Franco congoleño",
+    "codigoMoneda": "CDF"
+  },
+  "52": {
+    "nombrePais": "COREA (LA REPÚBLICA DE)",
+    "NombreMoneda": "Won",
+    "codigoMoneda": "KRW"
+  },
+  "53": {
+    "nombrePais": "REPÚBLICA DEMOCRÁTICA",
+    "NombreMoneda": "Won norcoreano",
+    "codigoMoneda": "KPW"
+  },
+  "54": {
+    "nombrePais": "COSTA DE MARFIL",
+    "NombreMoneda": "Franco CFA BCEAO",
+    "codigoMoneda": "XOF"
+  },
+  "55": {
+    "nombrePais": "COSTA RICA",
+    "NombreMoneda": "Colón costarricense",
+    "codigoMoneda": "CRC"
+  },
+  "56": {
+    "nombrePais": "CROAcIA",
+    "NombreMoneda": "Kuna",
+    "codigoMoneda": "HRK"
+  },
+  "57": {
+    "nombrePais": "CUBA",
+    "NombreMoneda": "Peso Convertible",
+    "codigoMoneda": "CUC"
+  },
+  "58": {
+    "nombrePais": "CUBA",
+    "NombreMoneda": "Peso Cubano",
+    "codigoMoneda": "CUP"
+  },
+  "59": {
+    "nombrePais": "CURAZAO",
+    "NombreMoneda": "Florín antillano neerlandés",
+    "codigoMoneda": "ANG"
+  },
+  "60": {
+    "nombrePais": "DINAMARCA",
+    "NombreMoneda": "Corona danesa",
+    "codigoMoneda": "DKK"
+  },
+  "61": {
+    "nombrePais": "DJIBOUTI",
+    "NombreMoneda": "Franco de Djibouti",
+    "codigoMoneda": "DJF"
+  },
+  "62": {
+    "nombrePais": "DOMINICA",
+    "NombreMoneda": "Dólar del Caribe Oriental",
+    "codigoMoneda": "XCD"
+  },
+  "63": {
+    "nombrePais": "ECUADOR",
+    "NombreMoneda": "DÓlar americano",
+    "codigoMoneda": "USD"
+  },
+  "64": {
+    "nombrePais": "EGIPTO",
+    "NombreMoneda": "Libra egipcia",
+    "codigoMoneda": "EGP"
+  },
+  "65": {
+    "nombrePais": "EL SALVADOR",
+    "NombreMoneda": "Colón",
+    "codigoMoneda": "SVC"
+  },
+  "66": {
+    "nombrePais": "EL SALVADOR",
+    "NombreMoneda": "Dólar americano",
+    "codigoMoneda": "USD"
+  },
+  "67": {
+    "nombrePais": "EMIRATOS ÁRABES UNIDOS",
+    "NombreMoneda": "Dírham de los Emiratos Árabes Unidos",
+    "codigoMoneda": "AED"
+  },
+  "68": {
+    "nombrePais": "ERITREA",
+    "NombreMoneda": "Nakfa",
+    "codigoMoneda": "ERN"
+  },
+  "69": {
+    "nombrePais": "ESLOVAQUIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "70": {
+    "nombrePais": "ESLOVENIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "71": {
+    "nombrePais": "ESPAÑA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "72": {
+    "nombrePais": "ESTADOS UNIDOS DE AMÉRICA",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "73": {
+    "nombrePais": "ESTADOS UNIDOS DE AMÉRICA",
+    "NombreMoneda": "Dólar Americano (Next day)",
+    "codigoMoneda": "USN"
+  },
+  "74": {
+    "nombrePais": "ESTADOS UNIDOS E ISLAS MENORES",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "75": {
+    "nombrePais": "ESTONIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "76": {
+    "nombrePais": "ETIOPÍA",
+    "NombreMoneda": "Birr etíope",
+    "codigoMoneda": "ETB"
+  },
+  "77": {
+    "nombrePais": "FIJI",
+    "NombreMoneda": "Dólar de Fiji",
+    "codigoMoneda": "FJD"
+  },
+  "78": {
+    "nombrePais": "FILIPINAS (LAS)",
+    "NombreMoneda": "Peso filipino",
+    "codigoMoneda": "PHP"
+  },
+  "79": {
+    "nombrePais": "FINLANDIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "80": {
+    "nombrePais": "MONETARIO INTERNACIONAL",
+    "NombreMoneda": "SDR (Derechos Especiales de Giro)",
+    "codigoMoneda": "XDR"
+  },
+  "81": {
+    "nombrePais": "FRANCIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "82": {
+    "nombrePais": "GABÓN",
+    "NombreMoneda": "Franco CFA BEAC",
+    "codigoMoneda": "XAF"
+  },
+  "83": {
+    "nombrePais": "GAMBIA",
+    "NombreMoneda": "Dalasi",
+    "codigoMoneda": "GMD"
+  },
+  "84": {
+    "nombrePais": "GEORGIA",
+    "NombreMoneda": "Lari",
+    "codigoMoneda": "GEL"
+  },
+  "85": {
+    "nombrePais": "GHANA",
+    "NombreMoneda": "Cedi de Ghana",
+    "codigoMoneda": "GHS"
+  },
+  "86": {
+    "nombrePais": "GIBRALTAR",
+    "NombreMoneda": "Libra de Gibraltar",
+    "codigoMoneda": "GIP"
+  },
+  "87": {
+    "nombrePais": "GRANADA",
+    "NombreMoneda": "Dólar del Caribe Oriental",
+    "codigoMoneda": "XCD"
+  },
+  "88": {
+    "nombrePais": "GRECIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "89": {
+    "nombrePais": "GROENLANDIA",
+    "NombreMoneda": "Corona danesa",
+    "codigoMoneda": "DKK"
+  },
+  "90": {
+    "nombrePais": "GUADALUPE",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "91": {
+    "nombrePais": "GUAM",
+    "NombreMoneda": "Dólar americano",
+    "codigoMoneda": "USD"
+  },
+  "92": {
+    "nombrePais": "GUATEMALA",
+    "NombreMoneda": "Quetzal",
+    "codigoMoneda": "GTQ"
+  },
+  "93": {
+    "nombrePais": "GUAYANA FRANCESA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "94": {
+    "nombrePais": "GUERNESEY",
+    "NombreMoneda": "Libra esterlina",
+    "codigoMoneda": "GBP"
+  },
+  "95": {
+    "nombrePais": "GUINEA",
+    "NombreMoneda": "Franco guineano",
+    "codigoMoneda": "GNF"
+  },
+  "96": {
+    "nombrePais": "GUINEA ECUATORIAL",
+    "NombreMoneda": "Franco CFA BEAC",
+    "codigoMoneda": "XAF"
+  },
+  "97": {
+    "nombrePais": "GUINEA-BISSAU",
+    "NombreMoneda": "Franco CFA BCEAO",
+    "codigoMoneda": "XOF"
+  },
+  "98": {
+    "nombrePais": "GUYANA",
+    "NombreMoneda": "Dólar guyanés",
+    "codigoMoneda": "GYD"
+  },
+  "99": {
+    "nombrePais": "HAITÍ",
+    "NombreMoneda": "Gourde",
+    "codigoMoneda": "HTG"
+  },
+  "100": {
+    "nombrePais": "HAITÓ",
+    "NombreMoneda": "Dólar americano",
+    "codigoMoneda": "USD"
+  },
+  "101": {
+    "nombrePais": "HONDURAS",
+    "NombreMoneda": "Lempira",
+    "codigoMoneda": "HNL"
+  },
+  "102": {
+    "nombrePais": "HONG KONG",
+    "NombreMoneda": "Dolar de Hong Kong",
+    "codigoMoneda": "HKD"
+  },
+  "103": {
+    "nombrePais": "HUNGRÍA",
+    "NombreMoneda": "Florín",
+    "codigoMoneda": "HUF"
+  },
+  "104": {
+    "nombrePais": "INDIA",
+    "NombreMoneda": "Rupia india",
+    "codigoMoneda": "INR"
+  },
+  "105": {
+    "nombrePais": "INDONESIA",
+    "NombreMoneda": "Rupia",
+    "codigoMoneda": "IDR"
+  },
+  "106": {
+    "nombrePais": "IRAQ",
+    "NombreMoneda": "Dinar iraquí",
+    "codigoMoneda": "IQD"
+  },
+  "107": {
+    "nombrePais": "IRLANDA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "108": {
+    "nombrePais": "IRÁN (REPÚBLICA ISLÁMICA DE)",
+    "NombreMoneda": "Rial iraní",
+    "codigoMoneda": "IRR"
+  },
+  "109": {
+    "nombrePais": "ISLA BOUVET",
+    "NombreMoneda": "Corona noruega",
+    "codigoMoneda": "NOK"
+  },
+  "110": {
+    "nombrePais": "ISLA DE MAN",
+    "NombreMoneda": "Libra esterlina",
+    "codigoMoneda": "GBP"
+  },
+  "111": {
+    "nombrePais": "ISLA DE NAVIDAD",
+    "NombreMoneda": "Dólar australiano",
+    "codigoMoneda": "AUD"
+  },
+  "112": {
+    "nombrePais": "ISLA HEARD E ISLAS McDONALD",
+    "NombreMoneda": "Dólar australiano",
+    "codigoMoneda": "AUD"
+  },
+  "113": {
+    "nombrePais": "ISLA NORFOLK",
+    "NombreMoneda": "Dólar australiano",
+    "codigoMoneda": "AUD"
+  },
+  "114": {
+    "nombrePais": "ISLANDIA",
+    "NombreMoneda": "Corona islandesa",
+    "codigoMoneda": "ISK"
+  },
+  "115": {
+    "nombrePais": "ISLAS ALAND",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "116": {
+    "nombrePais": "ISLAS CAIMÁN",
+    "NombreMoneda": "Dólar de las Islas Caimán",
+    "codigoMoneda": "KYD"
+  },
+  "117": {
+    "nombrePais": "ISLAS COCO",
+    "NombreMoneda": "Dólar australiano",
+    "codigoMoneda": "AUD"
+  },
+  "118": {
+    "nombrePais": "ISLAS COOK",
+    "NombreMoneda": "Dólar neozelandés",
+    "codigoMoneda": "NZD"
+  },
+  "119": {
+    "nombrePais": "ISLAS FEROE",
+    "NombreMoneda": "Corona danesa",
+    "codigoMoneda": "DKK"
+  },
+  "120": {
+    "nombrePais": "DEL SUR Y SANDWICH DEL",
+    "NombreMoneda": "Sin moneda universal",
+    "codigoMoneda": ""
+  },
+  "121": {
+    "nombrePais": "ISLAS MALVINAS",
+    "NombreMoneda": "Libra malvinense",
+    "codigoMoneda": "FKP"
+  },
+  "122": {
+    "nombrePais": "ISLAS MARIANAS DEL NORTE",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "123": {
+    "nombrePais": "ISLAS MARSHALL",
+    "NombreMoneda": "Dólar americano",
+    "codigoMoneda": "USD"
+  },
+  "124": {
+    "nombrePais": "ISLAS SALOMÓN",
+    "NombreMoneda": "Dólar de las Islas Salomón",
+    "codigoMoneda": "SBD"
+  },
+  "125": {
+    "nombrePais": "ISLAS VIRGENES (EE.UU.)",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "126": {
+    "nombrePais": "ISLAS VÍRGENES (BRITÁNICA)",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "127": {
+    "nombrePais": "ISRAEL",
+    "NombreMoneda": "Nuevo Shekel Israelí",
+    "codigoMoneda": "ILS"
+  },
+  "128": {
+    "nombrePais": "ITALIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "129": {
+    "nombrePais": "JAMAICA",
+    "NombreMoneda": "Dólar jamaiquino",
+    "codigoMoneda": "JMD"
+  },
+  "130": {
+    "nombrePais": "JAPÓN",
+    "NombreMoneda": "Yen",
+    "codigoMoneda": "JPY"
+  },
+  "131": {
+    "nombrePais": "JERSEY",
+    "NombreMoneda": "Libra esterlina",
+    "codigoMoneda": "GBP"
+  },
+  "132": {
+    "nombrePais": "JORDANIA",
+    "NombreMoneda": "Dinar jordano",
+    "codigoMoneda": "JOD"
+  },
+  "133": {
+    "nombrePais": "KAZAJSTÁN",
+    "NombreMoneda": "Tenge",
+    "codigoMoneda": "KZT"
+  },
+  "134": {
+    "nombrePais": "KENIA",
+    "NombreMoneda": "Chelín keniano",
+    "codigoMoneda": "KES"
+  },
+  "135": {
+    "nombrePais": "KIRGUISTÁN",
+    "NombreMoneda": "Som",
+    "codigoMoneda": "KGS"
+  },
+  "136": {
+    "nombrePais": "KIRIBATI",
+    "NombreMoneda": "Dólar australiano",
+    "codigoMoneda": "AUD"
+  },
+  "137": {
+    "nombrePais": "KUWAIT",
+    "NombreMoneda": "Dinar kuwaití",
+    "codigoMoneda": "KWD"
+  },
+  "138": {
+    "nombrePais": "DEMOCRÁTICA",
+    "NombreMoneda": "Kip",
+    "codigoMoneda": "LAK"
+  },
+  "139": {
+    "nombrePais": "LESOTHO",
+    "NombreMoneda": "Loti",
+    "codigoMoneda": "LSL"
+  },
+  "140": {
+    "nombrePais": "LESOTHO",
+    "NombreMoneda": "Rand",
+    "codigoMoneda": "ZAR"
+  },
+  "141": {
+    "nombrePais": "LETONIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "142": {
+    "nombrePais": "LIBERIA",
+    "NombreMoneda": "Dólar liberiano",
+    "codigoMoneda": "LRD"
+  },
+  "143": {
+    "nombrePais": "LIBIA",
+    "NombreMoneda": "Dinar libio",
+    "codigoMoneda": "LYD"
+  },
+  "144": {
+    "nombrePais": "LIECHTENSTEIN",
+    "NombreMoneda": "Franco suizo",
+    "codigoMoneda": "CHF"
+  },
+  "145": {
+    "nombrePais": "LITUANIA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "146": {
+    "nombrePais": "LUXEMBOURG",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "147": {
+    "nombrePais": "LÍBANO",
+    "NombreMoneda": "Libra libanesa",
+    "codigoMoneda": "LBP"
+  },
+  "148": {
+    "nombrePais": "MACAO",
+    "NombreMoneda": "Pataca",
+    "codigoMoneda": "MOP"
+  },
+  "149": {
+    "nombrePais": "República",
+    "NombreMoneda": "Denar",
+    "codigoMoneda": "MKD"
+  },
+  "150": {
+    "nombrePais": "MADAGASCAR",
+    "NombreMoneda": "Ariary malgache",
+    "codigoMoneda": "MGA"
+  },
+  "151": {
+    "nombrePais": "MALASIA",
+    "NombreMoneda": "Ringgit malayo",
+    "codigoMoneda": "MYR"
+  },
+  "152": {
+    "nombrePais": "MALAWI",
+    "NombreMoneda": "Kwacha",
+    "codigoMoneda": "MWK"
+  },
+  "153": {
+    "nombrePais": "MALDIVAS",
+    "NombreMoneda": "Rufiyaa",
+    "codigoMoneda": "MVR"
+  },
+  "154": {
+    "nombrePais": "MALTA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "155": {
+    "nombrePais": "MALÍ",
+    "NombreMoneda": "Franco CFA BCEAO",
+    "codigoMoneda": "XOF"
+  },
+  "156": {
+    "nombrePais": "MARRUECOS",
+    "NombreMoneda": "Dirham marroquí",
+    "codigoMoneda": "MAD"
+  },
+  "157": {
+    "nombrePais": "MARTINICA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "158": {
+    "nombrePais": "MAURICIO",
+    "NombreMoneda": "Rupia de Mauricio",
+    "codigoMoneda": "MUR"
+  },
+  "159": {
+    "nombrePais": "MAURITANIA",
+    "NombreMoneda": "Ouguiya",
+    "codigoMoneda": "MRO"
+  },
+  "160": {
+    "nombrePais": "MAYOTTE",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "161": {
+    "nombrePais": "(ESTADOS",
+    "NombreMoneda": "Dólar americano",
+    "codigoMoneda": "USD"
+  },
+  "162": {
+    "nombrePais": "MOLDAVIA",
+    "NombreMoneda": "Leu moldavo",
+    "codigoMoneda": "MDL"
+  },
+  "163": {
+    "nombrePais": "MONGOLIA",
+    "NombreMoneda": "Tugrik",
+    "codigoMoneda": "MNT"
+  },
+  "164": {
+    "nombrePais": "MONTENEGRO",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "165": {
+    "nombrePais": "MONTSERRAT",
+    "NombreMoneda": "Dólar del Caribe Oriental",
+    "codigoMoneda": "XCD"
+  },
+  "166": {
+    "nombrePais": "MOZAMBIQUE",
+    "NombreMoneda": "Metical mozambiqueño",
+    "codigoMoneda": "MZN"
+  },
+  "167": {
+    "nombrePais": "MYANMAR",
+    "NombreMoneda": "Kyat",
+    "codigoMoneda": "MMK"
+  },
+  "168": {
+    "nombrePais": "MÉXICO",
+    "NombreMoneda": "Peso MexicanO",
+    "codigoMoneda": "MXN"
+  },
+  "169": {
+    "nombrePais": "MÉXICO",
+    "NombreMoneda": "Unidad de Inversion Mexicana (UDI)",
+    "codigoMoneda": "MXV"
+  },
+  "170": {
+    "nombrePais": "MÓNACO",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "171": {
+    "nombrePais": "NAMIBIA",
+    "NombreMoneda": "Dólar de Namibia",
+    "codigoMoneda": "NAD"
+  },
+  "172": {
+    "nombrePais": "NAMIBIA",
+    "NombreMoneda": "Rand",
+    "codigoMoneda": "ZAR"
+  },
+  "173": {
+    "nombrePais": "NAURU",
+    "NombreMoneda": "Dólar australiano",
+    "codigoMoneda": "AUD"
+  },
+  "174": {
+    "nombrePais": "NEPAL",
+    "NombreMoneda": "Rupia nepalí",
+    "codigoMoneda": "NPR"
+  },
+  "175": {
+    "nombrePais": "NICARAGUA",
+    "NombreMoneda": "Cordoba Oro",
+    "codigoMoneda": "NIO"
+  },
+  "176": {
+    "nombrePais": "NIGER",
+    "NombreMoneda": "Franco CFA BCEAO",
+    "codigoMoneda": "XOF"
+  },
+  "177": {
+    "nombrePais": "NIGERIA",
+    "NombreMoneda": "Naira",
+    "codigoMoneda": "NGN"
+  },
+  "178": {
+    "nombrePais": "NIUE",
+    "NombreMoneda": "Dólar neozelandés",
+    "codigoMoneda": "NZD"
+  },
+  "179": {
+    "nombrePais": "NORUEGA",
+    "NombreMoneda": "Corona noruega",
+    "codigoMoneda": "NOK"
+  },
+  "180": {
+    "nombrePais": "NUEVA CALEDONIA",
+    "NombreMoneda": "Franco CFP",
+    "codigoMoneda": "XPF"
+  },
+  "181": {
+    "nombrePais": "NUEVA ZELANDA",
+    "NombreMoneda": "Dólar neozelandés",
+    "codigoMoneda": "NZD"
+  },
+  "182": {
+    "nombrePais": "OMÁN",
+    "NombreMoneda": "Rial omaní",
+    "codigoMoneda": "OMR"
+  },
+  "183": {
+    "nombrePais": "PAKISTÁN",
+    "NombreMoneda": "Rupia pakistaní",
+    "codigoMoneda": "PKR"
+  },
+  "184": {
+    "nombrePais": "PALAU",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "185": {
+    "nombrePais": "PALESTINA, ESTADO DE",
+    "NombreMoneda": "Sin moneda universal",
+    "codigoMoneda": ""
+  },
+  "186": {
+    "nombrePais": "PANAMÁ",
+    "NombreMoneda": "Balboa",
+    "codigoMoneda": "PAB"
+  },
+  "187": {
+    "nombrePais": "PANAMÁ",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "188": {
+    "nombrePais": "PAPUA NUEVA GUINEA",
+    "NombreMoneda": "Kina",
+    "codigoMoneda": "PGK"
+  },
+  "189": {
+    "nombrePais": "PARAGUAY",
+    "NombreMoneda": "Guaraní",
+    "codigoMoneda": "PYG"
+  },
+  "190": {
+    "nombrePais": "PAÍSES BAJOS",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "191": {
+    "nombrePais": "GRUPO BANCO",
+    "NombreMoneda": "Unidad de cuenta del BAD",
+    "codigoMoneda": "XUA"
+  },
+  "192": {
+    "nombrePais": "PERú",
+    "NombreMoneda": "Nuevo Sol",
+    "codigoMoneda": "PEN"
+  },
+  "193": {
+    "nombrePais": "PITCAIRN",
+    "NombreMoneda": "Dólar neozelandés",
+    "codigoMoneda": "NZD"
+  },
+  "194": {
+    "nombrePais": "POLINESIA FRANCESA",
+    "NombreMoneda": "CFP Franc",
+    "codigoMoneda": "XPF"
+  },
+  "195": {
+    "nombrePais": "POLONIA",
+    "NombreMoneda": "Zloty",
+    "codigoMoneda": "PLN"
+  },
+  "196": {
+    "nombrePais": "PORTUGAL",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "197": {
+    "nombrePais": "PUERTO RICO",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "198": {
+    "nombrePais": "QATAR",
+    "NombreMoneda": "Riyal catarí",
+    "codigoMoneda": "QAR"
+  },
+  "199": {
+    "nombrePais": "GRAN BRETAÑA E IRLANDA DEL",
+    "NombreMoneda": "Libra esterlina",
+    "codigoMoneda": "GBP"
+  },
+  "200": {
+    "nombrePais": "REPÚBLICA CENTROAFRICANA",
+    "NombreMoneda": "Franco CFA BEAC",
+    "codigoMoneda": "XAF"
+  },
+  "201": {
+    "nombrePais": "REPÚBLICA CHECA",
+    "NombreMoneda": "Corona checa",
+    "codigoMoneda": "CZK"
+  },
+  "202": {
+    "nombrePais": "REPÚBLICA DOMINICANA",
+    "NombreMoneda": "Peso Dominicano",
+    "codigoMoneda": "DOP"
+  },
+  "203": {
+    "nombrePais": "REPÚBLICA ÁRABE SIRIA",
+    "NombreMoneda": "Libra Siria",
+    "codigoMoneda": "SYP"
+  },
+  "204": {
+    "nombrePais": "RUANDA",
+    "NombreMoneda": "Franco ruandés",
+    "codigoMoneda": "RWF"
+  },
+  "205": {
+    "nombrePais": "RUMANIA",
+    "NombreMoneda": "Leu rumano",
+    "codigoMoneda": "RON"
+  },
+  "206": {
+    "nombrePais": "RUSIA",
+    "NombreMoneda": "Rublo ruso",
+    "codigoMoneda": "RUB"
+  },
+  "207": {
+    "nombrePais": "RÉUNION",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "208": {
+    "nombrePais": "SAHARA OCCIDENTAL",
+    "NombreMoneda": "Dirham marroquí",
+    "codigoMoneda": "MAD"
+  },
+  "209": {
+    "nombrePais": "SAMOA",
+    "NombreMoneda": "Tala",
+    "codigoMoneda": "WST"
+  },
+  "210": {
+    "nombrePais": "SAMOA AMERICANA",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "211": {
+    "nombrePais": "SAN BARTOLOMÉ",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "212": {
+    "nombrePais": "SAN CRISTÓBAL Y NIEVES",
+    "NombreMoneda": "Dólar del Caribe Oriental",
+    "codigoMoneda": "XCD"
+  },
+  "213": {
+    "nombrePais": "SAN MARINO",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "214": {
+    "nombrePais": "(PARTE",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "215": {
+    "nombrePais": "SAN PEDRO Y MIQUELÓN",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "216": {
+    "nombrePais": "SAN VICENTE Y LAS GRANADINAS",
+    "NombreMoneda": "Dólar del Caribe Oriental",
+    "codigoMoneda": "XCD"
+  },
+  "217": {
+    "nombrePais": "ASCENSIÓN Y TRISTÁN DE",
+    "NombreMoneda": "Libra de Santa Helena",
+    "codigoMoneda": "SHP"
+  },
+  "218": {
+    "nombrePais": "SANTA LUCÍA",
+    "NombreMoneda": "Dólar del Caribe Oriental",
+    "codigoMoneda": "XCD"
+  },
+  "219": {
+    "nombrePais": "SANTA SEDE",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "220": {
+    "nombrePais": "SANTO TOMÉ Y PRÍNCIPE",
+    "NombreMoneda": "Dobra",
+    "codigoMoneda": "STD"
+  },
+  "221": {
+    "nombrePais": "SENEGAL",
+    "NombreMoneda": "Franco CFA BCEAO",
+    "codigoMoneda": "XOF"
+  },
+  "222": {
+    "nombrePais": "SERBIA",
+    "NombreMoneda": "Dinar serbio",
+    "codigoMoneda": "RSD"
+  },
+  "223": {
+    "nombrePais": "SEYCHELLES",
+    "NombreMoneda": "Rupia seychelense",
+    "codigoMoneda": "SCR"
+  },
+  "224": {
+    "nombrePais": "SIERRA LEONA",
+    "NombreMoneda": "Leone",
+    "codigoMoneda": "SLL"
+  },
+  "225": {
+    "nombrePais": "SINGAPUR",
+    "NombreMoneda": "Dolar de Singapur",
+    "codigoMoneda": "SGD"
+  },
+  "226": {
+    "nombrePais": "(PARTE",
+    "NombreMoneda": "Florín antillano neerlandés",
+    "codigoMoneda": "ANG"
+  },
+  "227": {
+    "nombrePais": "COMPENSACION",
+    "NombreMoneda": "Sucre",
+    "codigoMoneda": "XSU"
+  },
+  "228": {
+    "nombrePais": "SOMALIA",
+    "NombreMoneda": "Chelín somalí",
+    "codigoMoneda": "SOS"
+  },
+  "229": {
+    "nombrePais": "SRI LANKA",
+    "NombreMoneda": "Rupia de Sri Lanka",
+    "codigoMoneda": "LKR"
+  },
+  "230": {
+    "nombrePais": "SUDÁFRICA",
+    "NombreMoneda": "Rand",
+    "codigoMoneda": "ZAR"
+  },
+  "231": {
+    "nombrePais": "SUDÁN",
+    "NombreMoneda": "Libra sudanesa",
+    "codigoMoneda": "SDG"
+  },
+  "232": {
+    "nombrePais": "SUDÁN DEL SUR",
+    "NombreMoneda": "Libra sursudanesa",
+    "codigoMoneda": "SSP"
+  },
+  "233": {
+    "nombrePais": "SUECIA",
+    "NombreMoneda": "Corona sueca",
+    "codigoMoneda": "SEK"
+  },
+  "234": {
+    "nombrePais": "SUIZA",
+    "NombreMoneda": "Euro WIR",
+    "codigoMoneda": "CHE"
+  },
+  "235": {
+    "nombrePais": "SUIZA",
+    "NombreMoneda": "Franco suizo",
+    "codigoMoneda": "CHF"
+  },
+  "236": {
+    "nombrePais": "SUIZA",
+    "NombreMoneda": "Franco WIR",
+    "codigoMoneda": "CHW"
+  },
+  "237": {
+    "nombrePais": "SURINAME",
+    "NombreMoneda": "Dólar surinamés",
+    "codigoMoneda": "SRD"
+  },
+  "238": {
+    "nombrePais": "SVALBARD AND JAN MAYEN",
+    "NombreMoneda": "Corona noruega",
+    "codigoMoneda": "NOK"
+  },
+  "239": {
+    "nombrePais": "SWAZILANDIA",
+    "NombreMoneda": "Lilangeni",
+    "codigoMoneda": "SZL"
+  },
+  "240": {
+    "nombrePais": "TAILANDIA",
+    "NombreMoneda": "Baht",
+    "codigoMoneda": "THB"
+  },
+  "241": {
+    "nombrePais": "(PROVINCIA DE",
+    "NombreMoneda": "Nuevo dólar taiwanés",
+    "codigoMoneda": "TWD"
+  },
+  "242": {
+    "nombrePais": "REPÚBLICA UNIDA",
+    "NombreMoneda": "Chelín tanzano",
+    "codigoMoneda": "TZS"
+  },
+  "243": {
+    "nombrePais": "TAYIKISTÁN",
+    "NombreMoneda": "Somoni",
+    "codigoMoneda": "TJS"
+  },
+  "244": {
+    "nombrePais": "BRITÁNICO DEL",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "245": {
+    "nombrePais": "AUSTRALES",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "246": {
+    "nombrePais": "TIMOR ORIENTAL",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "247": {
+    "nombrePais": "TOGO",
+    "NombreMoneda": "Franco CFA BCEAO",
+    "codigoMoneda": "XOF"
+  },
+  "248": {
+    "nombrePais": "TOKELAU",
+    "NombreMoneda": "Dólar neozelandés",
+    "codigoMoneda": "NZD"
+  },
+  "249": {
+    "nombrePais": "TONGA",
+    "NombreMoneda": "Pa’anga",
+    "codigoMoneda": "TOP"
+  },
+  "250": {
+    "nombrePais": "TRINIDAD Y TOBAGO",
+    "NombreMoneda": "Dólar trinitense",
+    "codigoMoneda": "TTD"
+  },
+  "251": {
+    "nombrePais": "TURCOS Y CAICOS",
+    "NombreMoneda": "Dólar Americano",
+    "codigoMoneda": "USD"
+  },
+  "252": {
+    "nombrePais": "TURKMENISTÁN",
+    "NombreMoneda": "Manat turcomano",
+    "codigoMoneda": "TMT"
+  },
+  "253": {
+    "nombrePais": "TURQUÍA",
+    "NombreMoneda": "Lira turca",
+    "codigoMoneda": "TRY"
+  },
+  "254": {
+    "nombrePais": "TUVALU",
+    "NombreMoneda": "Dólar australiano",
+    "codigoMoneda": "AUD"
+  },
+  "255": {
+    "nombrePais": "TÚNEZ",
+    "NombreMoneda": "Dinar tunecino",
+    "codigoMoneda": "TND"
+  },
+  "256": {
+    "nombrePais": "UCRANIA",
+    "NombreMoneda": "Hryvnia",
+    "codigoMoneda": "UAH"
+  },
+  "257": {
+    "nombrePais": "UGANDA",
+    "NombreMoneda": "Chelín ugandés",
+    "codigoMoneda": "UGX"
+  },
+  "258": {
+    "nombrePais": "UNIÓN EUROPEA",
+    "NombreMoneda": "Euro",
+    "codigoMoneda": "EUR"
+  },
+  "259": {
+    "nombrePais": "URUGUAY",
+    "NombreMoneda": "Uruguay Peso en Unidades Indexadas (URUIURUI)",
+    "codigoMoneda": "UYI"
+  },
+  "260": {
+    "nombrePais": "URUGUAY",
+    "NombreMoneda": "Peso Uruguayo",
+    "codigoMoneda": "UYU"
+  },
+  "261": {
+    "nombrePais": "UZBEKISTÁN",
+    "NombreMoneda": "Som uzbeko",
+    "codigoMoneda": "UZS"
+  },
+  "262": {
+    "nombrePais": "VANUATU",
+    "NombreMoneda": "Vatu",
+    "codigoMoneda": "VUV"
+  },
+  "263": {
+    "nombrePais": "(REPÚBLICA",
+    "NombreMoneda": "Bolívar",
+    "codigoMoneda": "VEF"
+  },
+  "264": {
+    "nombrePais": "VIETNAM",
+    "NombreMoneda": "Dong",
+    "codigoMoneda": "VND"
+  },
+  "265": {
+    "nombrePais": "WALLIS Y FUTUNA",
+    "NombreMoneda": "Franco CFP",
+    "codigoMoneda": "XPF"
+  },
+  "266": {
+    "nombrePais": "YEMEN",
+    "NombreMoneda": "Rial yemení",
+    "codigoMoneda": "YER"
+  },
+  "267": {
+    "nombrePais": "ZAMBIA",
+    "NombreMoneda": "Kwacha zambiano",
+    "codigoMoneda": "ZMW"
+  },
+  "268": {
+    "nombrePais": "ZIMBABWE",
+    "NombreMoneda": "Dólar zimbabuense",
+    "codigoMoneda": "ZWL"
+  }
+}

@@ -139,7 +139,7 @@
 						<button type="button" class="btn btn-warning" data-toggle="modal" data-target="#nuevoCliente">
 						 <span class="glyphicon glyphicon-user"></span> Nuevo cliente
 						</button>
-						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal">
+						<button type="button" class="btn btn-info" data-toggle="modal" data-target="#agregarProductos">
 						 <span class="glyphicon glyphicon-search"></span> Agregar productos
 						</button>
 						<button type="button" class="btn btn-primary" onclick="imprimir_factura('<?php echo $id_factura;?>')">

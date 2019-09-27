@@ -1,0 +1,8 @@
+.env
+.gitsecret/keys/random_seed
+/vendor/
+/documentation/
+error.log
+/guia
+pruebas.php
+.DS_Store

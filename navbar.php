@@ -25,12 +25,22 @@
 		<li class="<?php if(isset($active_perfil)){echo $active_perfil;}?>"><a href="perfil.php"><i  class='glyphicon glyphicon-cog'></i> Configuración</a></li>
        </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="mailto:jchavarria@imagineing.com" target='_blank'><i class='glyphicon glyphicon-envelope'></i> Soporte</a></li>
+        <li><a href="mailto:info@imagineing.com" target='_blank'><i class='glyphicon glyphicon-envelope'></i> Soporte</a></li>
 		<li><a href="login.php?logout"><i class='glyphicon glyphicon-off'></i> Salir</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+<?php
+  if (!isset($_SESSION['EXISTS_FILE_P12'])) {
+    echo '<div class="container">
+            <div class="alert alert-warning" role="alert">
+              <button type="button" class="close" data-dismiss="alert">&times;</button>
+              <strong>¡Antes de continuar!</strong> Debe cargar un certificado <b>.p12</b> al sistema. Contacte con soporte al cliente.
+            </div>
+          </div>';
+  }
+?>
 	<?php
 		}
 	?>
