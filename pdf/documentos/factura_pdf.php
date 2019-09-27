@@ -80,10 +80,11 @@
     	// echo "<script type='text/javascript'>console.log('RESP ENVIO HACIENDA:".json_encode($enviofe)."');</script>";
 
     	$consultaenviofe = $helpers->consultaEnvioHaciendaFE($xml->resp->clave);
-    	// echo "<script type='text/javascript'>console.log('RESP CONSULTA ENVIO:".json_encode($consultaenviofe)."');</script>";
+    	//echo "<script type='text/javascript'>console.log('RESP CONSULTA ENVIO:".json_encode($consultaenviofe)."');</script>";
 
-    	/*Envía copia al cliente*/
-    	$helpers->sendEmailToReceptor($helpers, $xml->resp->clave, $xmlfirmado->resp->xmlFirmado, /* $xmlfirmado->resp->xmlFirmado */ $consultaenviofe->resp->respuesta-xml, $pdfContent, $id_cliente);
+		/*Envía copia al cliente*/
+		$acuse = $consultaenviofe->resp->{'respuesta-xml'};
+    	$helpers->sendEmailToReceptor($helpers, $xml->resp->clave, $xmlfirmado->resp->xmlFirmado, /* $xmlfirmado->resp->xmlFirmado */ $acuse, $pdfContent, $id_cliente);
     	/*-------------------------*/
 
     }catch(HTML2PDF_exception $e) {

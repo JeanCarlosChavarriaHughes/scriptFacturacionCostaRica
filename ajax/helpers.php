@@ -917,12 +917,11 @@ class Helpers {
 	*  Envía solicitud a la API para consultar el estado de un documento
 	*
 	* @param string $clave_documento.
+	* @param Client $client
 	*
 	* @return object
 	*/
-	public static function consultaEnvioHaciendaFE($clave_documento){
-		/*Inicia el cliente HTTP para request*/
-		$client = new Client;
+	public static function consultarComApi($clave_documento, $client){
 		$requestConsultaEnvio = $client->request('POST', getenv('API_BASE_URL'), [
 		    'form_params' => [
 		        'r' 		=> 'consultarCom',
@@ -933,7 +932,59 @@ class Helpers {
 		    ]
 		]);
 
-		$responseConsultaEnvio = json_decode($requestConsultaEnvio->getBody());
+		echo "Hello: ";
+		$requestConsultaEnvio = $requestConsultaEnvio->getBody();
+		return json_decode($requestConsultaEnvio);
+	}
+
+	/**
+	*  Realiza un ciclo de intentos para obtener el acuse de recibido
+	*
+	* @param string $clave_documento.
+	*
+	* @return object $responseConsultaEnvio
+	*/
+	public static function consultaEnvioHaciendaFE($clave_documento){
+		/*Inicia el cliente HTTP para request*/
+		$client = new Client;
+
+		sleep(3);
+
+		$NUM_OF_ATTEMPTS = 5;
+		$attempts = 0;
+
+		do {
+			try
+			{
+				$responseConsultaEnvio = self::consultarComApi($clave_documento, $client);
+				$estado = $responseConsultaEnvio->resp->{'ind-estado'};
+				echo $estado;
+				if ($estado == "procesando"){
+					$error = "comprobante con clave: $clave_documento 
+							  esta siendo procesado por hacienda en
+							  intento $attempts";
+					throw new Exception($error);
+				} elseif ($estado == "aceptado" || $estado == "rechazado"){
+					break;
+				} else {
+					$error = "comprobante con clave: $clave_documento 
+							  tiene estado: $estado";
+					throw new Exception($error);
+				}
+			} catch (Exception $e) {
+				$attempts++;
+				sleep(3);
+				continue;
+			}
+			break;
+
+		} while($attempts < $NUM_OF_ATTEMPTS);
+
+		// ToDo
+		// Add logic to save status in database
+		// when the responseConsultaEnvio is not available
+		// so it should be in a queque to further manual retry
+
 		return $responseConsultaEnvio;
 	}
 

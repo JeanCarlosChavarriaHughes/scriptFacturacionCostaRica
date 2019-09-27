@@ -25,7 +25,7 @@
 		<li class="<?php if(isset($active_perfil)){echo $active_perfil;}?>"><a href="perfil.php"><i  class='glyphicon glyphicon-cog'></i> Configuración</a></li>
        </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="mailto:dagoberto.abril@gmail.com" target='_blank'><i class='glyphicon glyphicon-envelope'></i> Soporte</a></li>
+        <li><a href="mailto:info@imagineing.com" target='_blank'><i class='glyphicon glyphicon-envelope'></i> Soporte</a></li>
 		<li><a href="login.php?logout"><i class='glyphicon glyphicon-off'></i> Salir</a></li>
       </ul>
     </div><!-- /.navbar-collapse -->
