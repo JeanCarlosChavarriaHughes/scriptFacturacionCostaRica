@@ -122,7 +122,7 @@
 						<td class='text-right'><?php if($moneda == 1) { echo "$"; } elseif($moneda == 2) { echo "¢"; } ?><?php echo number_format ($total_venta,2); ?></td>
 					<td class="text-right">
 						<a href="editar_factura.php?id_factura=<?php echo $id_factura;?>" class='btn btn-default' title='Editar factura' ><i class="glyphicon glyphicon-edit"></i></a>
-						<a href="pagar_factura.php?id_factura=<?php echo $id_factura;?>" class='btn btn-default' title='Pagar factura' ><i class="glyphicon glyphicon-shopping-cart"></i> </a>
+						<a href="pagar_factura.php?id_factura=<?php echo $id_factura;?>" class='btn btn-default' title='Pagar factura' target="_blank:" ><i class="glyphicon glyphicon-shopping-cart"></i> </a>
 						<a href="#" class='btn btn-default' title='Descargar factura' onclick="imprimir_factura('<?php echo $id_factura;?>');"><i class="glyphicon glyphicon-download"></i></a>
 						<a href="#" class='btn btn-default' title='Enviar por email' onclick="enviar_email('<?php echo $id_factura; ?>','<?php echo $email_cliente;?>')"><i class="glyphicon glyphicon-envelope"></i> </a>
 						<a href="#" class='btn btn-default' title='Borrar factura' onclick="eliminar('<?php echo $numero_factura; ?>')"><i class="glyphicon glyphicon-trash"></i> </a>
