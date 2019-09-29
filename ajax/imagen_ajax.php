@@ -2,6 +2,7 @@
 				/* Connect To Database*/
 				require_once ("../config/db.php");
 				require_once ("../config/conexion.php");
+				require_once('vendor/autoload.php');
 				if (isset($_FILES["imagefile"])){
 	
 				$target_dir="../img/";
