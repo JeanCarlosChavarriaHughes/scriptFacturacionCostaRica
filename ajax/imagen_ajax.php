@@ -41,7 +41,7 @@
 								'secret' => CLOUDCUBE_SECRET_ACCESS_KEY,
 							]
 						]);
-						$key="/public/img/logo.jpg";
+						$key="public/img/logo.jpg";
 						$logo_update="logo_url='{$constant('CLOUDCUBE_URL')}$key' ";
 						$result = $s3->putObject([
 							'Bucket' => 'cloud-cube',
