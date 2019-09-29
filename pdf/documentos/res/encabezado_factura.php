@@ -5,7 +5,16 @@
         <tr>
 
             <td style="width: 25%; color: #444444;">
-                <img style="width: 100%;" src="../../<?php echo get_row('perfil','logo_url', 'id_perfil', 1);?>" alt="Logo"><br>
+				<img style="width: 100%;" src=<?php 
+				if (APPLICATION_ENV == 'local-develop' || APPLICATION_ENV == 'local-prod'){
+					echo('"../../');
+				} elseif (APPLICATION_ENV == 'remote-develop' || APPLICATION_ENV == 'remote-prod'){
+					echo('"');
+				} else {
+					echo('"../../');
+				}
+				echo get_row('perfil','logo_url', 'id_perfil', 1);
+				?>" alt="Logo"><br>
                 
             </td>
 			<td style="width: 50%; color: #34495e;font-size:12px;text-align:center">
