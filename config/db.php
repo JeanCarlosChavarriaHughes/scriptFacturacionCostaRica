@@ -15,5 +15,6 @@ define('APPLICATION_ENV', trim(getenv('APPLICATION_ENV'))); //Indica si es siste
 define('CLOUDCUBE_ACCESS_KEY_ID', trim(getenv('CLOUDCUBE_ACCESS_KEY_ID')));
 define('CLOUDCUBE_SECRET_ACCESS_KEY', trim(getenv('CLOUDCUBE_SECRET_ACCESS_KEY')));
 define('CLOUDCUBE_URL', trim(getenv('CLOUDCUBE_URL')));
+define('CLOUDCUBE_DOMAIN', trim(getenv('CLOUDCUBE_DOMAIN')));
 
 ?>

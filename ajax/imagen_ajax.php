@@ -41,15 +41,16 @@
 								'secret' => CLOUDCUBE_SECRET_ACCESS_KEY,
 							]
 						]);
-						$key="public/img/logo.jpg";
+						$key="/public/img/logo.jpg";
+						$keyFinal="{$constant('CLOUDCUBE_DOMAIN')}".$key;
 						$logo_update="logo_url='{$constant('CLOUDCUBE_URL')}$key' ";
 						$result = $s3->putObject([
 							'Bucket' => 'cloud-cube',
-							'Key'    => $key,
+							'Key'    => $keyFinal,
 							//'Body'   => 'this is the body!',
 							'SourceFile' => $_FILES["imagefile"]["tmp_name"]
 						]);
-						var_dump($result);
+						//var_dump($result);
 
 					} else {
 						// Condición desconocida
