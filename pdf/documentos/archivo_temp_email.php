@@ -36,6 +36,8 @@ $id_vendedor=$rw_factura['id_vendedor'];
 $fecha_factura=$rw_factura['fecha_factura'];
 $condiciones=$rw_factura['condiciones'];
 $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
+
+$file_output=$_SERVER['DOCUMENT_ROOT'] . '/pdfTemporal/'.$numero_factura.'.pdf';
 require_once(dirname(__FILE__).'/../html2pdf.class.php');
     // get the HTML
 ob_start();
@@ -52,9 +54,7 @@ try
 	$html2pdf->writeHTML($content, isset($_GET['vuehtml']));
         // send the PDF
 	//$html2pdf->Output('../../pdfTemporal/factura'.$numero_factura.'.pdf', 'F');
-	$html2pdf->Output($_SERVER['DOCUMENT_ROOT'] . $numero_factura.'.pdf', 'F');
-
-	 
+	$html2pdf->Output($file_output, 'F');	 
 }
 catch(HTML2PDF_exception $e) {
 	echo $e;
@@ -81,8 +81,8 @@ if(isset($_POST['message'])AND($msjDefault != $_POST['message'])){
 	<title>Enviar por email</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	
-	<link rel="stylesheet" href="css/custom.css">
-	<link rel=icon href='img/logo-icon.png' sizes="32x32" type="image/png">
+	<link rel="stylesheet" href="../../css/custom.css">
+	<link rel=icon href='../../img/logo-icon.png' sizes="32x32" type="image/png">
 </head>
 <body> 
 	<div class="container">
@@ -132,11 +132,12 @@ if(isset($_POST['message'])AND($msjDefault != $_POST['message'])){
 if(isset($_POST['submit'])){
 	$subject = $_POST['asunto'];
 	$body = $_POST['message'];
-	$my_name = "Facturación Digital Simple";//Agregue su nombre o asunto
+	$my_name = "Facturacion Digital Simple";//Agregue su nombre o asunto
 	$my_mail = "demo@demo.com";//Agregue su propio email 
 	$my_replyto = "info@imagineing.com";//El email para respuestas
-	$my_file = 'factura'.$numero_factura.'.pdf';
-	$file = "../../pdfTemporal/".$my_file;
+	//$my_file = 'factura'.$numero_factura.'.pdf';
+	//$file = "../../pdfTemporal/".$my_file;
+	$file = $file_output;
 	$filename = 'factura-'.$numero_factura.'.pdf';
 	$correo = new PHPMailer(true); //Creamos una instancia en lugar usar mail()
 
