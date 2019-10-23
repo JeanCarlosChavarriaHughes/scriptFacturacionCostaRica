@@ -1006,7 +1006,8 @@ class Helpers {
 		    $mail->Port = 587;                                      // TCP port to connect to
 
 		    //Recipients
-		    $mail->setFrom(getenv('EMAIL_USER'), $helpers->perfil->nombre_empresa_comercial);
+			$mail->setFrom(getenv('EMAIL_USER'), $helpers->perfil->nombre_empresa_comercial);
+			$correo->AddReplyTo($helpers->perfil->email,$helpers->perfil->nombre_empresa_comercial);
 		    $mail->addAddress($to->email_cliente, $to->nombre_cliente);     // Add a recipient
 
 		    //Attachments

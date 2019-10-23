@@ -9,8 +9,12 @@ include("../../config/db.php");
 include("../../config/conexion.php");
 	//Archivo de funciones PHP
 include("../../funciones.php");
+
 //Incluimos la clase de PHPMailer
-require_once('../../libraries/phpmailer/class.phpmailer.php');
+//require_once('../../libraries/phpmailer/class.phpmailer.php');
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+
 $id_factura= intval($_GET['id_factura']);
 $email= $_GET['email'];
 $sql_count=mysqli_query($con,"select * from facturas where id_factura='".$id_factura."'");
@@ -124,11 +128,11 @@ if(isset($_POST['submit'])){
 	$body = $_POST['message'];
 	$my_name = "Facturación Digital Simple";//Agregue su nombre o asunto
 	$my_mail = "demo@demo.com";//Agregue su propio email 
-	$my_replyto = "dagoberto@demo.com";//El email para respuestas
+	$my_replyto = "info@imagineing.com";//El email para respuestas
 	$my_file = 'factura'.$numero_factura.'.pdf';
 	$file = "../../pdfTemporal/".$my_file;
 	$filename = 'factura-'.$numero_factura.'.pdf';
-	$correo = new PHPMailer(); //Creamos una instancia en lugar usar mail()
+	$correo = new PHPMailer(true); //Creamos una instancia en lugar usar mail()
 
 //Usamos el SetFrom para decirle al script quien envia el correo
 	$correo->SetFrom($my_mail, $my_name);
