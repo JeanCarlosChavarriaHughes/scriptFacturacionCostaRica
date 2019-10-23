@@ -141,16 +141,28 @@ if(isset($_POST['submit'])){
 	$filename = 'factura-'.$numero_factura.'.pdf';
 	$correo = new PHPMailer(true); //Creamos una instancia en lugar usar mail()
 
-//Usamos el SetFrom para decirle al script quien envia el correo
+	//Server settings
+	// https://stackoverflow.com/questions/16048347/send-email-using-gmail-smtp-server-through-php-mailer/16048485#16048485
+	$correo->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+	$correo->isSMTP();                                        // Set mailer to use SMTP
+	$correo->Host = getenv('EMAIL_HOST');                           // Specify main and backup SMTP servers
+	$correo->SMTPAuth = true;                                 // Enable SMTP authentication
+	$correo->Username = getenv('EMAIL_USER');                   // SMTP username
+	$correo->Password = getenv('EMAIL_PASS');                   // SMTP password
+	$correo->SMTPSecure = 'tls';                              // Enable TLS encryption, `ssl` also accepted
+	//$correo->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
+	$correo->Port = 587;
+
+	//Usamos el SetFrom para decirle al script quien envia el correo
 	$correo->SetFrom($my_mail, $my_name);
 
-//Usamos el AddReplyTo para decirle al script a quien tiene que responder el correo
+	//Usamos el AddReplyTo para decirle al script a quien tiene que responder el correo
 	$correo->AddReplyTo($my_replyto,$my_name);
 
-//Usamos el AddAddress para agregar un destinatario
+	//Usamos el AddAddress para agregar un destinatario
 	$correo->AddAddress($email, $email);
 
-//Ponemos el asunto del mensaje
+	//Ponemos el asunto del mensaje
 	$correo->Subject = $subject;
 
 /*
@@ -161,6 +173,7 @@ if(isset($_POST['submit'])){
  * $correo->Body = "Mi mensaje en Texto Plano";
  */
 $correo->MsgHTML($body);
+			
 
 //Si deseamos agregar un archivo adjunto utilizamos AddAttachment
 $correo->AddAttachment($file );
