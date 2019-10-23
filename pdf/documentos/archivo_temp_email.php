@@ -15,6 +15,9 @@ include("../../funciones.php");
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
+//Load composer's autoloader
+require '../../vendor/autoload.php';
+
 $id_factura= intval($_GET['id_factura']);
 $email= $_GET['email'];
 $sql_count=mysqli_query($con,"select * from facturas where id_factura='".$id_factura."'");
@@ -48,7 +51,10 @@ try
         // convert
 	$html2pdf->writeHTML($content, isset($_GET['vuehtml']));
         // send the PDF
-	$html2pdf->Output('../../pdfTemporal/factura'.$numero_factura.'.pdf', 'F');
+	//$html2pdf->Output('../../pdfTemporal/factura'.$numero_factura.'.pdf', 'F');
+	$html2pdf->Output($_SERVER['DOCUMENT_ROOT'] . $numero_factura.'.pdf', 'F');
+
+	 
 }
 catch(HTML2PDF_exception $e) {
 	echo $e;
