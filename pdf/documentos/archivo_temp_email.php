@@ -165,31 +165,31 @@ if(isset($_POST['submit'])){
 	//Ponemos el asunto del mensaje
 	$correo->Subject = $subject;
 
-/*
- * Si deseamos enviar un correo con formato HTML utilizaremos MsgHTML:
- * $correo->MsgHTML("<strong>Mi Mensaje en HTML</strong>");
- * Si deseamos enviarlo en texto plano, haremos lo siguiente:
- * $correo->IsHTML(false);
- * $correo->Body = "Mi mensaje en Texto Plano";
- */
-$correo->MsgHTML($body);
-			
+	/*
+	* Si deseamos enviar un correo con formato HTML utilizaremos MsgHTML:
+	* $correo->MsgHTML("<strong>Mi Mensaje en HTML</strong>");
+	* Si deseamos enviarlo en texto plano, haremos lo siguiente:
+	* $correo->IsHTML(false);
+	* $correo->Body = "Mi mensaje en Texto Plano";
+	*/
+	$correo->MsgHTML($body);
+				
 
-//Si deseamos agregar un archivo adjunto utilizamos AddAttachment
-$correo->AddAttachment($file );
+	//Si deseamos agregar un archivo adjunto utilizamos AddAttachment
+	$correo->AddAttachment($file );
 
-//Enviamos el correo
-if(!$correo->Send()) {
-	$resultado = "Error enviando el correo, por favor intente de nuevo.  Error:". $correo->ErrorInfo;
-	echo '<div id="resultados"><div class="alert alert-warning alert-dismissible" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-	<strong>Error!</strong> '.$resultado.'</div></div>';
-} else {
-	$resultado = "Correo enviado con éxito!!";
-	echo '<div id="resultados"><div class="alert alert-success alert-dismissible" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-	<strong>Aviso!</strong> '.$resultado.'</div></div>';
-}
+	//Enviamos el correo
+	if(!$correo->Send()) {
+		$resultado = "Error enviando el correo, por favor intente de nuevo.  Error:". $correo->ErrorInfo;
+		echo '<div id="resultados"><div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+		<strong>Error!</strong> '.$resultado.'</div></div>';
+	} else {
+		$resultado = "Correo enviado con éxito!!";
+		echo '<div id="resultados"><div class="alert alert-success alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+		<strong>Aviso!</strong> '.$resultado.'</div></div>';
+	}
 
 
 }

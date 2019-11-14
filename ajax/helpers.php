@@ -1051,4 +1051,48 @@ class Helpers {
 
 		return true;
 	}
+
+	public static function saveXMLtoFile($xmlString, $path2file, $filename){
+		$dom = new \DOMDocument();
+		$dom->preserveWhiteSpace = FALSE;
+		$dom->loadXML($xmlString);
+
+		//if (file_exists($path2file)) {
+			//Save XML as a file
+			$dom->save(($path2file.$filename));
+		//}
+			//$fileUrl = $helpers->saveCloudCube(FALSE, 'xml', $filename);
+	}
+
+	public static function saveCloudCube($privacy, $folder, $fileName, $path2file){
+		// Privacy: TRUE for private files. FALSE for public files.
+		// Folder
+		// Filename
+
+		// Subir a Internet
+		$s3 = new Aws\S3\S3Client([
+			'region'  => 'us-east-1',
+			'version' => 'latest',
+			'credentials' => [
+				'key'    => CLOUDCUBE_ACCESS_KEY_ID,
+				'secret' => CLOUDCUBE_SECRET_ACCESS_KEY,
+			]
+		]);
+		
+		if ($privacy){
+			$key="/public/";
+		} else {
+			$key="/";
+		}
+		$key = $folder.'/'.$fileName;
+
+		$keyFinal="{$constant('CLOUDCUBE_DOMAIN')}".$key;
+		$output_file="'{$constant('CLOUDCUBE_URL')}$key'";
+		$result = $s3->putObject([
+			'Bucket' => 'cloud-cube',
+			'Key'    => $keyFinal,
+			//'Body'   => 'this is the body!',
+			'SourceFile' => $path2file
+		]);
+	}
 }

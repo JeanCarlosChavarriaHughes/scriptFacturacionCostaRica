@@ -70,10 +70,14 @@
     	//Valida el estado del token
     	$helpers->validateTokenApi();
 
-    	$xml = $helpers->createXmlFE($helpers, $id_factura_creada);
+		$xml = $helpers->createXmlFE($helpers, $id_factura_creada);
+		//$path = dirname('__FILE__').'/res/xmpTemp/xml'.$xml->resp->clave.'.xml';
+		$path = 'xmlTemp/';
+		$filename_xml = 'xml-'.$xml->resp->clave.'.xml';
+		$helpers->saveXMLtoFile($xml, $path, $filename_xml);
     	// echo "<script type='text/javascript'>console.log('XML CREADO:".json_encode($xml)."');</script>";
 
-    	$xmlfirmado = $helpers->firmarXML($helpers, $xml->resp->xml,"FE");
+    	$xmlfirmado = $helpers->firmarXML($helpers, $xml->resp->xml,"FE"); //TODO Guardar $xmlfirmado en un server de storage y obtener la URL Publica.
     	// echo "<script type='text/javascript'>console.log('XML FIRMADO:".json_encode($xmlfirmado)."');</script>";
 
     	$enviofe = $helpers->envioHaciendaFE($helpers, $xmlfirmado->resp->xmlFirmado, $id_factura_creada);
@@ -83,7 +87,16 @@
     	//echo "<script type='text/javascript'>console.log('RESP CONSULTA ENVIO:".json_encode($consultaenviofe)."');</script>";
 
 		/*Envía copia al cliente*/
-		$acuse = $consultaenviofe->resp->{'respuesta-xml'};
+		$acuse = $consultaenviofe->resp->{'respuesta-xml'};  //TODO Guardar $acuse en un server de storage y obtener la URL Publica.
+		//$path_acuse = dirname('__FILE__').'/res/xmpTemp/xml-acuse'.$xml->resp->clave.'.xml';
+		$path_acuse = 'xmlTemp/';
+		$filename_acuse = 'xml-acuse-'.$xml->resp->clave.'.xml';
+		$helpers->saveXMLtoFile($acuse, $path_acuse, $filename_acuse);
+
+		// Save URL of XML and Acuse in DB
+		//$sql = "UPDATE perfil SET $logo_update WHERE id_perfil='1';";
+		//$query_new_insert = mysqli_query($con,$sql);
+
     	$helpers->sendEmailToReceptor($helpers, $xml->resp->clave, $xmlfirmado->resp->xmlFirmado, /* $xmlfirmado->resp->xmlFirmado */ $acuse, $pdfContent, $id_cliente);
     	/*-------------------------*/
 

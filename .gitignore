@@ -6,3 +6,6 @@ error.log
 /guia
 pruebas.php
 .DS_Store
+
+pdf/documentos/xmlTemp/*
+!pdf/documentos/xmlTemp/.gitkeep
