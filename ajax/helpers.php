@@ -1007,7 +1007,7 @@ class Helpers {
 
 		    //Recipients
 			$mail->setFrom(getenv('EMAIL_USER'), $helpers->perfil->nombre_empresa_comercial);
-			$correo->AddReplyTo($helpers->perfil->email,$helpers->perfil->nombre_empresa_comercial);
+			$mail->AddReplyTo($helpers->perfil->email,$helpers->perfil->nombre_empresa_comercial);
 		    $mail->addAddress($to->email_cliente, $to->nombre_cliente);     // Add a recipient
 
 		    //Attachments
