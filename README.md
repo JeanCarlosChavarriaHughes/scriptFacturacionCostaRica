@@ -11,6 +11,10 @@ Entre las mejoras usa el web service de Ariel Orozco para traer los tipos de cam
 </ul>
 El usuario que tiene la base de datos es demo con la clave demo1234<br>
 
+## Como exportar/importar la base de datos:
+(Guia StackOverflow)[https://stackoverflow.com/questions/11407349/how-to-export-and-import-a-sql-file-from-command-line-with-options]
+
+
 Ejemplo:
 <img src="demo-img.png">
 
