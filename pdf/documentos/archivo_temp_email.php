@@ -9,8 +9,15 @@ include("../../config/db.php");
 include("../../config/conexion.php");
 	//Archivo de funciones PHP
 include("../../funciones.php");
+
 //Incluimos la clase de PHPMailer
-require_once('../../libraries/phpmailer/class.phpmailer.php');
+//require_once('../../libraries/phpmailer/class.phpmailer.php');
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+
+//Load composer's autoloader
+require '../../vendor/autoload.php';
+
 $id_factura= intval($_GET['id_factura']);
 $email= $_GET['email'];
 $sql_count=mysqli_query($con,"select * from facturas where id_factura='".$id_factura."'");
@@ -29,6 +36,8 @@ $id_vendedor=$rw_factura['id_vendedor'];
 $fecha_factura=$rw_factura['fecha_factura'];
 $condiciones=$rw_factura['condiciones'];
 $simbolo_moneda=get_row('perfil','moneda', 'id_perfil', 1);
+
+$file_output=$_SERVER['DOCUMENT_ROOT'] . '/pdfTemporal/'.$numero_factura.'.pdf';
 require_once(dirname(__FILE__).'/../html2pdf.class.php');
     // get the HTML
 ob_start();
@@ -44,7 +53,8 @@ try
         // convert
 	$html2pdf->writeHTML($content, isset($_GET['vuehtml']));
         // send the PDF
-	$html2pdf->Output('../../pdfTemporal/factura'.$numero_factura.'.pdf', 'F');
+	//$html2pdf->Output('../../pdfTemporal/factura'.$numero_factura.'.pdf', 'F');
+	$html2pdf->Output($file_output, 'F');	 
 }
 catch(HTML2PDF_exception $e) {
 	echo $e;
@@ -71,8 +81,8 @@ if(isset($_POST['message'])AND($msjDefault != $_POST['message'])){
 	<title>Enviar por email</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	
-	<link rel="stylesheet" href="css/custom.css">
-	<link rel=icon href='img/logo-icon.png' sizes="32x32" type="image/png">
+	<link rel="stylesheet" href="../../css/custom.css">
+	<link rel=icon href='../../img/logo-icon.png' sizes="32x32" type="image/png">
 </head>
 <body> 
 	<div class="container">
@@ -122,50 +132,64 @@ if(isset($_POST['message'])AND($msjDefault != $_POST['message'])){
 if(isset($_POST['submit'])){
 	$subject = $_POST['asunto'];
 	$body = $_POST['message'];
-	$my_name = "Facturación Digital Simple";//Agregue su nombre o asunto
+	$my_name = "Facturacion Digital Simple";//Agregue su nombre o asunto
 	$my_mail = "demo@demo.com";//Agregue su propio email 
-	$my_replyto = "dagoberto@demo.com";//El email para respuestas
-	$my_file = 'factura'.$numero_factura.'.pdf';
-	$file = "../../pdfTemporal/".$my_file;
+	$my_replyto = "info@imagineing.com";//El email para respuestas
+	//$my_file = 'factura'.$numero_factura.'.pdf';
+	//$file = "../../pdfTemporal/".$my_file;
+	$file = $file_output;
 	$filename = 'factura-'.$numero_factura.'.pdf';
-	$correo = new PHPMailer(); //Creamos una instancia en lugar usar mail()
+	$correo = new PHPMailer(true); //Creamos una instancia en lugar usar mail()
 
-//Usamos el SetFrom para decirle al script quien envia el correo
+	//Server settings
+	// https://stackoverflow.com/questions/16048347/send-email-using-gmail-smtp-server-through-php-mailer/16048485#16048485
+	$correo->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+	$correo->isSMTP();                                        // Set mailer to use SMTP
+	$correo->Host = getenv('EMAIL_HOST');                           // Specify main and backup SMTP servers
+	$correo->SMTPAuth = true;                                 // Enable SMTP authentication
+	$correo->Username = getenv('EMAIL_USER');                   // SMTP username
+	$correo->Password = getenv('EMAIL_PASS');                   // SMTP password
+	$correo->SMTPSecure = 'tls';                              // Enable TLS encryption, `ssl` also accepted
+	//$correo->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
+	$correo->Port = 587;
+
+	//Usamos el SetFrom para decirle al script quien envia el correo
 	$correo->SetFrom($my_mail, $my_name);
 
-//Usamos el AddReplyTo para decirle al script a quien tiene que responder el correo
+	//Usamos el AddReplyTo para decirle al script a quien tiene que responder el correo
 	$correo->AddReplyTo($my_replyto,$my_name);
 
-//Usamos el AddAddress para agregar un destinatario
+	//Usamos el AddAddress para agregar un destinatario
 	$correo->AddAddress($email, $email);
 
-//Ponemos el asunto del mensaje
+	//Ponemos el asunto del mensaje
 	$correo->Subject = $subject;
 
-/*
- * Si deseamos enviar un correo con formato HTML utilizaremos MsgHTML:
- * $correo->MsgHTML("<strong>Mi Mensaje en HTML</strong>");
- * Si deseamos enviarlo en texto plano, haremos lo siguiente:
- * $correo->IsHTML(false);
- * $correo->Body = "Mi mensaje en Texto Plano";
- */
-$correo->MsgHTML($body);
+	/*
+	* Si deseamos enviar un correo con formato HTML utilizaremos MsgHTML:
+	* $correo->MsgHTML("<strong>Mi Mensaje en HTML</strong>");
+	* Si deseamos enviarlo en texto plano, haremos lo siguiente:
+	* $correo->IsHTML(false);
+	* $correo->Body = "Mi mensaje en Texto Plano";
+	*/
+	$correo->MsgHTML($body);
+				
 
-//Si deseamos agregar un archivo adjunto utilizamos AddAttachment
-$correo->AddAttachment($file );
+	//Si deseamos agregar un archivo adjunto utilizamos AddAttachment
+	$correo->AddAttachment($file );
 
-//Enviamos el correo
-if(!$correo->Send()) {
-	$resultado = "Error enviando el correo, por favor intente de nuevo.  Error:". $correo->ErrorInfo;
-	echo '<div id="resultados"><div class="alert alert-warning alert-dismissible" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-	<strong>Error!</strong> '.$resultado.'</div></div>';
-} else {
-	$resultado = "Correo enviado con éxito!!";
-	echo '<div id="resultados"><div class="alert alert-success alert-dismissible" role="alert">
-	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
-	<strong>Aviso!</strong> '.$resultado.'</div></div>';
-}
+	//Enviamos el correo
+	if(!$correo->Send()) {
+		$resultado = "Error enviando el correo, por favor intente de nuevo.  Error:". $correo->ErrorInfo;
+		echo '<div id="resultados"><div class="alert alert-warning alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+		<strong>Error!</strong> '.$resultado.'</div></div>';
+	} else {
+		$resultado = "Correo enviado con éxito!!";
+		echo '<div id="resultados"><div class="alert alert-success alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+		<strong>Aviso!</strong> '.$resultado.'</div></div>';
+	}
 
 
 }

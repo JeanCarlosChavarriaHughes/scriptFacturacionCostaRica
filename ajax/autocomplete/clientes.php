@@ -6,9 +6,9 @@ $return_arr = array();
 /* If connection to database, run sql statement. */
 if ($con)
 {
-	
-	$fetch = mysqli_query($con,"SELECT * FROM clientes where nombre_cliente like '%" . mysqli_real_escape_string($con,($_GET['term'])) . "%' LIMIT 0 ,50"); 
-	
+
+	$fetch = mysqli_query($con,"SELECT * FROM clientes WHERE nombre_cliente LIKE '%" . mysqli_real_escape_string($con,($_GET['term'])) . "%' OR cedula_cliente LIKE '%" . mysqli_real_escape_string($con,($_GET['term'])) . "%' LIMIT 0 ,50");
+
 	/* Retrieve and store in array the results of the query.*/
 	while ($row = mysqli_fetch_array($fetch)) {
 		$id_cliente=$row['id_cliente'];
@@ -20,7 +20,7 @@ if ($con)
 		$row_array['moneda']=$row['id_moneda'];
 		array_push($return_arr,$row_array);
     }
-	
+
 }
 
 /* Free connection resources. */

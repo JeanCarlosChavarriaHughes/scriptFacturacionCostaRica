@@ -1,0 +1,32 @@
+{
+    "name": "junio/factcr",
+    "description": "script de Facturacion simple para Costa Rica (PHP) con Factura Electronica 4.3",
+    "authors": [
+        {
+            "name": "juniorsotto",
+            "email": "juniorsotto8@gmail.com"
+        },
+        {
+          "name": "JeanCarlos Chavarría Hughes",
+          "email": "negrotico19@gmail.com"
+        }
+    ],
+    "autoload":{
+      "psr-4" : {
+        "Ajax\\": "ajax/",
+        "Paypal\\": "ajax/paypal/",
+        "ValidatorsFields\\": "classes/validators_fields",
+        "Configs\\": "config/"
+      }
+    },
+    "require": {
+        "illuminate/database": "^5.8",
+        "guzzlehttp/guzzle": "^6.3",
+        "rakit/validation": "^1.2",
+        "ext-gd": "*",
+        "paypal/paypal-checkout-sdk": "^1.0",
+        "phpmailer/phpmailer": "^6.0",
+        "dompdf/dompdf": "^0.8",
+        "aws/aws-sdk-php": "^3.112"
+    }
+}
