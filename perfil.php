@@ -77,7 +77,7 @@
 																$data = json_decode($content);
 																foreach ($data as $value) {
 															?>
-																<option value="<?php echo key($data) ?>"
+																<option value="<?php echo (int)key($data) ?>"
 																	<?php echo (key($data) == $row['codigo_actividad_empresa']) ? "selected" : ''; ?>>
 																	<?php echo ucfirst($value->actividad) ?>
 																</option>
