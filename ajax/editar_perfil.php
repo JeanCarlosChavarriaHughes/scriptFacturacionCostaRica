@@ -21,7 +21,7 @@
 	/*Valida cada uno de los campos recibidos por pos*/
 	$validation = $validator->validate($_POST, [
 	    'nombre_empresa'         	=> 'required|max:100',
-	    'codigo_actividad_empresa'	=> 'required|numeric|max:11',
+	    'codigo_actividad_empresa'	=> 'required|numeric|digits_between:4,6',
 	    'nombre_empresa_comercial'	=> 'required|max:80',
 	    'tipo_cedula'           	=> 'required|numeric|digits:2',
 	    'ubicacion'              	=> 'required|numeric',
