@@ -143,7 +143,7 @@ if(isset($_POST['submit'])){
 
 	//Server settings
 	// https://stackoverflow.com/questions/16048347/send-email-using-gmail-smtp-server-through-php-mailer/16048485#16048485
-	$correo->SMTPDebug = 2; // debugging: 1 = errors and messages, 2 = messages only
+	$correo->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
 	$correo->isSMTP();                                        // Set mailer to use SMTP
 	$correo->Host = getenv('EMAIL_HOST');                           // Specify main and backup SMTP servers
 	$correo->SMTPAuth = true;                                 // Enable SMTP authentication
