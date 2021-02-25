@@ -151,7 +151,19 @@ if(isset($_POST['submit'])){
 	$correo->Password = getenv('EMAIL_PASS');                   // SMTP password
 	$correo->SMTPSecure = 'tls';                              // Enable TLS encryption, `ssl` also accepted
 	//$correo->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
-	$correo->Port = 587;
+	//$correo->Port = 587;
+	$correo->Port = 465; //Trying to avoid PHPMailer error  PHP Fatal error:  Uncaught PHPMailer\PHPMailer\Exception: SMTP Error: Could not authenticate. in /app/vendor/phpmailer/phpmailer/src/PHPMailer.php:2037
+	/*
+	2021-02-25T20:53:30.380079+00:00 app[web.1]: Stack trace:
+	2021-02-25T20:53:30.380216+00:00 app[web.1]: #0 /app/vendor/phpmailer/phpmailer/src/PHPMailer.php(1857): PHPMailer\PHPMailer\PHPMailer->smtpConnect()
+	2021-02-25T20:53:30.380339+00:00 app[web.1]: #1 /app/vendor/phpmailer/phpmailer/src/PHPMailer.php(1600): PHPMailer\PHPMailer\PHPMailer->smtpSend()
+	2021-02-25T20:53:30.380511+00:00 app[web.1]: #2 /app/vendor/phpmailer/phpmailer/src/PHPMailer.php(1436): PHPMailer\PHPMailer\PHPMailer->postSend()
+	2021-02-25T20:53:30.380662+00:00 app[web.1]: #3 /app/pdf/documentos/archivo_temp_email.php(182): PHPMailer\PHPMailer\PHPMailer->send()
+	2021-02-25T20:53:30.380684+00:00 app[web.1]: #4 {main}
+	2021-02-25T20:53:30.380814+00:00 app[web.1]:   thrown in /app/vendor/phpmailer/phpmailer/src/PHPMailer.php on line 2037
+	2021-02-25T20:53:30.381500+00:00 app[web.1]: 10.69.244.94 - - [25/Feb/2021:14:53:29 -0600] "POST /pdf/documentos/archivo_temp_email.php?id_factura=198&email=negrotico19@gmail.com HTTP/1.1" 500 2132 "https://factura-simple-develop.herokuapp.com/pdf/documentos/archivo_temp_email.php?id_factura=198&email=negrotico19@gmail.com" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.182 Safari/537.36
+	2021-02-25T20:53:30.642627+00:00 heroku[router]: at=info method=GET path="/css/custom.css" host=factura-simple-develop.herokuapp.com request_id=d2603563-f331-4038-a88a-ea380bec7c4d fwd="186.26.118.248" dyno=web.1 connect=1ms service=1ms status=200 bytes=2757 protocol=https
+	*/
 
 	//Usamos el SetFrom para decirle al script quien envia el correo
 	$correo->SetFrom($my_mail, $my_name);
