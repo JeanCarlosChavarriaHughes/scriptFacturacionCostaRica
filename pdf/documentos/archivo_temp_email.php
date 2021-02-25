@@ -143,7 +143,7 @@ if(isset($_POST['submit'])){
 
 	//Server settings
 	// https://stackoverflow.com/questions/16048347/send-email-using-gmail-smtp-server-through-php-mailer/16048485#16048485
-	$correo->SMTPDebug = 0; // debugging: 1 = errors and messages, 2 = messages only
+	$correo->SMTPDebug = 2; // debugging: 1 = errors and messages, 2 = messages only
 	$correo->isSMTP();                                        // Set mailer to use SMTP
 	$correo->Host = getenv('EMAIL_HOST');                           // Specify main and backup SMTP servers
 	$correo->SMTPAuth = true;                                 // Enable SMTP authentication
@@ -151,8 +151,8 @@ if(isset($_POST['submit'])){
 	$correo->Password = getenv('EMAIL_PASS');                   // SMTP password
 	$correo->SMTPSecure = 'tls';                              // Enable TLS encryption, `ssl` also accepted
 	//$correo->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
-	//$correo->Port = 587;
-	$correo->Port = 465; //Trying to avoid PHPMailer error  PHP Fatal error:  Uncaught PHPMailer\PHPMailer\Exception: SMTP Error: Could not authenticate. in /app/vendor/phpmailer/phpmailer/src/PHPMailer.php:2037
+	$correo->Port = 587;
+	//$correo->Port = 465; //Trying to avoid PHPMailer error  PHP Fatal error:  Uncaught PHPMailer\PHPMailer\Exception: SMTP Error: Could not authenticate. in /app/vendor/phpmailer/phpmailer/src/PHPMailer.php:2037
 	/*
 	2021-02-25T20:53:30.380079+00:00 app[web.1]: Stack trace:
 	2021-02-25T20:53:30.380216+00:00 app[web.1]: #0 /app/vendor/phpmailer/phpmailer/src/PHPMailer.php(1857): PHPMailer\PHPMailer\PHPMailer->smtpConnect()
